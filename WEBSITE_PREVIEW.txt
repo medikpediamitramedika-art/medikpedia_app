@@ -1,0 +1,340 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                    🏥 MEDIKPEDIA - PHARMACY WEBSITE 🏥                       ║
+║                          Professional Layout Preview                         ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+STRUKTUR HALAMAN WEBSITE
+═══════════════════════════════════════════════════════════════════════════════
+
+┌─ NAVBAR (Semua Halaman)
+│  ├─ Logo: 💊 Medikpedia
+│  ├─ Menu: Beranda | Tentang Kami | Produk | Layanan | Kontak
+│  └─ Sticky Navigation dengan Active Indicator
+│
+├─────────────────────────────────────────────────────────────────────────────
+
+📄 HALAMAN 1: BERANDA (Home)
+═══════════════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────┐
+    │          🟢 HERO SECTION (Background Hijau)      │
+    │                                                  │
+    │    "Solusi Kesehatan Anda"                       │
+    │    Medikpedia adalah apotik online terpercaya... │
+    │                                                  │
+    │    [Lihat Produk]  [Pelajari Layanan]           │
+    │                                   [Gambar]       │
+    └─────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────┐
+    │        MENGAPA PILIH MEDIKPEDIA?                │
+    │                                                  │
+    │  ✓ Produk Berkualitas   ✓ Pengiriman Cepat     │
+    │    (Tersertifikasi)        (2-4 jam)            │
+    │                                                  │
+    │  ✓ Layanan 24/7                                 │
+    │    (Chat, Video Call)                           │
+    └─────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────┐
+    │        PRODUK POPULER (4 Produk)                │
+    │                                                  │
+    │  ┌──────────┐  ┌──────────┐  ┌──────────┐      │
+    │  │ Vitamin │  │Paracetamol│  │Probiotik │      │
+    │  │   Rp    │  │   Rp      │  │   Rp     │      │
+    │  │45.000   │  │15.000     │  │65.000    │      │
+    │  │★★★★★    │  │★★★★☆     │  │★★★★★    │      │
+    │  └──────────┘  └──────────┘  └──────────┘      │
+    └─────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────┐
+    │         DAPATKAN PENAWARAN SPESIAL              │
+    │         Diskon 10% untuk pembelian pertama      │
+    │         [Daftar Sekarang]                       │
+    └─────────────────────────────────────────────────┘
+
+
+📄 HALAMAN 2: TENTANG KAMI (About)
+═══════════════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────┐
+    │             HEADER HALAMAN                      │
+    │             "Tentang Medikpedia"                │
+    │             Mengenal lebih jauh tentang kami     │
+    └─────────────────────────────────────────────────┘
+
+    ┌─────────────────────────────────────────────────┐
+    │ SIAPA KAMI?                                     │
+    │                                                  │
+    │ [Gambar] │  Medikpedia adalah apotik online     │
+    │          │  yang berdiri sejak 2020...          │
+    │          │                                      │
+    │          │  Dengan tim profesional yang          │
+    │          │  berpengalaman di bidang farmasi...   │
+    └─────────────────────────────────────────────────┘
+
+    ┌──────────────────┬──────────────────┐
+    │ 👁️  VISI KAMI   │ 🚩 MISI KAMI    │
+    │                  │                  │
+    │ Menjadi apotik    │ Menyediakan      │
+    │ online terpercaya │ produk           │
+    │ di Indonesia      │ berkualitas...   │
+    └──────────────────┴──────────────────┘
+
+    ┌──────────────┬──────────────┬──────────────┐
+    │ ❤️ KEPERCAYAAN│ ⭐ KUALITAS │ 👥 KEMANUSIAAN
+    │              │              │              │
+    │ Prioritas    │ Semua produk │ Kesehatan    │
+    │ kepercayaan  │ tersertifikasi│ adalah hak  │
+    │ pelanggan    │              │ setiap orang │
+    └──────────────┴──────────────┴──────────────┘
+
+    ┌──────────────────────────────────────────────────┐
+    │            TIM PROFESIONAL KAMI                  │
+    │                                                  │
+    │  [Foto]              [Foto]                      │
+    │  dr. Rina Wijaya     Budi Hartono               │
+    │  Kepala Apoteker    Manager Layanan Pelanggan   │
+    │  Exp: 15+ tahun     Responsif & Profesional     │
+    └──────────────────────────────────────────────────┘
+
+    ┌────────────────┬────────────────┬────────────────┐
+    │  10K+          │     500+       │      99%       │
+    │  Pelanggan     │    Produk      │    Kepuasan    │
+    │  Puas          │  Tersedia      │  Pelanggan     │
+    └────────────────┴────────────────┴────────────────┘
+
+
+📄 HALAMAN 3: PRODUK (Products)
+═══════════════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────┐
+    │             HEADER HALAMAN                      │
+    │             "Produk Kami"                       │
+    │             Koleksi lengkap obat & suplemen     │
+    └─────────────────────────────────────────────────┘
+
+    FILTER KATEGORI:
+    [Semua Kategori] [Obat Umum] [Suplemen] [Vitamin] [Perawatan]
+
+    GRID PRODUK (8 PRODUK):
+    ┌──────────┬──────────┬──────────┬──────────┐
+    │ Vitamin  │Paracetamol│ Probiotik│Antiseptik│
+    │   C      │           │  Plus    │          │
+    │[Gambar]  │[Gambar]   │[Gambar]  │[Gambar]  │
+    │Rp 45.000 │Rp 15.000  │Rp 65.000 │Rp 25.000 │
+    │★★★★★    │★★★★☆     │★★★★★    │★★★★☆    │
+    │124 review│89 review  │156 review│67 review │
+    │[+ Cart]  │[+ Cart]   │[+ Cart]  │[+ Cart]  │
+    ├──────────┼──────────┼──────────┼──────────┤
+    │Multivit  │ Plester  │Tetes Mata│Zinc      │
+    │Harian    │ Antiair  │          │Tablet    │
+    │[Gambar]  │[Gambar]  │[Gambar]  │[Gambar]  │
+    │Rp 95.000 │Rp 18.000 │Rp 35.000 │Rp 55.000 │
+    │★★★★★    │★★★★☆    │★★★★☆    │★★★★★    │
+    │203 review│98 review │54 review │187 review│
+    │[+ Cart]  │[+ Cart]  │[+ Cart]  │[+ Cart]  │
+    └──────────┴──────────┴──────────┴──────────┘
+
+    PAGINATION:
+    [< Sebelumnya]  [1]  [2]  [3]  [Berikutnya >]
+
+
+📄 HALAMAN 4: LAYANAN (Services)
+═══════════════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────┐
+    │             HEADER HALAMAN                      │
+    │             "Layanan Kami"                      │
+    │             Berbagai layanan kesehatan          │
+    └─────────────────────────────────────────────────┘
+
+    LAYANAN UNGGULAN:
+    ┌────────────────────────────────────────────────┐
+    │ 📹 KONSULTASI ONLINE                           │
+    │    Konsultasi dengan apoteker profesional      │
+    │    Gratis untuk member premium                 │
+    ├────────────────────────────────────────────────┤
+    │ 💊 RESEP DIGITAL                              │
+    │    Upload resep dokter dan pesan obat          │
+    │    Tersedia 24/7                               │
+    ├────────────────────────────────────────────────┤
+    │ 📦 PENGIRIMAN EKSPRES                         │
+    │    Pengiriman gratis ke Jakarta                │
+    │    Sampai dalam 2-4 jam                        │
+    ├────────────────────────────────────────────────┤
+    │ 📋 PAKET LANGGANAN                            │
+    │    Obat rutin dengan pengiriman otomatis       │
+    │    Hemat hingga 20%                            │
+    ├────────────────────────────────────────────────┤
+    │ 🎁 PROGRAM LOYALITAS                          │
+    │    Kumpulkan poin dan tukar dengan voucher     │
+    │    1 poin = Rp 1.000                           │
+    ├────────────────────────────────────────────────┤
+    │ ❤️ HEALTH CHECK-UP                            │
+    │    Pemeriksaan kesehatan dasar gratis          │
+    │    Untuk semua member                          │
+    └────────────────────────────────────────────────┘
+
+    PAKET KEANGGOTAAN:
+    ┌─────────────┬──────────────┬──────────────┐
+    │   SILVER    │     GOLD     │   PLATINUM   │
+    │             │  ⭐ POPULER  │              │
+    │   GRATIS    │  Rp 99.000   │ Rp 299.000   │
+    │   per thn   │  per tahun   │ per tahun    │
+    │             │              │              │
+    │ • Katalog   │ • Semua SILVER│ • Semua GOLD│
+    │ • Poin      │ • Konsultasi │ • Prioritas │
+    │             │ • Gratis ongkir│ • Diskon 20%│
+    │             │ • Diskon 10% │ • Early bird│
+    │             │              │              │
+    │ [Daftar]    │ [Upgrade]    │ [Upgrade]   │
+    └─────────────┴──────────────┴──────────────┘
+
+
+📄 HALAMAN 5: KONTAK (Contact)
+═══════════════════════════════════════════════════════════════════════════════
+
+    ┌─────────────────────────────────────────────────┐
+    │             HEADER HALAMAN                      │
+    │             "Hubungi Kami"                      │
+    │             Kami siap membantu Anda 24/7        │
+    └─────────────────────────────────────────────────┘
+
+    INFORMASI KONTAK:            CONTACT FORM:
+    ┌──────────────────────┐    ┌──────────────────┐
+    │ 📍 Alamat            │    │ Nama Lengkap     │
+    │ Jl. Kesehatan No.123 │    │ [...............]│
+    │ Jakarta Timur        │    │                  │
+    │                      │    │ Email            │
+    │ 📱 Telepon           │    │ [...............]│
+    │ (021) 1234-5678      │    │                  │
+    │ 08:00-18:00          │    │ Telepon          │
+    │                      │    │ [...............]│
+    │ ✉️ Email             │    │                  │
+    │ info@medikpedia.com  │    │ Subjek           │
+    │                      │    │ [Pilih Subjek ]  │
+    │ 🌐 Social Media      │    │                  │
+    │ [f] [📷] [🐦] [💬]  │    │ Pesan            │
+    │                      │    │ [..............]│
+    │                      │    │ [..............]│
+    │                      │    │                  │
+    │                      │    │ [☑] Setuju T&C  │
+    │                      │    │                  │
+    │                      │    │ [Kirim Pesan]   │
+    └──────────────────────┘    └──────────────────┘
+
+    PETA LOKASI:
+    ┌──────────────────────────────────────────────┐
+    │  📍 Google Maps Embed                         │
+    │     (Placeholder - dapat dikustomisasi)      │
+    └──────────────────────────────────────────────┘
+
+    FAQ - PERTANYAAN YANG SERING DIAJUKAN:
+    ┌──────────────────────────────────────────────┐
+    │ ▼ Bagaimana cara memesan produk?             │
+    │   Anda dapat memesan melalui website...      │
+    │                                              │
+    │ ▶ Berapa lama waktu pengiriman?             │
+    │   2-4 hari kerja untuk regular...            │
+    │                                              │
+    │ ▶ Apakah semua produk original?             │
+    │                                              │
+    │ ▶ Bagaimana jika produk rusak?              │
+    │                                              │
+    │ ▶ Bagaimana sistem pembayaran?              │
+    └──────────────────────────────────────────────┘
+
+
+┌─ FOOTER (Semua Halaman)
+│  ├─ Kolom 1: Logo + Deskripsi + Social Media
+│  ├─ Kolom 2: Navigasi (Beranda, Tentang, Produk, Layanan)
+│  ├─ Kolom 3: Layanan (Konsultasi, Pengiriman, Resep, Loyalitas)
+│  ├─ Kolom 4: Kontak (Telepon, Email, Alamat, Jam Operasional)
+│  └─ Bottom: Copyright & Links
+│
+└─────────────────────────────────────────────────────────────────────────────
+
+
+COLOR SCHEME & DESIGN
+═══════════════════════════════════════════════════════════════════════════════
+
+Primary Color:     #10b981 (Hijau Tua - Kesehatan)
+Secondary Color:   #059669 (Hijau Gelap - Aksen)
+Text Dark:         #1f2937 (Abu-abu Gelap)
+Text Light:        #6b7280 (Abu-abu Terang)
+Background:        #f8f9fa (Abu-abu Sangat Terang)
+Light Green:       #f0fdf4 (Hijau Sangat Terang - Highlight)
+White:             #ffffff (Putih)
+
+Button Style:      Rounded corners (8px border-radius)
+Card Style:        Shadow + Hover effect (lift up 10px)
+Typography:        Poppins (Google Fonts) - Modern & Clean
+Responsive:        Mobile-first design (Bootstrap 5)
+
+
+FEATURE HIGHLIGHTS
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ Navbar Sticky dengan active indicator
+✅ Hero section dengan CTA buttons
+✅ Product showcase dengan rating & review count
+✅ Service cards dengan icon
+✅ Membership pricing table (3 tier)
+✅ Contact form dengan dropdown kategori
+✅ FAQ accordion
+✅ Social media integration
+✅ Smooth animations & transitions
+✅ Fully responsive (mobile, tablet, desktop)
+✅ Fast loading time
+✅ Professional layout
+✅ Easy to customize
+✅ SEO-friendly structure
+✅ Accessibility compliant
+
+
+FILE STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+📂 medicpedia_app/
+├── 📂 app/Http/Controllers/
+│   └── PageController.php          (5 methods untuk 5 halaman)
+├── 📂 resources/views/
+│   ├── 📂 layouts/
+│   │   └── app.blade.php           (Navbar & Footer template)
+│   └── 📂 pages/
+│       ├── home.blade.php          (Halaman Beranda)
+│       ├── about.blade.php         (Halaman Tentang Kami)
+│       ├── products.blade.php      (Halaman Produk)
+│       ├── services.blade.php      (Halaman Layanan)
+│       └── contact.blade.php       (Halaman Kontak)
+├── 📂 routes/
+│   └── web.php                     (5 routes)
+├── 📂 resources/css/
+│   └── medikpedia.css              (Custom CSS)
+├── config/app.php                  (APP_NAME = 'Medikpedia')
+├── QUICK_START.txt                 (Quick guide)
+├── WEBSITE_README.md               (Full documentation)
+├── MEDIKPEDIA_SETUP_SUMMARY.txt   (Setup summary)
+└── FILE_CREATION_LIST.txt         (File list)
+
+
+READY TO LAUNCH! 🚀
+═══════════════════════════════════════════════════════════════════════════════
+
+Website Anda sudah siap untuk:
+✅ Dijalankan secara lokal
+✅ Dikustomisasi sesuai brand Anda
+✅ Dikembangkan lebih lanjut
+✅ Di-deploy ke hosting
+✅ Digunakan untuk bisnis nyata
+
+Selamat! Anda sekarang memiliki website apotik profesional! 🎉
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    TERIMA KASIH MENGGUNAKAN MEDIKPEDIA                      ║
+║                     Dibuat dengan ❤️ untuk kesehatan Anda                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝

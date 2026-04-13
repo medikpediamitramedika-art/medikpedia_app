@@ -1,0 +1,350 @@
+🚀 QUICK START GUIDE - MEDIKPEDIA
+================================================================================
+
+Selamat! Website apotik Medikpedia Anda telah berhasil dibuat dan siap dijalankan!
+
+================================================================================
+⚡ QUICK START (5 MENIT)
+================================================================================
+
+LANGKAH 1: Buka Command Prompt / Terminal
+────────────────────────────────────────
+Tekan Windows + R, ketik "cmd" dan enter
+
+LANGKAH 2: Navigate ke Folder Project
+────────────────────────────────────────
+cd c:\Users\Ali Attaziri\medicpedia_app
+
+LANGKAH 3: Jalankan Development Server
+────────────────────────────────────────
+php artisan serve
+
+Output yang akan muncul:
+INFO  Server running on [http://127.0.0.1:8000]
+Press Ctrl+C to quit
+
+LANGKAH 4: Buka Browser
+────────────────────────────────────────
+- Ketik di address bar: http://localhost:8000
+- Atau: http://127.0.0.1:8000
+- Atau klik link yang ditampilkan di terminal
+
+LANGKAH 5: Nikmati Website Anda!
+────────────────────────────────────────
+Selamat! Website Medikpedia sudah live di browser Anda! 🎉
+
+================================================================================
+📍 HALAMAN-HALAMAN YANG BISA ANDA KUNJUNGI
+================================================================================
+
+1. 🏠 Beranda
+   http://localhost:8000/
+
+2. 📖 Tentang Kami
+   http://localhost:8000/tentang-kami
+
+3. 🛍️ Produk
+   http://localhost:8000/produk
+
+4. 🎯 Layanan
+   http://localhost:8000/layanan
+
+5. 📞 Kontak
+   http://localhost:8000/kontak
+
+================================================================================
+🎨 MENGUBAH INFORMASI WEBSITE
+================================================================================
+
+✏️ MENGUBAH NAMA PERUSAHAAN
+────────────────────────────
+Buka file: resources/views/layouts/app.blade.php
+Cari: <a class="navbar-brand" href="{{ route('home') }}">
+Ubah: "Medikpedia" dengan nama perusahaan Anda
+
+✏️ MENGUBAH NOMOR TELEPON & EMAIL
+────────────────────────────────
+Buka file: resources/views/layouts/app.blade.php (footer)
+Cari: (021) 1234-5678 dan info@medikpedia.com
+Ganti dengan nomor dan email sebenarnya
+
+✏️ MENGUBAH ALAMAT PERUSAHAAN
+────────────────────────────
+Buka file: resources/views/pages/contact.blade.php
+Cari: "Jl. Kesehatan No. 123"
+Ganti dengan alamat sebenarnya
+
+✏️ MENGUBAH HARGA PRODUK
+────────────────────────────
+Buka file: resources/views/pages/products.blade.php
+Cari: "Rp 45.000" (atau harga apapun)
+Ganti dengan harga sebenarnya
+
+✏️ MENGUBAH WARNA TEMA
+────────────────────────────
+Buka file: resources/views/layouts/app.blade.php
+Cari section: :root {
+Ubah nilai color:
+- --primary-color: #10b981      ← Warna utama
+- --secondary-color: #059669    ← Warna sekunder
+- --text-dark: #1f2937          ← Warna teks
+- --border-color: #e5e7eb       ← Warna border
+
+================================================================================
+📸 MENGUBAH GAMBAR PRODUK
+================================================================================
+
+SEKARANG (Placeholder):
+<img src="https://via.placeholder.com/300x200/10b981/ffffff?text=Vitamin+C" 
+     alt="Vitamin C" class="card-img-top">
+
+GANTI DENGAN (URL gambar Anda):
+<img src="/images/produk/vitamin-c.jpg" 
+     alt="Vitamin C" class="card-img-top">
+
+ATAU (URL eksternal):
+<img src="https://example.com/images/vitamin-c.jpg" 
+     alt="Vitamin C" class="card-img-top">
+
+📂 Tips: Buat folder "public/images" untuk menyimpan gambar lokal
+
+================================================================================
+🔑 KODE PENTING YANG SERING DIUBAH
+================================================================================
+
+🔴 UBAH NAMA PERUSAHAAN DI NAVBAR
+────────────────────────────────
+File: resources/views/layouts/app.blade.php
+Baris: ~58
+Cari:
+  <a class="navbar-brand" href="{{ route('home') }}">
+      <i class="fas fa-pills"></i>Medikpedia
+  </a>
+Ubah "Medikpedia" ke nama Anda
+
+🔴 UBAH FOOTER INFORMASI
+────────────────────────────────
+File: resources/views/layouts/app.blade.php
+Baris: ~147-185
+Update:
+- Nama perusahaan
+- Deskripsi
+- Social media links
+- Nomor telepon
+- Email
+- Alamat
+
+🔴 UBAH KONTEN HALAMAN HOME
+────────────────────────────────
+File: resources/views/pages/home.blade.php
+Sections:
+- Hero (L: 5-20): Ubah judul & deskripsi
+- Fitur (L: 40-75): Ubah 3 fitur unggulan
+- Produk (L: 90-130): Ubah produk & harga
+- CTA (L: 155-165): Ubah promo text
+
+🔴 UBAH KONTEN HALAMAN ABOUT
+────────────────────────────────
+File: resources/views/pages/about.blade.php
+Sections:
+- Profil (L: 20-40): Ubah tentang perusahaan
+- Visi & Misi (L: 50-80): Ubah visi & misi
+- Values (L: 95-125): Ubah nilai-nilai
+- Team (L: 145-185): Update nama tim
+- Stats (L: 205-220): Ubah statistik
+
+================================================================================
+⚠️ MASALAH UMUM & SOLUSI
+================================================================================
+
+❌ MASALAH: Port 8000 sudah terpakai
+────────────────────────────────────
+SOLUSI:
+php artisan serve --port=8001
+Akses: http://localhost:8001
+
+❌ MASALAH: 'php' command not found
+────────────────────────────────────
+SOLUSI:
+1. Install PHP dari php.net
+2. Atau gunakan full path: C:\xampp\php\php.exe artisan serve
+3. Atau setup PHP di PATH
+
+❌ MASALAH: Laravel tidak ter-install
+────────────────────────────────────
+SOLUSI:
+1. Pastikan sudah di folder project
+2. Jalankan: composer install
+3. Tunggu hingga selesai (~2-3 menit)
+
+❌ MASALAH: Error "No application encryption key"
+────────────────────────────────────────────────
+SOLUSI:
+php artisan key:generate
+
+❌ MASALAH: Gambar tidak muncul
+────────────────────────────────────
+SOLUSI:
+1. Ganti URL gambar dengan yang valid
+2. Atau upload gambar ke folder public/images
+3. Update src attribute di view
+
+❌ MASALAH: CSS/Styling tidak bekerja
+────────────────────────────────────
+SOLUSI:
+1. Cek koneksi internet (CDN Bootstrap, Font Awesome)
+2. Hard refresh browser: Ctrl + Shift + Delete
+3. Cek console browser untuk error (F12)
+
+================================================================================
+💡 TIPS & TRICKS
+================================================================================
+
+💡 TIP 1: Backup sebelum mengubah
+────────────────────────────────
+Copy file sebelum diedit sebagai backup.
+Contoh: about.blade.php → about.blade.php.backup
+
+💡 TIP 2: Gunakan VS Code untuk editing
+────────────────────────────────────────
+- Download: https://code.visualstudio.com
+- Extension recommended: Laravel Blade, Prettier
+
+💡 TIP 3: Testing responsive design
+────────────────────────────────────
+Di browser, tekan F12 untuk membuka DevTools.
+Klik icon mobile untuk test di berbagai ukuran layar.
+
+💡 TIP 4: Menggunakan Git untuk version control
+────────────────────────────────────────────────
+git init
+git add .
+git commit -m "Initial Medikpedia website"
+git branch -M main
+
+💡 TIP 5: Deploy ke hosting
+────────────────────────────────────
+Siapkan hosting dengan:
+- PHP 8.0+
+- MySQL
+- Composer
+- Akses terminal SSH
+
+Upload file project dan jalankan:
+composer install
+php artisan migrate
+php artisan serve
+
+================================================================================
+📚 FILE PENTING YANG HARUS DIKENAL
+================================================================================
+
+routes/web.php
+└─ Daftar semua URL website Anda
+└─ Ubah di sini jika ingin mengubah URL
+
+resources/views/layouts/app.blade.php
+└─ Layout utama (navbar, footer)
+└─ Digunakan oleh semua halaman
+
+resources/views/pages/*.blade.php
+└─ Konten halaman-halaman
+└─ Edit di sini untuk mengubah konten
+
+app/Http/Controllers/PageController.php
+└─ Logic untuk menampilkan halaman
+└─ Edit di sini jika ingin menambah logic
+
+config/app.php
+└─ Konfigurasi aplikasi
+└─ Ubah APP_NAME untuk nama perusahaan
+
+.env
+└─ Environment variables
+└─ Setup database di sini
+
+================================================================================
+🎓 NEXT LEVEL - BELAJAR LEBIH LANJUT
+================================================================================
+
+Setelah belajar dasar, Anda bisa belajar:
+
+1. Blade Templating (Laravel)
+   https://laravel.com/docs/blade
+
+2. Eloquent ORM (Database)
+   https://laravel.com/docs/eloquent
+
+3. Bootstrap 5 Framework
+   https://getbootstrap.com/docs/5.0
+
+4. PHP Basics
+   https://www.php.net/manual/
+
+5. MySQL Database
+   https://dev.mysql.com/doc/
+
+6. Web Development Best Practices
+   - Security
+   - Performance
+   - SEO
+
+================================================================================
+📞 BUTUH BANTUAN?
+================================================================================
+
+Dokumentasi Lengkap:
+→ Lihat file: WEBSITE_README.md
+
+FAQ & Troubleshooting:
+→ Lihat: FILE_CREATION_LIST.txt
+
+Laravel Documentation:
+→ https://laravel.com/docs
+
+Bootstrap Documentation:
+→ https://getbootstrap.com/docs
+
+Stack Overflow:
+→ https://stackoverflow.com (tanyakan masalah Anda di sini)
+
+================================================================================
+✅ CHECKLIST - SIAP LAUNCH?
+================================================================================
+
+Sebelum launch ke production, pastikan:
+
+□ Website berjalan di localhost
+□ Semua halaman bisa diakses
+□ Informasi perusahaan sudah update
+□ Nomor telepon & email sudah benar
+□ Alamat perusahaan sudah update
+□ Harga produk sudah sesuai
+□ Foto produk sudah diganti
+□ Warna tema sesuai brand
+□ Tim sudah update
+□ Social media links sudah benar
+□ Form kontak sudah berfungsi
+□ Website responsive di mobile
+□ Tidak ada error di console
+□ Loading speed cukup cepat
+□ SEO meta tags sudah diperbaiki
+
+================================================================================
+🎉 SELAMAT!
+================================================================================
+
+Anda sudah memiliki website apotik profesional!
+
+Langkah berikutnya:
+1. Customize sesuai kebutuhan
+2. Test di berbagai browser & device
+3. Deploy ke hosting
+4. Promote di social media
+5. Develop fitur tambahan (cart, payment, dll)
+
+Semoga website Medikpedia Anda sukses dan bermanfaat! 🚀
+
+================================================================================
+Dibuat dengan ❤️ untuk kesuksesan bisnis Anda
+================================================================================
