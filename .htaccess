@@ -1,5 +1,9 @@
 <IfModule mod_rewrite.c>
+    Options -MultiViews
     RewriteEngine On
-    RewriteRule ^$ public/ [L]
-    RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+    RewriteBase /
+
+    # Jangan redirect jika file/folder sudah ada
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ /public/$1 [L,QSA]
 </IfModule>
