@@ -139,54 +139,58 @@
         transform: translateY(-3px);
     }
 
-        /* ===== HERO VISUAL ===== */
+    /* ===== PHOTO CARDS STACK ===== */
     .hero-visual {
         position: relative;
-        height: 520px;
         display: flex;
+        justify-content: flex-end;
         align-items: center;
-        justify-content: center;
+        height: 480px;
     }
 
-    /* Main image — mengisi penuh area visual */
+    /* Main image di pojok kanan */
     .main-hero-image {
         position: absolute;
-        inset: 0;
-        border-radius: 24px;
-        overflow: hidden;
-        box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.15);
-        border: 2px solid rgba(255,255,255,0.2);
+        right: -60px;
+        top: -350px;
+        bottom: -60px;
+        width: 480px;
         z-index: 5;
-        transition: box-shadow 0.4s ease;
+        overflow: hidden;
+        border-radius: 28px 0 0 28px;
+        box-shadow: -30px 0 80px rgba(0,0,0,0.35), -5px 0 20px rgba(0,0,0,0.15);
+        border-left: 1px solid rgba(255,255,255,0.25);
+        transition: all 0.4s ease;
     }
 
     .main-hero-image:hover {
-        box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 4px 20px rgba(0,0,0,0.2);
+        box-shadow: -35px 0 100px rgba(0,0,0,0.45), -5px 0 25px rgba(0,0,0,0.2);
     }
 
-    /* Gradient overlay kiri — menyatu dengan hero bg */
+    /* Gradient overlay menyatu dengan background biru */
     .main-hero-image::before {
         content: '';
         position: absolute;
         inset: 0;
         background: linear-gradient(
-            90deg,
-            rgba(13,71,161,0.55) 0%,
-            rgba(21,101,192,0.25) 35%,
-            transparent 65%
+            105deg,
+            rgba(13,71,161,0.75) 0%,
+            rgba(21,101,192,0.45) 25%,
+            rgba(25,118,210,0.2) 50%,
+            transparent 75%
         );
         z-index: 2;
     }
 
-    /* Garis aksen vertikal kiri */
+    /* Garis aksen vertikal di sisi kiri foto */
     .main-hero-image::after {
         content: '';
         position: absolute;
         left: 0;
-        top: 12%;
-        bottom: 12%;
+        top: 15%;
+        bottom: 15%;
         width: 3px;
-        background: linear-gradient(to bottom, transparent, rgba(124,179,66,0.9), rgba(255,255,255,0.7), rgba(124,179,66,0.9), transparent);
+        background: linear-gradient(to bottom, transparent, rgba(124,179,66,0.8), rgba(255,255,255,0.6), rgba(124,179,66,0.8), transparent);
         z-index: 4;
         border-radius: 2px;
     }
@@ -195,55 +199,21 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.5s ease, opacity 0.3s ease;
+        transition: opacity 0.3s ease, transform 0.5s ease;
     }
 
     .main-hero-image:hover img {
-        transform: scale(1.03);
-    }
-
-    /* Caption bawah foto */
-    .photo-caption {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.25) 60%, transparent 100%);
-        color: white;
-        padding: 2.5rem 1.5rem 1.25rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        z-index: 3;
-    }
-
-    .photo-caption .caption-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: rgba(124,179,66,0.9);
-        color: white;
-        padding: 0.3rem 0.75rem;
-        border-radius: 20px;
-        font-size: 0.78rem;
-        font-weight: 700;
-        margin-bottom: 0.4rem;
-    }
-
-    .photo-caption .caption-text {
-        display: block;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: rgba(255,255,255,0.95);
+        transform: scale(1.04);
     }
 
     /* Slide indicators */
     .slide-indicators {
         position: absolute;
-        bottom: 1.25rem;
-        right: 1.25rem;
+        bottom: 70px;
+        left: 20px;
         display: flex;
         gap: 6px;
-        z-index: 6;
+        z-index: 5;
     }
 
     .slide-dot {
@@ -263,106 +233,79 @@
         border-color: #7CB342;
     }
 
-    /* Thumbnail strip — di bawah main image */
-    .small-photos {
-        position: absolute;
-        bottom: -70px;
-        left: 0;
-        right: 0;
-        display: flex;
-        gap: 0.6rem;
-        justify-content: center;
-        z-index: 6;
-    }
-
-    .small-photo {
-        width: 72px;
-        height: 56px;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 2px solid rgba(255,255,255,0.5);
-        cursor: pointer;
-        transition: all 0.25s ease;
-        flex-shrink: 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-
-    .small-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .small-photo:hover {
-        border-color: white;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    }
-
-    .small-photo.thumb-active {
-        border-color: #7CB342;
-        box-shadow: 0 0 0 2px #7CB342, 0 6px 16px rgba(0,0,0,0.25);
-        transform: translateY(-3px);
-    }
-
     /* Thumb overlay */
     .thumb-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(13,71,161,0.3);
-        transition: background 0.3s;
-        border-radius: 8px;
+        background: rgba(13,71,161,0.35);
+        transition: all 0.3s;
+        border-radius: 13px;
     }
 
     .small-photo.thumb-active .thumb-overlay {
         background: transparent;
     }
 
-    /* Float stats */
-    .float-stat {
+    .small-photo {
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .small-photo:hover {
+        transform: scale(1.06) rotate(0deg) !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .small-photo.thumb-active {
+        box-shadow: 0 0 0 3px #7CB342, 0 15px 40px rgba(0,0,0,0.25) !important;
+    }
+
+    /* Caption bawah foto */
+    .photo-caption {
         position: absolute;
-        background: white;
-        border-radius: 12px;
-        padding: 0.65rem 0.9rem;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        z-index: 10;
-        display: flex;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+        color: white;
+        padding: 2rem 1.5rem 1.25rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        z-index: 3;
+        letter-spacing: 0.02em;
+    }
+
+    .photo-caption .caption-badge {
+        display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        animation: floatUp 3s ease-in-out infinite;
+        gap: 0.4rem;
+        background: rgba(124,179,66,0.85);
+        color: white;
+        padding: 0.3rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.03em;
     }
 
-    .float-stat-1 {
-        top: 1rem;
-        left: -1rem;
-        animation-delay: 0s;
+    .photo-caption .caption-text {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.95);
     }
 
-    .float-stat-2 {
-        bottom: 5rem;
-        right: -1rem;
-        animation-delay: 1.5s;
-    }
-
-    .float-stat .stat-icon { font-size: 1.4rem; }
-    .float-stat .stat-text strong { display: block; font-size: 0.95rem; font-weight: 700; color: #1f2937; }
-    .float-stat .stat-text span { font-size: 0.72rem; color: #6b7280; }
-
-    @keyframes floatUp {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-    }
-
-    /* Decorative dot grid */
+    /* Hiasan: dot grid di pojok kiri atas hero visual */
     .hero-dot-grid {
         position: absolute;
-        top: -1rem;
-        right: -1rem;
+        top: 10px;
+        left: 260px;
         z-index: 2;
         display: grid;
         grid-template-columns: repeat(5, 8px);
         gap: 6px;
-        opacity: 0.3;
+        opacity: 0.25;
     }
 
     .hero-dot-grid span {
@@ -373,35 +316,283 @@
         display: block;
     }
 
-    .hero-line-accent { display: none; }
+    /* Hiasan: garis horizontal tipis */
+    .hero-line-accent {
+        position: absolute;
+        z-index: 2;
+    }
 
-    /* Medicine icons */
+    .hero-line-accent-1 {
+        top: 30px;
+        left: 240px;
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(to right, rgba(124,179,66,0.7), transparent);
+        border-radius: 2px;
+    }
+
+    .hero-line-accent-2 {
+        bottom: 60px;
+        left: 220px;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(to right, rgba(255,255,255,0.4), transparent);
+        border-radius: 2px;
+    }
+
+    /* Pastikan konten hero tetap di atas gambar */
+    .hero-content {
+        position: relative;
+        z-index: 10;
+    }
+
+    /* Small photos di kiri */
+    .small-photos {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 250px;
+        height: 100%;
+        z-index: 3;
+    }
+
+    .small-photo {
+        position: absolute;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        border: 3px solid white;
+        z-index: 4;
+    }
+
+    .small-photo-1 {
+        width: 120px;
+        height: 140px;
+        left: 0;
+        top: 20px;
+        transform: rotate(-8deg);
+    }
+
+    .small-photo-2 {
+        width: 100px;
+        height: 120px;
+        left: 80px;
+        top: 180px;
+        transform: rotate(12deg);
+    }
+
+    .small-photo-3 {
+        width: 90px;
+        height: 110px;
+        left: 20px;
+        top: 320px;
+        transform: rotate(-5deg);
+    }
+
+    .small-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Floating medicine icons */
     .medicine-icon {
         position: absolute;
-        font-size: 1.4rem;
-        color: rgba(124,179,66,0.7);
+        font-size: 1.5rem;
+        color: rgba(124,179,66,0.6);
         animation: floatMedicine 4s ease-in-out infinite;
         z-index: 3;
-        pointer-events: none;
     }
 
-    .medicine-icon-1 { top: -1.5rem; left: -2rem; animation-delay: 0s; }
-    .medicine-icon-2 { display: none; }
-    .medicine-icon-3 { bottom: 4rem; left: -2rem; animation-delay: 2s; color: rgba(255,255,255,0.5); }
-    .medicine-icon-4 { top: 40%; right: -2rem; animation-delay: 3s; color: rgba(165,214,90,0.6); }
-    .medicine-icon-5 { display: none; }
-    .medicine-icon-6 { display: none; }
+    .medicine-icon-1 {
+        top: 60px;
+        left: 200px;
+        animation-delay: 0s;
+    }
+
+    .medicine-icon-2 {
+        top: 150px;
+        right: 60%;
+        animation-delay: 1s;
+        color: rgba(30,136,229,0.5);
+    }
+
+    .medicine-icon-3 {
+        bottom: 100px;
+        left: 80px;
+        animation-delay: 2s;
+        color: rgba(239,68,68,0.5);
+    }
+
+    .medicine-icon-4 {
+        top: 200px;
+        left: 300px;
+        animation-delay: 3s;
+        color: rgba(168,85,247,0.5);
+    }
+
+    .medicine-icon-5 {
+        bottom: 180px;
+        right: 65%;
+        animation-delay: 1.5s;
+        color: rgba(34,197,94,0.5);
+    }
+
+    .medicine-icon-6 {
+        top: 80px;
+        right: 70%;
+        animation-delay: 2.5s;
+        color: rgba(251,146,60,0.5);
+    }
 
     @keyframes floatMedicine {
-        0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-        50% { transform: translateY(-12px) rotate(-5deg); opacity: 1; }
+        0%, 100% { 
+            transform: translateY(0) rotate(0deg); 
+            opacity: 0.6;
+        }
+        25% { 
+            transform: translateY(-10px) rotate(5deg); 
+            opacity: 0.8;
+        }
+        50% { 
+            transform: translateY(-15px) rotate(-3deg); 
+            opacity: 1;
+        }
+        75% { 
+            transform: translateY(-8px) rotate(2deg); 
+            opacity: 0.7;
+        }
     }
 
-    .hero-decoration { display: none; }
+    /* Decorative elements */
+    .hero-decoration {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(124,179,66,0.1), rgba(124,179,66,0.3));
+        border: 2px solid rgba(124,179,66,0.2);
+        z-index: 1;
+    }
 
-    /* Photo card legacy — hidden */
-    .photo-card, .photo-card-back, .photo-card-mid, .photo-card-front { display: none !important; }
-/* ===== STATS BAR ===== */
+    .decoration-1 {
+        top: 40px;
+        right: 65%;
+        animation: pulse 3s ease-in-out infinite;
+    }
+
+    .decoration-2 {
+        bottom: 60px;
+        left: 250px;
+        width: 40px;
+        height: 40px;
+        animation: pulse 3s ease-in-out infinite 1s;
+    }
+
+    @keyframes pulse {
+        0%, 100% { 
+            transform: scale(1); 
+            opacity: 0.3;
+        }
+        50% { 
+            transform: scale(1.1); 
+            opacity: 0.6;
+        }
+    }
+
+    .photo-card {
+        position: absolute;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        display: none; /* Hide old photo cards */
+    }
+
+    .photo-card-back {
+        width: 200px;
+        height: 240px;
+        left: 0;
+        top: 60px;
+        transform: rotate(-8deg);
+        opacity: 0.55;
+        z-index: 1;
+        display: none;
+    }
+
+    .photo-card-mid {
+        width: 240px;
+        height: 290px;
+        right: 20px;
+        top: 30px;
+        transform: rotate(6deg);
+        opacity: 0.75;
+        z-index: 2;
+        display: none;
+    }
+
+    .photo-card-front {
+        width: 300px;
+        height: 360px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(-2deg);
+        z-index: 3;
+        display: none;
+    }
+
+    .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .photo-card-front .card-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+        color: white;
+        padding: 1.5rem 1rem 1rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .float-stat {
+        position: absolute;
+        background: white;
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: floatUp 3s ease-in-out infinite;
+    }
+
+    .float-stat-1 { 
+        top: 20px; 
+        left: 10px; 
+        animation-delay: 0s; 
+    }
+    
+    .float-stat-2 { 
+        bottom: 40px; 
+        left: 200px; 
+        animation-delay: 1.5s; 
+    }
+    
+    .float-stat .stat-icon { font-size: 1.5rem; }
+    .float-stat .stat-text strong { display: block; font-size: 1rem; font-weight: 700; color: #1f2937; }
+    .float-stat .stat-text span { font-size: 0.75rem; color: #6b7280; }
+
+    @keyframes floatUp {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+
+    /* ===== STATS BAR ===== */
     .stats-bar {
         background: rgba(255,255,255,0.6);
         backdrop-filter: blur(8px);
@@ -685,26 +876,31 @@
     }
 
     @media (max-width: 768px) {
-        .hero-section { min-height: auto; padding: 5rem 0 2.5rem; }
-        .hero-visual { height: 260px; min-height: 260px; margin-top: 1.5rem; }
+        .hero-section { min-height: 100vh; padding: 5rem 0 3rem; }
+        .hero-visual { height: 100%; min-height: 300px; }
         .main-hero-image {
-            position: relative;
-            inset: auto;
-            width: 100%;
-            border-radius: 16px;
+            width: 55%;
+            right: -20px;
+            top: 0;
+            bottom: 0;
+            border-radius: 20px 0 0 20px;
+            transform: none;
         }
         .main-hero-image:hover { transform: none; }
         .photo-caption { font-size: 0.85rem; padding: 1rem 1rem 0.75rem; }
 
-        /* Foto kecil di mobile — sembunyikan */
-        .small-photos { display: none !important; }
+        /* Foto kecil di mobile */
+        .small-photos { display: block; width: 110px; }
+        .small-photo-1 { width: 75px; height: 90px; left: 0; top: 10px; transform: rotate(-6deg); }
+        .small-photo-2 { width: 65px; height: 78px; left: 45px; top: 130px; transform: rotate(8deg); }
+        .small-photo-3 { display: block; width: 60px; height: 72px; left: 5px; top: 250px; transform: rotate(-4deg); }
 
         /* Icon obat di mobile */
         .medicine-icon { font-size: 1rem; }
-        .medicine-icon-1 { top: 10px; left: 10px; }
+        .medicine-icon-1 { top: 40px; left: 110px; }
         .medicine-icon-2 { display: none; }
-        .medicine-icon-3 { bottom: 10px; left: 10px; font-size: 0.9rem; }
-        .medicine-icon-4 { top: 50%; right: 10px; font-size: 0.9rem; }
+        .medicine-icon-3 { bottom: 70px; left: 40px; font-size: 0.9rem; }
+        .medicine-icon-4 { top: 160px; left: 130px; font-size: 0.9rem; }
         .medicine-icon-5 { display: none; }
         .medicine-icon-6 { display: none; }
 
@@ -712,40 +908,53 @@
         .hero-decoration { display: none; }
         .hero-dot-grid { display: none; }
         .hero-line-accent { display: none; }
-        .hero-title { font-size: clamp(1.7rem, 6vw, 2.4rem); }
-        .hero-desc { font-size: 0.92rem; }
+        .hero-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
+        .hero-desc { font-size: 0.95rem; }
         .search-form { flex-direction: column; }
-        .medicines-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+        .medicines-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
     }
 
     @media (max-width: 480px) {
-        .hero-section { padding: 4rem 0 2rem; min-height: auto; }
-        .hero-visual { height: 200px; min-height: 200px; }
+        .hero-section { padding: 4.5rem 0 3rem; min-height: 100vh; }
+        .hero-visual { height: 100%; min-height: 260px; }
         .main-hero-image {
-            position: relative;
-            inset: auto;
-            width: 100%;
-            border-radius: 12px;
+            width: 48%;
+            right: -15px;
+            top: 0;
+            bottom: 0;
+            border-radius: 16px 0 0 16px;
+        }
+        .main-hero-image::before {
+            background: linear-gradient(
+                105deg,
+                rgba(13,71,161,0.85) 0%,
+                rgba(21,101,192,0.55) 30%,
+                rgba(25,118,210,0.25) 60%,
+                transparent 80%
+            );
         }
         .photo-caption { display: none; }
 
-        /* Foto kecil di HP kecil — sembunyikan */
-        .small-photos { display: none !important; }
+        /* Foto kecil di HP kecil */
+        .small-photos { display: block; width: 90px; }
+        .small-photo-1 { width: 60px; height: 72px; left: 0; top: 8px; transform: rotate(-5deg); }
+        .small-photo-2 { width: 52px; height: 62px; left: 35px; top: 110px; transform: rotate(7deg); }
+        .small-photo-3 { display: block; width: 48px; height: 58px; left: 5px; top: 210px; transform: rotate(-4deg); }
 
         /* Icon obat di HP kecil */
         .medicine-icon { font-size: 0.85rem; }
-        .medicine-icon-1 { top: 8px; left: 8px; }
+        .medicine-icon-1 { top: 30px; left: 90px; }
         .medicine-icon-2 { display: none; }
-        .medicine-icon-3 { bottom: 8px; left: 8px; }
-        .medicine-icon-4 { top: 50%; right: 8px; }
+        .medicine-icon-3 { bottom: 60px; left: 30px; }
+        .medicine-icon-4 { top: 140px; left: 100px; }
         .medicine-icon-5 { display: none; }
         .medicine-icon-6 { display: none; }
 
-        .hero-title { font-size: clamp(1.4rem, 7vw, 1.8rem); }
-        .hero-desc { font-size: 0.85rem; max-width: 100%; }
+        .hero-title { font-size: clamp(1.5rem, 7vw, 1.9rem); }
+        .hero-desc { font-size: 0.88rem; max-width: 100%; }
         .hero-buttons { flex-direction: column; gap: 0.75rem; }
         .btn-hero-primary, .btn-hero-outline { text-align: center; justify-content: center; padding: 0.75rem 1.5rem; }
-        .hero-badge { font-size: 0.75rem; }
+        .hero-badge { font-size: 0.78rem; }
     }
 
     /* ===== ABOUT SECTION ===== */
@@ -927,11 +1136,11 @@
     }
 
     @media (max-width: 768px) {
-        .about-section { padding: 2.5rem 0; }
-        .about-image-main { width: 240px !important; height: 240px !important; margin: 0 auto; }
-        .about-stats-card { position: static; margin-top: 1.25rem; left: auto; bottom: auto; }
-        .feature-item { flex-direction: row; text-align: left; }
-        .feature-icon { margin: 0; }
+        .about-section { padding: 3rem 0; }
+        .about-image-main { width: 280px; height: 280px; }
+        .about-stats-card { position: static; margin-top: 1.5rem; }
+        .feature-item { flex-direction: column; text-align: center; }
+        .feature-icon { margin: 0 auto; }
     }
 </style>
 @endsection
@@ -940,99 +1149,6 @@
 
 <!-- ===== HERO ===== -->
 <section class="hero-section" id="hero-section">
-
-    <!-- Partikel statis hero -->
-    <div class="hero-particles" aria-hidden="true">
-        <span class="hp hp-capsule" style="top:8%;left:5%;--r:20deg;--s:0.8;--o:0.18;"></span>
-        <span class="hp hp-capsule" style="top:20%;left:82%;--r:-15deg;--s:1.0;--o:0.15;"></span>
-        <span class="hp hp-capsule" style="top:55%;left:3%;--r:35deg;--s:0.7;--o:0.16;"></span>
-        <span class="hp hp-capsule" style="top:75%;left:88%;--r:-25deg;--s:0.9;--o:0.14;"></span>
-        <span class="hp hp-capsule" style="top:40%;left:92%;--r:10deg;--s:0.65;--o:0.13;"></span>
-        <span class="hp hp-capsule" style="top:88%;left:20%;--r:-30deg;--s:0.75;--o:0.15;"></span>
-
-        <span class="hp hp-tablet" style="top:15%;left:40%;--s:0.9;--o:0.16;"></span>
-        <span class="hp hp-tablet" style="top:35%;left:70%;--s:0.75;--o:0.14;"></span>
-        <span class="hp hp-tablet" style="top:65%;left:55%;--s:1.0;--o:0.13;"></span>
-        <span class="hp hp-tablet" style="top:82%;left:75%;--s:0.8;--o:0.15;"></span>
-
-        <span class="hp hp-pill" style="top:5%;left:60%;--s:1.1;--o:0.20;"></span>
-        <span class="hp hp-pill" style="top:28%;left:15%;--s:0.9;--o:0.18;"></span>
-        <span class="hp hp-pill" style="top:50%;left:78%;--s:0.8;--o:0.16;"></span>
-        <span class="hp hp-pill" style="top:70%;left:30%;--s:1.0;--o:0.17;"></span>
-        <span class="hp hp-pill" style="top:90%;left:60%;--s:0.85;--o:0.15;"></span>
-
-        <span class="hp hp-cross" style="top:10%;left:25%;--s:0.9;--o:0.18;"></span>
-        <span class="hp hp-cross" style="top:30%;left:95%;--s:0.75;--o:0.16;"></span>
-        <span class="hp hp-cross" style="top:60%;left:18%;--s:1.0;--o:0.17;"></span>
-        <span class="hp hp-cross" style="top:80%;left:48%;--s:0.8;--o:0.15;"></span>
-        <span class="hp hp-cross" style="top:45%;left:42%;--s:0.65;--o:0.13;"></span>
-
-        <i class="hp hp-icon fa-solid fa-pills"       style="top:12%;left:72%;--s:1.1;--o:0.18;"></i>
-        <i class="hp hp-icon fa-solid fa-syringe"     style="top:38%;left:8%;--r:40deg;--s:1.0;--o:0.16;"></i>
-        <i class="hp hp-icon fa-solid fa-capsules"    style="top:58%;left:65%;--s:0.9;--o:0.15;"></i>
-        <i class="hp hp-icon fa-solid fa-heart-pulse" style="top:78%;left:10%;--s:1.0;--o:0.17;"></i>
-        <i class="hp hp-icon fa-solid fa-flask"       style="top:22%;left:52%;--s:0.85;--o:0.14;"></i>
-        <i class="hp hp-icon fa-solid fa-dna"         style="top:92%;left:85%;--s:0.9;--o:0.15;"></i>
-    </div>
-
-    <style>
-        .hero-section { position: relative; overflow: hidden; }
-        .hero-particles {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        /* Semua konten hero di atas partikel */
-        .hero-section .container { position: relative; z-index: 2; }
-
-        .hp { position: absolute; transform: rotate(var(--r,0deg)) scale(var(--s,1)); opacity: var(--o,0.15); }
-
-        /* Kapsul putih-hijau */
-        .hp-capsule {
-            width: 52px; height: 22px; border-radius: 11px;
-            background: linear-gradient(90deg, rgba(255,255,255,0.9) 50%, rgba(124,179,66,0.9) 50%);
-            box-shadow: inset 0 1px 3px rgba(255,255,255,0.4);
-        }
-
-        /* Tablet putih */
-        .hp-tablet {
-            width: 36px; height: 22px; border-radius: 11px;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.5);
-            position: relative;
-        }
-        .hp-tablet::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 20%; right: 20%;
-            height: 1.5px;
-            background: rgba(255,255,255,0.6);
-            transform: translateY(-50%);
-        }
-
-        /* Pil bulat hijau */
-        .hp-pill {
-            width: 20px; height: 20px; border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9), rgba(124,179,66,0.8));
-            border: 1.5px solid rgba(255,255,255,0.4);
-        }
-
-        /* Plus putih */
-        .hp-cross { width: 24px; height: 24px; position: relative; }
-        .hp-cross::before, .hp-cross::after {
-            content: ''; position: absolute;
-            background: rgba(255,255,255,0.85); border-radius: 2px;
-        }
-        .hp-cross::before { width: 8px; height: 24px; left: 50%; transform: translateX(-50%); }
-        .hp-cross::after  { width: 24px; height: 8px; top: 50%; transform: translateY(-50%); }
-
-        /* Ikon FA putih/hijau */
-        .hp-icon { font-size: 1.3rem; color: rgba(255,255,255,0.85); transform: rotate(var(--r,0deg)) scale(var(--s,1)); }
-        .hp-icon:nth-child(odd)  { color: rgba(165,214,90,0.85); }
-        .hp-icon:nth-child(3n)   { color: rgba(255,255,255,0.70); }
-    </style>
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 hero-content">

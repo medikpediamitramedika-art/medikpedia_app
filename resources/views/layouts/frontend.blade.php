@@ -6,16 +6,10 @@
     <title>@yield('title', 'Medikpedia - Apotik Online')</title>
     <link rel="icon" type="image/png" href="{{ asset('logo1.png') }}">
     
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    <!-- Responsive Fixes -->
-    <link rel="stylesheet" href="{{ asset('css/responsive-fixes.css') }}">
 
     <style>
         /* ===== GLOBAL SECTION DECORATIONS ===== */
@@ -124,6 +118,22 @@
 
         /* Footer */
         .footer { position: relative; overflow: hidden; }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(124,179,66,0.05) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .footer::after {
+            content: '';
+            position: absolute;
+            bottom: -60px; left: -60px;
+            width: 280px; height: 280px;
+            background: radial-gradient(circle, rgba(30,136,229,0.04) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
 
         /* ===== CARD DECORATIONS ===== */
         .medicine-card, .news-card, .news-preview-card, .photo-card,
@@ -261,7 +271,7 @@
         .navbar {
             background: linear-gradient(135deg, #1565C0 0%, #1976D2 50%, #1E88E5 100%);
             box-shadow: 0 4px 20px rgba(13, 71, 161, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 0.1rem 0;
+            padding: 0.5rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -271,11 +281,11 @@
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0.3rem 1rem;
+            padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         .navbar-brand {
@@ -296,20 +306,18 @@
 
         .navbar-brand img {
             filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-            height: 38px;
+            height: 45px;
             object-fit: contain;
             margin-left: -8px;
         }
 
         .navbar-menu {
             display: flex;
-            gap: 0.15rem;
+            gap: 0;
             align-items: center;
             list-style: none;
             flex-wrap: nowrap;
             justify-content: flex-end;
-            margin: 0;
-            padding: 0;
         }
 
         .navbar-menu a,
@@ -320,80 +328,54 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
-            padding: 0.45rem 0.55rem;
+            gap: 0.35rem;
+            padding: 0.5rem 0.6rem;
             border-radius: 0.375rem;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             white-space: nowrap;
-            border: none;
-            background: none;
-            cursor: pointer;
         }
 
         .navbar-menu a:hover,
         .navbar-menu .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-1px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .navbar-menu .logout-btn {
             background: rgba(220, 38, 38, 0.2);
             border: 1px solid rgba(220, 38, 38, 0.4);
-            font-size: 0.8rem;
-            margin-left: 0.25rem;
+            cursor: pointer;
+            border: none;
+            width: auto;
+            text-align: center;
+            font-size: 1rem;
         }
 
         .navbar-menu .logout-btn:hover {
-            background: rgba(220, 38, 38, 0.35);
+            background: rgba(220, 38, 38, 0.3);
         }
 
         .navbar-menu .admin-link {
             color: #7CB342;
-            font-weight: 600;
         }
 
         .admin-login-item a {
-            padding: 0.45rem 0.55rem;
-            font-size: 0.85rem;
-            margin-left: 0.25rem;
+            padding: 0.5rem 0.6rem;
+            font-size: 1rem;
         }
 
         /* Cart button di navbar */
         .cart-nav-btn {
-            position: relative; 
-            background: none; 
-            border: none; 
-            cursor: pointer;
-            color: white; 
-            padding: 0.45rem 0.55rem; 
-            border-radius: 0.375rem;
-            font-size: 0.85rem; 
-            display: flex; 
-            align-items: center; 
-            transition: all 0.3s;
+            position: relative; background: none; border: none; cursor: pointer;
+            color: white; padding: 0.5rem 0.6rem; border-radius: 0.375rem;
+            font-size: 1rem; display: flex; align-items: center; transition: background 0.2s;
             flex-shrink: 0;
-            margin-left: 0.25rem;
         }
-        
-        .cart-nav-btn:hover { 
-            background: rgba(255,255,255,0.15); 
-            transform: translateY(-1px);
-        }
-        
+        .cart-nav-btn:hover { background: rgba(255,255,255,0.2); }
         .cart-badge {
-            position: absolute; 
-            top: 2px; 
-            right: 2px;
-            background: #ef4444; 
-            color: white; 
-            font-size: 0.6rem; 
-            font-weight: 800;
-            width: 16px; 
-            height: 16px; 
-            border-radius: 50%;
-            display: none; 
-            align-items: center; 
-            justify-content: center;
+            position: absolute; top: 2px; right: 2px;
+            background: #ef4444; color: white; font-size: 0.6rem; font-weight: 800;
+            width: 16px; height: 16px; border-radius: 50%;
+            display: none; align-items: center; justify-content: center;
         }
 
         /* Hamburger Menu */
@@ -435,11 +417,11 @@
             padding: 0 1rem;
         }
 
-        /* ===== FOOTER ===== */
+        /* Footer */
         .footer {
-            background: linear-gradient(180deg, #0f172a 0%, #0a0e2e 100%) !important;
+            background: linear-gradient(180deg, #1e1b4b 0%, #0a0e2e 100%) !important;
             color: white;
-            padding: 4rem 0 0;
+            padding: 3rem 0;
             margin-top: 4rem;
             position: relative;
             z-index: 1;
@@ -447,201 +429,39 @@
 
         .footer-content {
             display: grid;
-            grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
-            gap: 2.5rem;
-            padding-bottom: 3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
-        /* Kolom brand */
-        .footer-brand .footer-logo {
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
+        .footer h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
         }
 
-        .footer-brand p {
-            color: #94a3b8;
-            font-size: 0.875rem;
-            line-height: 1.75;
-            margin-bottom: 1.25rem;
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 0.6rem;
-        }
-
-        .footer-social-btn {
-            width: 36px;
-            height: 36px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        .footer-social-btn:hover {
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        /* Kolom navigasi */
-        .footer-col h4 {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #7CB342;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 1.1rem;
-        }
-
-        .footer-col ul {
+        .footer ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
         }
 
-        .footer-col ul li {
-            margin-bottom: 0.6rem;
+        .footer ul li {
+            margin-bottom: 0.5rem;
         }
 
-        .footer-col ul a {
-            color: #94a3b8;
+        .footer ul a {
+            color: #d1d5db;
             text-decoration: none;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.2s;
+            transition: color 0.3s;
         }
 
-        .footer-col ul a i {
-            color: #7CB342;
-            font-size: 0.75rem;
-            width: 14px;
-            flex-shrink: 0;
-        }
-
-        .footer-col ul a:hover {
+        .footer ul a:hover {
             color: white;
         }
 
-        /* Kolom kontak */
-        .footer-contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.65rem;
-            margin-bottom: 0.85rem;
-        }
-
-        .footer-contact-item i {
-            color: #7CB342;
-            font-size: 0.85rem;
-            margin-top: 3px;
-            flex-shrink: 0;
-            width: 14px;
-        }
-
-        .footer-contact-item a,
-        .footer-contact-item span {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.875rem;
-            line-height: 1.6;
-            transition: color 0.2s;
-        }
-
-        .footer-contact-item a:hover { color: white; }
-
-        /* Footer bottom */
         .footer-bottom {
-            padding: 1.25rem 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-
-        .footer-bottom p {
-            color: #64748b;
-            font-size: 0.8rem;
-            margin: 0;
-        }
-
-        .footer-bottom-links {
-            display: flex;
-            gap: 1.25rem;
-        }
-
-        .footer-bottom-links a {
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .footer-bottom-links a:hover { color: #94a3b8; }
-
-        @media (max-width: 1024px) {
-            /* Navbar tablet fixes */
-            .navbar-container {
-                padding: 0.25rem 1rem;
-            }
-
-            .navbar-brand img {
-                height: 34px;
-            }
-
-            .navbar-menu a,
-            .navbar-menu .logout-btn {
-                font-size: 0.75rem;
-                padding: 0.4rem 0.45rem;
-                gap: 0.25rem;
-            }
-
-            .navbar-menu {
-                gap: 0.1rem;
-            }
-
-            .admin-login-item a {
-                padding: 0.4rem 0.45rem;
-                font-size: 0.8rem;
-            }
-
-            .cart-nav-btn {
-                padding: 0.4rem 0.45rem;
-                font-size: 0.8rem;
-            }
-
-            /* Footer */
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 1.75rem;
-                padding-bottom: 2rem;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #9ca3af;
         }
 
         /* Alert */
@@ -669,99 +489,66 @@
             }
 
             .navbar-container {
-                padding: 0.25rem 1rem;
-                gap: 0.5rem;
-            }
-
-            .navbar-brand img {
-                height: 34px;
+                padding: 0.5rem 1rem;
             }
 
             .navbar-menu {
                 position: fixed;
                 left: 0;
-                top: 52px;
+                top: 65px;
                 width: 100%;
-                height: calc(100vh - 52px);
+                height: calc(100vh - 65px);
                 background: linear-gradient(135deg, #1565C0 0%, #1976D2 50%, #1E88E5 100%);
                 flex-direction: column;
                 justify-content: flex-start;
                 gap: 0;
-                padding: 1rem;
+                padding: 1.5rem 1rem;
                 max-height: 0;
                 overflow-y: auto;
                 overflow-x: hidden;
-                transition: max-height 0.35s ease;
+                transition: max-height 0.3s ease;
                 z-index: 100;
             }
 
             .navbar-menu.active {
-                max-height: calc(100vh - 52px);
+                max-height: 100vh;
             }
 
             .navbar-menu li {
                 width: 100%;
-                margin-bottom: 0.25rem;
+                margin-bottom: 0.5rem;
             }
 
             .navbar-menu a,
             .navbar-menu .logout-btn {
-                padding: 0.8rem 1rem;
-                font-size: 0.95rem;
-                display: flex;
-                width: 100%;
-                border-radius: 8px;
-                justify-content: flex-start;
-                gap: 0.5rem;
+                padding: 0.875rem 1rem;
+                font-size: 1rem;
+                display: block;
             }
 
-            .navbar-menu .logout-btn {
-                margin-left: 0;
-                margin-top: 0.5rem;
-                border: 1px solid rgba(220, 38, 38, 0.4);
-            }
-
-            .admin-login-item a {
-                margin-left: 0;
-                padding: 0.8rem 1rem;
-                font-size: 0.95rem;
-            }
-
-            .cart-nav-btn {
-                margin-left: 0;
-                padding: 0.45rem;
-                font-size: 0.95rem;
+            .navbar-brand img {
+                height: 45px;
             }
         }
 
         @media (max-width: 480px) {
             .navbar-brand img {
-                height: 30px;
+                height: 38px;
             }
 
             .navbar-container {
-                padding: 0.2rem 0.75rem;
+                padding: 0.5rem 0.75rem;
             }
 
             .navbar-menu {
-                top: 48px;
-                height: calc(100vh - 48px);
-                padding: 0.75rem;
-            }
-
-            .navbar-menu.active {
-                max-height: calc(100vh - 48px);
+                top: 60px;
+                padding: 1rem 0.75rem;
             }
 
             .navbar-menu a,
             .navbar-menu .logout-btn {
                 padding: 0.75rem 0.875rem;
-                font-size: 0.9rem;
-            }
-
-            .cart-nav-btn {
-                padding: 0.4rem;
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -982,81 +769,57 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-
-                {{-- Kolom Brand --}}
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <i class="fa-solid fa-pills" style="color:#7CB342;"></i>
-                        <span><span style="color:#1E88E5;">Medik</span><span style="color:#7CB342;">pedia</span></span>
-                    </div>
-                    <p>Distributor farmasi dan apotik online terpercaya. Produk original, harga kompetitif, pengiriman ke seluruh Indonesia.</p>
-                    <div class="footer-socials">
-                        <a href="#" class="footer-social-btn" title="Facebook" style="--hover:#1877f2;" onmouseover="this.style.background='#1877f2';this.style.color='white';this.style.borderColor='#1877f2'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.06)'">
-                            <i class="fa-brands fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="footer-social-btn" title="Instagram" onmouseover="this.style.background='#e1306c';this.style.color='white';this.style.borderColor='#e1306c'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.06)'">
-                            <i class="fa-brands fa-instagram"></i>
-                        </a>
-                        <a href="https://www.tiktok.com/@medikpedia" target="_blank" class="footer-social-btn" title="TikTok" onmouseover="this.style.background='#010101';this.style.color='white';this.style.borderColor='#010101'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.06)'">
-                            <i class="fa-brands fa-tiktok"></i>
-                        </a>
-                        <a href="https://wa.me/6285890007359" target="_blank" class="footer-social-btn" title="WhatsApp" onmouseover="this.style.background='#25d366';this.style.color='white';this.style.borderColor='#25d366'" onmouseout="this.style.background='rgba(255,255,255,0.08)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.06)'">
-                            <i class="fa-brands fa-whatsapp"></i>
-                        </a>
+                <div>
+                    <h3><i class="fa-solid fa-pills" style="color:#7CB342;"></i> <span style="color:#1E88E5;">Medik</span><span style="color:#7CB342;">pedia</span></h3>
+                    <p style="color:#d1d5db; line-height:1.8; margin-bottom:1.25rem;">Apotik online terpercaya dengan koleksi obat lengkap dan harga terjangkau.</p>
+                    <div style="display:flex; gap:0.75rem;">
+                        <a href="#" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#1877f2'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#e1306c'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/6285890007359" style="width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center;color:white;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='#25d366'" onmouseout="this.style.background='rgba(255,255,255,0.1)'"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
-
-                {{-- Kolom Produk --}}
-                <div class="footer-col">
-                    <h4>Produk</h4>
+                <div>
+                    <h3>Kategori</h3>
                     <ul>
-                        <li><a href="{{ route('products') }}"><i class="fa-solid fa-capsules"></i> Katalog Obat</a></li>
-                        <li><a href="{{ route('news.index') }}"><i class="fa-solid fa-tag"></i> Produk Promo</a></li>
-                        <li><a href="{{ route('farmakologi') }}"><i class="fa-solid fa-book-medical"></i> Farmakologi</a></li>
-                        <li><a href="{{ route('activities.index') }}"><i class="fa-solid fa-camera"></i> Aktivitas</a></li>
+                        <li><a href="#"><i class="fa-solid fa-capsules fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Antibiotik</a></li>
+                        <li><a href="#"><i class="fa-solid fa-tablets fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Vitamin</a></li>
+                        <li><a href="#"><i class="fa-solid fa-flask fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Suplemen</a></li>
                     </ul>
                 </div>
-
-                {{-- Kolom Informasi --}}
-                <div class="footer-col">
-                    <h4>Informasi</h4>
+                <div>
+                    <h3>Informasi</h3>
                     <ul>
-                        <li><a href="{{ route('about') }}"><i class="fa-solid fa-building"></i> Tentang Kami</a></li>
-                        <li><a href="{{ route('contact') }}"><i class="fa-solid fa-headset"></i> Hubungi Kami</a></li>
-                        <li><a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Beranda</a></li>
-                        <li><a href="#"><i class="fa-solid fa-shield-halved"></i> Kebijakan Privasi</a></li>
+                        <li><a href="{{ route('about') }}"><i class="fa-solid fa-building fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Tentang Kami</a></li>
+                        <li><a href="#"><i class="fa-solid fa-headset fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Hubungi Kami</a></li>
+                        <li><a href="#"><i class="fa-solid fa-shield-halved fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Kebijakan Privasi</a></li>
                     </ul>
                 </div>
-
-                {{-- Kolom Kontak --}}
-                <div class="footer-col">
-                    <h4>Kontak Kami</h4>
-                    <div class="footer-contact-item">
-                        <i class="fa-solid fa-phone"></i>
-                        <a href="tel:+6285890007359">0858 9000 7359</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        <a href="https://wa.me/6285890007359" target="_blank">Chat WhatsApp</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <i class="fa-solid fa-envelope"></i>
-                        <a href="mailto:medikpedia.mitramedika@gmail.com">medikpedia.mitramedika<br>@gmail.com</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span>Jl. Letjen Suprapto No.1, Kemayoran, Jakarta Pusat 10640</span>
-                    </div>
+                <div>
+                    <h3>Kontak</h3>
+                    <ul>
+                        <li style="margin-bottom:0.75rem;">
+                            <a href="tel:+6285890007359" style="color:#d1d5db;text-decoration:none;display:flex;align-items:flex-start;gap:0.6rem;">
+                                <i class="fa-solid fa-phone" style="color:#7CB342;margin-top:3px;flex-shrink:0;"></i>
+                                <span>0858 9000 7359</span>
+                            </a>
+                        </li>
+                        <li style="margin-bottom:0.75rem;">
+                            <a href="mailto:medikpedia.mitramedika@gmail.com" style="color:#d1d5db;text-decoration:none;display:flex;align-items:flex-start;gap:0.6rem;">
+                                <i class="fa-solid fa-envelope" style="color:#7CB342;margin-top:3px;flex-shrink:0;"></i>
+                                <span>medikpedia.mitramedika@gmail.com</span>
+                            </a>
+                        </li>
+                        <li>
+                            <span style="color:#d1d5db;display:flex;align-items:flex-start;gap:0.6rem;">
+                                <i class="fa-solid fa-location-dot" style="color:#7CB342;margin-top:3px;flex-shrink:0;"></i>
+                                <span>Jl. Letjen Suprapto No.1, Sumur Batu, Kec. Kemayoran, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10640</span>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
-
             </div>
-
             <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} Medikpedia. Semua hak dilindungi.</p>
-                <div class="footer-bottom-links">
-                    <a href="#">Syarat & Ketentuan</a>
-                    <a href="#">Kebijakan Privasi</a>
-                </div>
+                <p>&copy; 2025 Medikpedia. Semua hak dilindungi.</p>
             </div>
         </div>
     </footer>
@@ -1374,8 +1137,5 @@
             }
         });
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
