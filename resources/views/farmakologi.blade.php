@@ -350,23 +350,30 @@
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 1024px) {
-        .farma-layout { grid-template-columns: 240px 1fr; }
+        .farma-layout { grid-template-columns: 220px 1fr; gap: 1.25rem; }
     }
 
     @media (max-width: 768px) {
-        .farma-layout { grid-template-columns: 1fr; }
-        .farma-sidebar { position: static; }
-        .sidebar-list { max-height: 200px; }
+        .farma-main { padding: 1.75rem 0 3rem; }
+        .farma-layout { grid-template-columns: 1fr; gap: 1rem; }
+        .farma-sidebar { position: static !important; top: auto !important; }
+        .sidebar-list { max-height: 180px; }
         .symptom-row { grid-template-columns: 1fr; gap: 0.5rem; }
         .symptom-header { display: none; }
-        .farma-stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+        .farma-stats { grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+        .farma-stat-card { padding: 0.75rem; }
         .farma-stat-card .num { font-size: 1.3rem; }
+        .disease-card-header { padding: 0.85rem 1rem; }
+        .symptom-row { padding: 0.85rem 1rem; }
     }
 
     @media (max-width: 480px) {
-        .farma-stats { grid-template-columns: 1fr; }
-        .disease-card-header { padding: 0.85rem 1rem; }
-        .symptom-row { padding: 0.85rem 1rem; }
+        .farma-stats { grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
+        .farma-stat-card { padding: 0.6rem 0.5rem; }
+        .farma-stat-card .num { font-size: 1.1rem; }
+        .farma-stat-card .lbl { font-size: 0.68rem; }
+        .obat-tag { font-size: 0.68rem; padding: 0.15rem 0.45rem; }
+        .dosis-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
     }
 </style>
 @endsection

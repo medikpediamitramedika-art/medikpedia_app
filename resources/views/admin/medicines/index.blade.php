@@ -1,185 +1,478 @@
 @extends('layouts.admin')
 
 @section('title', 'Manajemen Obat - Admin Medikpedia')
-@section('page-title', '💊 Manajemen Obat')
+@section('page-title', 'Manajemen Obat')
+
+@section('styles')
+<style>
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .page-header-left h2 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0 0 0.25rem;
+    }
+    .page-header-left p {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin: 0;
+    }
+    .page-header-actions {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+    .btn-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1.1rem;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .btn-icon-primary {
+        background: #1E88E5;
+        color: white;
+    }
+    .btn-icon-primary:hover { background: #1565C0; color: white; transform: translateY(-1px); }
+    .btn-icon-outline {
+        background: white;
+        color: #374151;
+        border: 1px solid #d1d5db;
+    }
+    .btn-icon-outline:hover { background: #f9fafb; border-color: #9ca3af; color: #374151; }
+
+    /* Search bar */
+    .search-card {
+        background: white;
+        border-radius: 0.75rem;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1.25rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        border: 1px solid #f0f0f0;
+    }
+    .search-row {
+        display: flex;
+        gap: 0.75rem;
+        align-items: flex-end;
+        flex-wrap: wrap;
+    }
+    .search-field { flex: 1; min-width: 180px; }
+    .search-field label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #6b7280;
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+    .search-input-wrap { position: relative; }
+    .search-input-wrap i {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 0.85rem;
+    }
+    .search-input-wrap input,
+    .search-input-wrap select {
+        width: 100%;
+        padding: 0.55rem 0.75rem 0.55rem 2.1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        background: #fafafa;
+        transition: all 0.2s;
+        color: #1f2937;
+    }
+    .search-input-wrap select { padding-left: 0.75rem; }
+    .search-input-wrap input:focus,
+    .search-input-wrap select:focus {
+        outline: none;
+        border-color: #1E88E5;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(30,136,229,0.08);
+    }
+    .search-actions { display: flex; gap: 0.5rem; align-items: flex-end; }
+    .btn-search {
+        padding: 0.55rem 1.25rem;
+        background: #1E88E5;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    .btn-search:hover { background: #1565C0; }
+    .btn-reset {
+        padding: 0.55rem 0.9rem;
+        background: white;
+        color: #6b7280;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        transition: all 0.2s;
+    }
+    .btn-reset:hover { background: #f9fafb; color: #374151; }
+
+    /* Table */
+    .data-table-wrap {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        border: 1px solid #f0f0f0;
+        overflow: hidden;
+    }
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.875rem;
+    }
+    .data-table thead tr {
+        background: #f8faff;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    .data-table th {
+        padding: 0.85rem 1rem;
+        text-align: left;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+    }
+    .data-table td {
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        color: #374151;
+        vertical-align: middle;
+    }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover { background: #fafbff; }
+
+    /* Medicine image */
+    .med-img {
+        width: 44px;
+        height: 44px;
+        border-radius: 0.5rem;
+        object-fit: cover;
+        border: 1px solid #e5e7eb;
+    }
+    .med-img-placeholder {
+        width: 44px;
+        height: 44px;
+        border-radius: 0.5rem;
+        background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        border: 1px solid #e5e7eb;
+    }
+
+    /* Medicine name cell */
+    .med-name { font-weight: 600; color: #1f2937; }
+    .med-company { font-size: 0.78rem; color: #9ca3af; margin-top: 0.15rem; }
+
+    /* Stock badge */
+    .stock-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.65rem;
+        border-radius: 20px;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+    .stock-ok    { background: #d1fae5; color: #065f46; }
+    .stock-low   { background: #fef3c7; color: #92400e; }
+    .stock-empty { background: #fee2e2; color: #991b1b; }
+
+    /* Price */
+    .price-text { font-weight: 600; color: #1E88E5; }
+
+    /* Action buttons */
+    .action-wrap { display: flex; gap: 0.4rem; }
+    .btn-edit, .btn-del {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .btn-edit { background: #e3f2fd; color: #1565C0; }
+    .btn-edit:hover { background: #1E88E5; color: white; }
+    .btn-del  { background: #fee2e2; color: #991b1b; }
+    .btn-del:hover  { background: #ef4444; color: white; }
+
+    /* Pagination */
+    .pagination-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 1.25rem;
+        border-top: 1px solid #f3f4f6;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .pagination-info { font-size: 0.8rem; color: #6b7280; }
+    .pagination-pages { display: flex; gap: 0.3rem; }
+    .page-btn {
+        min-width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.4rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        background: white;
+        transition: all 0.2s;
+        padding: 0 0.5rem;
+    }
+    .page-btn:hover { background: #1E88E5; color: white; border-color: #1E88E5; }
+    .page-btn.active { background: #1E88E5; color: white; border-color: #1E88E5; }
+    .page-btn.disabled { background: #f9fafb; color: #d1d5db; cursor: not-allowed; pointer-events: none; }
+
+    /* Empty state */
+    .empty-state {
+        padding: 4rem 2rem;
+        text-align: center;
+        background: white;
+        border-radius: 0.75rem;
+        border: 1px solid #f0f0f0;
+    }
+    .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .empty-state h3 { font-size: 1rem; font-weight: 700; color: #1f2937; margin-bottom: 0.5rem; }
+    .empty-state p { font-size: 0.875rem; color: #6b7280; margin-bottom: 1.5rem; }
+
+    @media (max-width: 768px) {
+        .page-header { flex-direction: column; }
+        .data-table-wrap { overflow-x: auto; }
+        .data-table { min-width: 600px; }
+        .search-row { flex-direction: column; }
+        .search-field { min-width: 100%; }
+    }
+</style>
+@endsection
 
 @section('content')
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-    <div>
-        <p style="color: #6b7280;">Total: <strong>{{ $medicines->total() }} obat</strong>
+
+{{-- Page Header --}}
+<div class="page-header">
+    <div class="page-header-left">
+        <h2><i class="fa-solid fa-pills" style="color:#1E88E5;margin-right:0.4rem;"></i>Daftar Obat</h2>
+        <p>Total <strong>{{ $medicines->total() }}</strong> obat terdaftar
             @if($search || $kategori)
-                <span style="color: #1d4ed8;"> — hasil pencarian</span>
+                &mdash; <span style="color:#1E88E5;">hasil filter aktif</span>
             @endif
         </p>
     </div>
-    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-        <a href="{{ route('admin.medicines.import') }}" class="btn btn-secondary">
-            📥 Import Excel/CSV
+    <div class="page-header-actions">
+        <a href="{{ route('admin.medicines.import') }}" class="btn-icon btn-icon-outline">
+            <i class="fa-solid fa-file-import"></i> Import Excel
         </a>
-        <a href="{{ route('admin.medicines.create') }}" class="btn btn-primary">
-            ➕ Tambah Obat Baru
+        <a href="{{ route('admin.medicines.create') }}" class="btn-icon btn-icon-primary">
+            <i class="fa-solid fa-plus"></i> Tambah Obat
         </a>
     </div>
 </div>
 
 {{-- Search & Filter --}}
-<form method="GET" action="{{ route('admin.medicines.index') }}"
-      style="background: white; padding: 1rem 1.25rem; border-radius: 0.75rem; margin-bottom: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
-
-    <div style="flex: 1; min-width: 200px;">
-        <label style="font-size: 0.8rem; color: #6b7280; display: block; margin-bottom: 0.3rem;">Cari Obat</label>
-        <div style="position: relative;">
-            <span style="position: absolute; left: 0.75rem; top: 50%; transform: translateY(-50%); color: #9ca3af;">🔍</span>
-            <input type="text" name="search" value="{{ $search }}"
-                   placeholder="Nama obat, kategori, deskripsi..."
-                   style="width: 100%; padding: 0.5rem 0.75rem 0.5rem 2.25rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.9rem; outline: none;"
-                   onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#d1d5db'">
+<div class="search-card">
+    <form method="GET" action="{{ route('admin.medicines.index') }}">
+        <div class="search-row">
+            <div class="search-field">
+                <label>Cari Obat</label>
+                <div class="search-input-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" name="search" value="{{ $search }}" placeholder="Nama obat, deskripsi...">
+                </div>
+            </div>
+            <div class="search-field" style="max-width:220px;">
+                <label>Perusahaan</label>
+                <div class="search-input-wrap">
+                    <select name="kategori">
+                        <option value="">Semua Perusahaan</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat }}" {{ $kategori === $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="search-actions">
+                <button type="submit" class="btn-search">
+                    <i class="fa-solid fa-magnifying-glass"></i> Cari
+                </button>
+                @if($search || $kategori)
+                    <a href="{{ route('admin.medicines.index') }}" class="btn-reset">
+                        <i class="fa-solid fa-xmark"></i> Reset
+                    </a>
+                @endif
+            </div>
         </div>
-    </div>
-
-    <div style="min-width: 160px;">
-        <label style="font-size: 0.8rem; color: #6b7280; display: block; margin-bottom: 0.3rem;">Perusahaan</label>
-        <select name="kategori"
-                style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 0.9rem; background: white; outline: none;"
-                onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#d1d5db'">
-            <option value="">Semua Perusahaan</option>
-            @foreach($categories as $cat)
-                <option value="{{ $cat }}" {{ $kategori === $cat ? 'selected' : '' }}>{{ $cat }}</option>
-            @endforeach
-        </select>
-    </div>
-
-    <div style="display: flex; gap: 0.5rem;">
-        <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1.25rem;">
-            Cari
-        </button>
-        @if($search || $kategori)
-            <a href="{{ route('admin.medicines.index') }}" class="btn btn-secondary" style="padding: 0.5rem 1rem;">
-                ✕ Reset
-            </a>
-        @endif
-    </div>
-</form>
+    </form>
+</div>
 
 @if($medicines->count() > 0)
-    <div class="table-container">
-        <table class="table">
+    <div class="data-table-wrap">
+        <table class="data-table">
             <thead>
                 <tr>
-                    <th>Gambar</th>
+                    <th style="width:56px;">Foto</th>
                     <th>Nama Obat</th>
                     <th>Perusahaan</th>
                     <th>Harga</th>
                     <th>Stok</th>
-                    <th>Tanggal Dibuat</th>
-                    <th>Aksi</th>
+                    <th>Ditambahkan</th>
+                    <th style="width:140px;">Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($medicines as $medicine)
-                    <tr>
-                        <td style="width: 50px;">
-                            @if($medicine->gambar)
-                                <img src="{{ asset('storage/' . $medicine->gambar) }}" 
-                                     alt="{{ $medicine->nama_obat }}" 
-                                     style="width: 40px; height: 40px; object-fit: cover; border-radius: 0.25rem;">
-                            @else
-                                <div style="width: 40px; height: 40px; background: #f3f4f6; border-radius: 0.25rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                                    💊
-                                </div>
-                            @endif
-                        </td>
-                        <td>
-                            <strong>{{ $medicine->nama_obat }}</strong>
-                        </td>
-                        <td>{{ $medicine->kategori }}</td>
-                        <td>{{ $medicine->getFormattedPrice() }}</td>
-                        <td>
-                            @if($medicine->stok > 10)
-                                <span style="background: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600;">
-                                    {{ $medicine->stok }}
-                                </span>
-                            @elseif($medicine->stok > 0)
-                                <span style="background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600;">
-                                    {{ $medicine->stok }}
-                                </span>
-                            @else
-                                <span style="background: #fee2e2; color: #7f1d1d; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600;">
-                                    {{ $medicine->stok }}
-                                </span>
-                            @endif
-                        </td>
-                        <td>{{ $medicine->created_at->format('d M Y') }}</td>
-                        <td style="width: 200px;">
-                            <div style="display: flex; gap: 0.5rem;">
-                                <a href="{{ route('admin.medicines.edit', $medicine->id) }}" class="btn btn-secondary btn-sm">
-                                    ✏️ Edit
-                                </a>
-                                <form action="{{ route('admin.medicines.destroy', $medicine->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Yakin ingin menghapus?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">
-                                        🗑️ Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @if($medicine->gambar)
+                            <img src="{{ asset('storage/' . $medicine->gambar) }}"
+                                 alt="{{ $medicine->nama_obat }}" class="med-img">
+                        @else
+                            <div class="med-img-placeholder">💊</div>
+                        @endif
+                    </td>
+                    <td>
+                        <div class="med-name">{{ $medicine->nama_obat }}</div>
+                    </td>
+                    <td>
+                        <span style="font-size:0.82rem;color:#6b7280;">{{ $medicine->kategori }}</span>
+                    </td>
+                    <td>
+                        <span class="price-text">{{ $medicine->getFormattedPrice() }}</span>
+                    </td>
+                    <td>
+                        @if($medicine->stok > 10)
+                            <span class="stock-badge stock-ok">{{ $medicine->stok }}</span>
+                        @elseif($medicine->stok > 0)
+                            <span class="stock-badge stock-low">{{ $medicine->stok }}</span>
+                        @else
+                            <span class="stock-badge stock-empty">Habis</span>
+                        @endif
+                    </td>
+                    <td style="font-size:0.82rem;color:#9ca3af;">
+                        {{ $medicine->created_at->format('d M Y') }}
+                    </td>
+                    <td>
+                        <div class="action-wrap">
+                            <a href="{{ route('admin.medicines.edit', $medicine->id) }}" class="btn-edit">
+                                <i class="fa-solid fa-pen"></i> Edit
+                            </a>
+                            <form action="{{ route('admin.medicines.destroy', $medicine->id) }}" method="POST"
+                                  onsubmit="return confirm('Hapus obat ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-del">
+                                    <i class="fa-solid fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
 
-    <!-- Pagination -->
-    <div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-        <div style="color: #6b7280; font-size: 0.875rem;">
-            Menampilkan {{ $medicines->firstItem() }}–{{ $medicines->lastItem() }} dari {{ $medicines->total() }} obat
-        </div>
-        <div style="display: flex; gap: 0.35rem; align-items: center;">
-            {{-- Prev --}}
-            @if($medicines->onFirstPage())
-                <span style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: #f3f4f6; color: #d1d5db; font-size: 0.875rem; cursor: not-allowed;">‹</span>
-            @else
-                <a href="{{ $medicines->previousPageUrl() }}" style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: white; color: #374151; font-size: 0.875rem; text-decoration: none; border: 1px solid #e5e7eb; transition: all 0.2s;" onmouseover="this.style.background='#1E88E5';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#374151'">‹</a>
-            @endif
-
-            {{-- Page Numbers --}}
-            @foreach($medicines->getUrlRange(1, $medicines->lastPage()) as $page => $url)
-                @if($page == $medicines->currentPage())
-                    <span style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: #1E88E5; color: white; font-size: 0.875rem; font-weight: 600; min-width: 36px; text-align: center;">{{ $page }}</span>
+        {{-- Pagination --}}
+        <div class="pagination-wrap">
+            <div class="pagination-info">
+                Menampilkan {{ $medicines->firstItem() }}–{{ $medicines->lastItem() }} dari {{ $medicines->total() }} obat
+            </div>
+            <div class="pagination-pages">
+                {{-- Prev --}}
+                @if($medicines->onFirstPage())
+                    <span class="page-btn disabled">‹</span>
                 @else
-                    <a href="{{ $url }}" style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: white; color: #374151; font-size: 0.875rem; text-decoration: none; border: 1px solid #e5e7eb; min-width: 36px; text-align: center; transition: all 0.2s;" onmouseover="this.style.background='#1E88E5';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#374151'">{{ $page }}</a>
+                    <a href="{{ $medicines->previousPageUrl() }}" class="page-btn">‹</a>
                 @endif
-            @endforeach
 
-            {{-- Next --}}
-            @if($medicines->hasMorePages())
-                <a href="{{ $medicines->nextPageUrl() }}" style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: white; color: #374151; font-size: 0.875rem; text-decoration: none; border: 1px solid #e5e7eb; transition: all 0.2s;" onmouseover="this.style.background='#1E88E5';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='#374151'">›</a>
-            @else
-                <span style="padding: 0.4rem 0.75rem; border-radius: 0.4rem; background: #f3f4f6; color: #d1d5db; font-size: 0.875rem; cursor: not-allowed;">›</span>
-            @endif
+                @foreach($medicines->getUrlRange(1, $medicines->lastPage()) as $page => $url)
+                    @if(abs($page - $medicines->currentPage()) <= 2 || $page == 1 || $page == $medicines->lastPage())
+                        @if($page == $medicines->currentPage())
+                            <span class="page-btn active">{{ $page }}</span>
+                        @else
+                            <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+                        @endif
+                    @elseif(abs($page - $medicines->currentPage()) == 3)
+                        <span class="page-btn disabled" style="border:none;background:none;">…</span>
+                    @endif
+                @endforeach
+
+                {{-- Next --}}
+                @if($medicines->hasMorePages())
+                    <a href="{{ $medicines->nextPageUrl() }}" class="page-btn">›</a>
+                @else
+                    <span class="page-btn disabled">›</span>
+                @endif
+            </div>
         </div>
     </div>
+
 @else
-    <div style="background: white; padding: 3rem; border-radius: 0.75rem; text-align: center; color: #6b7280;">
+    <div class="empty-state">
         @if($search || $kategori)
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
-            <p>Tidak ada obat yang cocok dengan pencarian <strong>"{{ $search ?: $kategori }}"</strong>.</p>
-            <a href="{{ route('admin.medicines.index') }}" class="btn btn-secondary" style="margin-top: 1rem;">
-                ✕ Hapus Filter
+            <div class="empty-icon">🔍</div>
+            <h3>Tidak ada hasil</h3>
+            <p>Tidak ada obat yang cocok dengan <strong>"{{ $search ?: $kategori }}"</strong>.</p>
+            <a href="{{ route('admin.medicines.index') }}" class="btn-icon btn-icon-outline">
+                <i class="fa-solid fa-xmark"></i> Hapus Filter
             </a>
         @else
-            <div style="font-size: 2rem; margin-bottom: 1rem;">📦</div>
-            <p>Belum ada obat.</p>
-            <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
-                <a href="{{ route('admin.medicines.import') }}" class="btn btn-secondary">
-                    📥 Import Excel/CSV
+            <div class="empty-icon">💊</div>
+            <h3>Belum ada obat</h3>
+            <p>Mulai tambahkan obat atau import dari file Excel/CSV.</p>
+            <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
+                <a href="{{ route('admin.medicines.import') }}" class="btn-icon btn-icon-outline">
+                    <i class="fa-solid fa-file-import"></i> Import Excel
                 </a>
-                <a href="{{ route('admin.medicines.create') }}" class="btn btn-primary">
-                    ➕ Tambah Obat Pertama
+                <a href="{{ route('admin.medicines.create') }}" class="btn-icon btn-icon-primary">
+                    <i class="fa-solid fa-plus"></i> Tambah Obat
                 </a>
             </div>
         @endif
     </div>
 @endif
+
 @endsection

@@ -393,6 +393,8 @@
     @media (max-width: 768px) {
         .news-filter-bar {
             flex-direction: column;
+            padding: 1rem;
+            gap: 0.75rem;
         }
 
         .filter-group {
@@ -402,6 +404,21 @@
 
         .news-grid {
             grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+
+        .news-image {
+            height: 180px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .news-body {
+            padding: 1rem;
+        }
+
+        .news-title {
+            font-size: 0.95rem;
         }
     }
 </style>

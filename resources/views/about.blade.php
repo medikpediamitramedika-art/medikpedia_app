@@ -114,9 +114,19 @@
     }
     .cta-btn:hover { background: #1ebe5d; transform: translateY(-2px); color: white; box-shadow: 0 6px 20px rgba(37,211,102,0.4); }
 
-    @media (max-width: 640px) {
-        .vm-grid { grid-template-columns: 1fr; }
-        .section-card { padding: 1.5rem; }
+    @media (max-width: 768px) {
+        .about-main { padding: 1.75rem 0 3rem; }
+        .vm-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+        .section-card { padding: 1.25rem; }
+        .cta-box { padding: 1.5rem 1.25rem; }
+    }
+
+    @media (max-width: 480px) {
+        .section-card { padding: 1rem; }
+        .stat-box .num { font-size: 1.4rem; }
+        .stat-box { padding: 1rem; }
+        .values-grid { grid-template-columns: repeat(2, 1fr); }
+        .cta-box h3 { font-size: 1.1rem; }
     }
 </style>
 @endsection

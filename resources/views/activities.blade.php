@@ -137,9 +137,19 @@
     .page-btn.active { background: #1E88E5; color: white; border-color: #1E88E5; font-weight: 700; }
     .page-btn.disabled { background: #f3f4f6; color: #d1d5db; cursor: not-allowed; pointer-events: none; }
 
-    @media (max-width: 640px) {
-        .photo-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.75rem; }
-        .photo-wrap { height: 160px; }
+    @media (max-width: 768px) {
+        .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+        .photo-wrap { height: 170px; }
+        .lightbox-inner img { max-height: 60vh; }
+        .lightbox-close { top: -2rem; font-size: 1.5rem; }
+    }
+
+    @media (max-width: 480px) {
+        .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+        .photo-wrap { height: 130px; }
+        .photo-body { padding: 0.65rem 0.75rem; }
+        .photo-title { font-size: 0.85rem; }
+        .photo-desc { display: none; }
     }
 </style>
 @endsection

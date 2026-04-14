@@ -138,8 +138,17 @@
     .map-wrap { border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border: 1px solid #e5e7eb; }
 
     @media (max-width: 768px) {
-        .contact-grid { grid-template-columns: 1fr; }
-        .form-row { grid-template-columns: 1fr; }
+        .contact-main { padding: 1.75rem 0 3rem; }
+        .contact-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+        .form-row { grid-template-columns: 1fr; gap: 0; }
+        .form-card { padding: 1.25rem; }
+        .info-card { padding: 1.25rem; }
+    }
+
+    @media (max-width: 480px) {
+        .form-group textarea { min-height: 100px; }
+        .map-wrap iframe { height: 240px; }
+        .social-btn { width: 34px; height: 34px; font-size: 0.9rem; }
     }
 </style>
 @endsection
