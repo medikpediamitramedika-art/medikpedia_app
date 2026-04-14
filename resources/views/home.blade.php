@@ -12,7 +12,7 @@
         align-items: center;
         position: relative;
         overflow: hidden;
-        padding: 4rem 0;
+        padding: 6rem 0 4rem;
     }
 
     .hero-section::before {
@@ -876,7 +876,7 @@
     }
 
     @media (max-width: 768px) {
-        .hero-section { min-height: 100vh; padding: 5rem 0 3rem; }
+        .hero-section { min-height: 100vh; padding: 7rem 0 3rem; }
         .hero-visual { height: 100%; min-height: 300px; }
         .main-hero-image {
             width: 55%;
@@ -915,7 +915,7 @@
     }
 
     @media (max-width: 480px) {
-        .hero-section { padding: 4.5rem 0 3rem; min-height: 100vh; }
+        .hero-section { padding: 6.5rem 0 3rem; min-height: 100vh; }
         .hero-visual { height: 100%; min-height: 260px; }
         .main-hero-image {
             width: 48%;
