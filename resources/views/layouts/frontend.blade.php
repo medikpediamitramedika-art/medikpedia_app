@@ -864,15 +864,17 @@
         @media (max-width: 768px) {
             .float-links {
                 display:flex; flex-direction:column; align-items:flex-end; gap:0.75rem;
-                overflow:hidden; max-height:0; transition:max-height 0.4s ease, opacity 0.3s;
-                opacity:0;
+                overflow:hidden; max-height:0; transition:max-height 0.45s ease, opacity 0.35s;
+                opacity:0; pointer-events:none;
             }
-            .float-links.open { max-height:500px; opacity:1; }
+            .float-links.open {
+                max-height:600px; opacity:1; pointer-events:auto;
+            }
             .float-wrap { gap:0.6rem; align-items:flex-end; }
             .float-btn { width:50px !important; height:50px !important; font-size:1.4rem !important; }
             .float-btn-wa { width:50px !important; height:50px !important; font-size:1.6rem !important; margin-top:0; }
             .float-toggle { display:flex; }
-            .float-item { gap:0.5rem; }
+            .float-item { gap:0.5rem; flex-direction:row; align-items:center; }
             .float-label-mobile {
                 background:#1f2937; color:white; font-size:0.72rem; font-weight:600;
                 padding:0.25rem 0.6rem; border-radius:8px; white-space:nowrap;
@@ -949,19 +951,22 @@
             links.classList.toggle('open');
             toggle.classList.toggle('open');
         }
-        // Desktop: selalu tampil
+        // Desktop: selalu tampil — jangan pakai inline style agar tidak override CSS
         function checkFloatDesktop() {
             const links = document.getElementById('floatLinks');
             if (window.innerWidth > 768) {
+                // Hapus semua inline style supaya CSS desktop berlaku
                 links.style.maxHeight = '';
                 links.style.opacity   = '';
                 links.style.overflow  = '';
-                links.style.display   = 'flex';
+                links.style.display   = '';
+                links.classList.remove('open');
             } else {
-                if (!links.classList.contains('open')) {
-                    links.style.maxHeight = '0';
-                    links.style.opacity   = '0';
-                }
+                // Mobile: biarkan CSS yang mengatur via class .open
+                links.style.maxHeight = '';
+                links.style.opacity   = '';
+                links.style.overflow  = '';
+                links.style.display   = '';
             }
         }
         checkFloatDesktop();
