@@ -795,14 +795,14 @@ html, body {
     }
 
     .navbar-menu {
-        top: 54px;
-        height: calc(100vh - 54px);
+        top: 48px;
+        height: calc(100vh - 48px);
         max-height: 0;
         padding: 0.75rem;
     }
 
     .navbar-menu.active {
-        max-height: calc(100vh - 54px);
+        max-height: calc(100vh - 48px);
     }
 
     .navbar-menu a,

@@ -669,7 +669,7 @@
             }
 
             .navbar-container {
-                padding: 0.45rem 1rem;
+                padding: 0.25rem 1rem;
                 gap: 0.5rem;
             }
 
@@ -680,9 +680,9 @@
             .navbar-menu {
                 position: fixed;
                 left: 0;
-                top: 58px;
+                top: 52px;
                 width: 100%;
-                height: calc(100vh - 58px);
+                height: calc(100vh - 52px);
                 background: linear-gradient(135deg, #1565C0 0%, #1976D2 50%, #1E88E5 100%);
                 flex-direction: column;
                 justify-content: flex-start;
@@ -696,7 +696,7 @@
             }
 
             .navbar-menu.active {
-                max-height: calc(100vh - 58px);
+                max-height: calc(100vh - 52px);
             }
 
             .navbar-menu li {
@@ -740,17 +740,17 @@
             }
 
             .navbar-container {
-                padding: 0.4rem 0.75rem;
+                padding: 0.2rem 0.75rem;
             }
 
             .navbar-menu {
-                top: 54px;
-                height: calc(100vh - 54px);
+                top: 48px;
+                height: calc(100vh - 48px);
                 padding: 0.75rem;
             }
 
             .navbar-menu.active {
-                max-height: calc(100vh - 54px);
+                max-height: calc(100vh - 48px);
             }
 
             .navbar-menu a,
