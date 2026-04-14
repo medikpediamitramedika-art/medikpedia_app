@@ -200,6 +200,90 @@
             pointer-events: none;
             z-index: 0;
         }
+
+        /* ===== PARTIKEL STATIS ===== */
+        .med-particles {
+            position: fixed;
+            top: 65px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .mp {
+            position: absolute;
+            transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
+            opacity: var(--o, 0.25);
+        }
+
+        .mp-capsule {
+            width: 60px; height: 26px;
+            border-radius: 13px;
+            background: linear-gradient(90deg, #1E88E5 50%, #7CB342 50%);
+            box-shadow: 0 2px 8px rgba(30,136,229,0.25), inset 0 1px 3px rgba(255,255,255,0.4);
+        }
+
+        .mp-tablet {
+            width: 42px; height: 26px;
+            border-radius: 13px;
+            background: #bbdefb;
+            border: 2.5px solid #42a5f5;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(66,165,245,0.2);
+        }
+        .mp-tablet::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 18%; right: 18%;
+            height: 2px;
+            background: #42a5f5;
+            transform: translateY(-50%);
+            border-radius: 1px;
+        }
+
+        .mp-pill {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #ffffff, #66bb6a);
+            border: 2px solid rgba(102,187,106,0.6);
+            box-shadow: 0 2px 8px rgba(124,179,66,0.25);
+        }
+
+        .mp-cross {
+            width: 28px; height: 28px;
+            position: relative;
+            filter: drop-shadow(0 2px 4px rgba(30,136,229,0.3));
+        }
+        .mp-cross::before,
+        .mp-cross::after {
+            content: '';
+            position: absolute;
+            background: #1E88E5;
+            border-radius: 3px;
+        }
+        .mp-cross::before {
+            width: 10px; height: 28px;
+            left: 50%; transform: translateX(-50%);
+        }
+        .mp-cross::after {
+            width: 28px; height: 10px;
+            top: 50%; transform: translateY(-50%);
+        }
+
+        .mp-icon {
+            font-size: 1.6rem;
+            color: #1565C0;
+            transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
+            filter: drop-shadow(0 2px 4px rgba(21,101,192,0.2));
+        }
+
+        /* Variasi warna ikon */
+        .mp-icon:nth-child(odd)  { color: #388e3c; }
+        .mp-icon:nth-child(3n)   { color: #0288d1; }
+        .mp-icon:nth-child(4n)   { color: #1976d2; }
     </style>
     
     <style>
@@ -217,22 +301,35 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 16px;
+            line-height: 1;
+        }
+
         html {
             scroll-behavior: smooth;
+            background: linear-gradient(160deg, #dbeafe 0%, #ede9fe 35%, #d1fae5 70%, #dbeafe 100%);
+            background-attachment: fixed;
+            min-height: 100%;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(160deg, #dbeafe 0%, #ede9fe 35%, #d1fae5 70%, #dbeafe 100%);
-            background-attachment: fixed;
+            background: transparent;
             min-height: 100vh;
             color: var(--dark);
         }
 
         /* Semua konten di atas canvas */
-        .navbar, main, footer, .float-wrap {
+        main, footer {
             position: relative;
             z-index: 1;
+        }
+        .float-wrap {
+            position: relative;
+            z-index: 999;
         }
         /* Cart dan overlay harus di atas segalanya */
         #cartDrawer, .cart-overlay {
@@ -271,11 +368,18 @@
         .navbar {
             background: linear-gradient(135deg, #1565C0 0%, #1976D2 50%, #1E88E5 100%);
             box-shadow: 0 4px 20px rgba(13, 71, 161, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 0;
-            position: sticky;
+            padding: 0;
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            right: 0;
+            margin: 0 !important;
+            z-index: 1000;
             border-bottom: 2px solid rgba(124, 179, 66, 0.4);
+        }
+
+        body {
+            padding-top: var(--navbar-height, 65px);
         }
 
         .navbar-container {
@@ -386,7 +490,7 @@
             cursor: pointer;
             background: none;
             border: none;
-            z-index: 101;
+            z-index: 1001;
             padding: 0.5rem;
         }
 
@@ -495,28 +599,28 @@
             .navbar-menu {
                 position: fixed;
                 left: 0;
-                top: 65px;
+                top: var(--navbar-height, 56px);
                 width: 100%;
-                height: calc(100vh - 65px);
                 background: linear-gradient(135deg, #1565C0 0%, #1976D2 50%, #1E88E5 100%);
                 flex-direction: column;
                 justify-content: flex-start;
                 gap: 0;
-                padding: 1.5rem 1rem;
+                padding: 0 1rem;
                 max-height: 0;
-                overflow-y: auto;
-                overflow-x: hidden;
-                transition: max-height 0.3s ease;
-                z-index: 100;
+                overflow: hidden;
+                transition: max-height 0.35s ease, padding 0.35s ease;
+                z-index: 999;
+                box-shadow: 0 8px 24px rgba(13,71,161,0.35);
             }
 
             .navbar-menu.active {
                 max-height: 100vh;
+                padding: 1rem 1rem 1.5rem;
             }
 
             .navbar-menu li {
                 width: 100%;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.25rem;
             }
 
             .navbar-menu a,
@@ -541,8 +645,11 @@
             }
 
             .navbar-menu {
-                top: 60px;
-                padding: 1rem 0.75rem;
+                padding: 0 0.75rem;
+            }
+
+            .navbar-menu.active {
+                padding: 0.75rem 0.75rem 1.25rem;
             }
 
             .navbar-menu a,
@@ -608,94 +715,6 @@
         <i class="mp mp-icon fa-solid fa-virus"         style="top:85%;left:8%;--s:0.95;--o:0.25;"></i>
     </div>
 
-    <style>
-        /* ===== PARTIKEL STATIS ===== */
-        .med-particles {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        /* Base semua partikel */
-        .mp {
-            position: absolute;
-            transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
-            opacity: var(--o, 0.25);
-        }
-
-        /* Kapsul dua warna */
-        .mp-capsule {
-            width: 60px; height: 26px;
-            border-radius: 13px;
-            background: linear-gradient(90deg, #1E88E5 50%, #7CB342 50%);
-            box-shadow: 0 2px 8px rgba(30,136,229,0.25), inset 0 1px 3px rgba(255,255,255,0.4);
-        }
-
-        /* Tablet oval */
-        .mp-tablet {
-            width: 42px; height: 26px;
-            border-radius: 13px;
-            background: #bbdefb;
-            border: 2.5px solid #42a5f5;
-            position: relative;
-            box-shadow: 0 2px 8px rgba(66,165,245,0.2);
-        }
-        .mp-tablet::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 18%; right: 18%;
-            height: 2px;
-            background: #42a5f5;
-            transform: translateY(-50%);
-            border-radius: 1px;
-        }
-
-        /* Pil bulat */
-        .mp-pill {
-            width: 24px; height: 24px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #ffffff, #66bb6a);
-            border: 2px solid rgba(102,187,106,0.6);
-            box-shadow: 0 2px 8px rgba(124,179,66,0.25);
-        }
-
-        /* Tanda plus medis */
-        .mp-cross {
-            width: 28px; height: 28px;
-            position: relative;
-            filter: drop-shadow(0 2px 4px rgba(30,136,229,0.3));
-        }
-        .mp-cross::before,
-        .mp-cross::after {
-            content: '';
-            position: absolute;
-            background: #1E88E5;
-            border-radius: 3px;
-        }
-        .mp-cross::before {
-            width: 10px; height: 28px;
-            left: 50%; transform: translateX(-50%);
-        }
-        .mp-cross::after {
-            width: 28px; height: 10px;
-            top: 50%; transform: translateY(-50%);
-        }
-
-        /* Ikon Font Awesome */
-        .mp-icon {
-            font-size: 1.6rem;
-            color: #1565C0;
-            transform: rotate(var(--r, 0deg)) scale(var(--s, 1));
-            filter: drop-shadow(0 2px 4px rgba(21,101,192,0.2));
-        }
-
-        /* Variasi warna ikon */
-        .mp-icon:nth-child(odd)  { color: #388e3c; }
-        .mp-icon:nth-child(3n)   { color: #0288d1; }
-        .mp-icon:nth-child(4n)   { color: #1976d2; }
-    </style>
     <nav class="navbar">
         <div class="navbar-container">
             <a href="{{ route('home') }}" class="navbar-brand">
@@ -1120,7 +1139,17 @@
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const navbarMenu = document.getElementById('navbarMenu');
 
+        function setNavbarHeight() {
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                document.documentElement.style.setProperty('--navbar-height', navbar.offsetHeight + 'px');
+            }
+        }
+        setNavbarHeight();
+        window.addEventListener('resize', setNavbarHeight);
+
         hamburgerBtn.addEventListener('click', () => {
+            setNavbarHeight();
             hamburgerBtn.classList.toggle('active');
             navbarMenu.classList.toggle('active');
         });
