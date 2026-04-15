@@ -18,11 +18,13 @@ class Medicine extends Model
         'stok',
         'deskripsi',
         'gambar',
+        'is_resep',
     ];
 
     protected $casts = [
-        'harga' => 'decimal:2',
-        'stok' => 'integer',
+        'harga'    => 'decimal:2',
+        'stok'     => 'integer',
+        'is_resep' => 'boolean',
     ];
 
     // Scope untuk pencarian

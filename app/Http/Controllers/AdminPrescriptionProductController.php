@@ -1,0 +1,178 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Medicine;
+use App\Constants\Companies;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
+class AdminPrescriptionProductController extends Controller
+{
+    private array $companies = Companies::LIST;
+
+    // List produk resep
+    public function index(Request $request)
+    {
+        $search   = $request->input('search');
+        $kategori = $request->input('kategori');
+
+        $query = Medicine::where('is_resep', true)->latest();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_obat', 'like', "%{$search}%")
+                  ->orWhere('kategori', 'like', "%{$search}%")
+                  ->orWhere('deskripsi', 'like', "%{$search}%");
+            });
+        }
+
+        if ($kategori) {
+            $query->where('kategori', $kategori);
+        }
+
+        $medicines  = $query->paginate(10)->withQueryString();
+        $categories = Companies::LIST;
+
+        return view('admin.prescriptions.products.index', compact('medicines', 'search', 'kategori', 'categories'));
+    }
+
+    // Form tambah produk resep
+    public function create()
+    {
+        return view('admin.prescriptions.products.create', ['categories' => $this->companies]);
+    }
+
+    // Simpan produk resep baru
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_obat' => ['required', 'string', 'max:255'],
+            'kategori'  => ['required', 'string'],
+            'harga'     => ['required', 'numeric', 'min:0'],
+            'stok'      => ['required', 'integer', 'min:0'],
+            'komposisi' => ['required', 'string', 'max:255'],
+            'indikasi'  => ['required', 'string', 'max:255'],
+            'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+        ]);
+
+        // Gabung komposisi dan indikasi untuk deskripsi
+        $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
+        
+        // Hapus field yang tidak perlu di database
+        unset($validated['komposisi']);
+        unset($validated['indikasi']);
+
+        $validated['is_resep'] = true;
+
+        // Handle upload gambar
+        if ($request->hasFile('gambar')) {
+            $image     = $request->file('gambar');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/medicines', $imageName);
+            $validated['gambar'] = 'medicines/' . $imageName;
+        }
+
+        Medicine::create($validated);
+
+        return redirect()->route('admin.prescriptions.products.index')
+                       ->with('success', 'Produk resep berhasil ditambahkan!');
+    }
+
+    // Form edit produk resep
+    public function edit(Medicine $product)
+    {
+        if (!$product->is_resep) {
+            abort(404);
+        }
+
+        return view('admin.prescriptions.products.edit', [
+            'medicine'   => $product,
+            'categories' => $this->companies,
+        ]);
+    }
+
+    // Update produk resep
+    public function update(Request $request, Medicine $product)
+    {
+        if (!$product->is_resep) {
+            abort(404);
+        }
+
+        $validated = $request->validate([
+            'nama_obat' => ['required', 'string', 'max:255'],
+            'kategori'  => ['required', 'string'],
+            'harga'     => ['required', 'numeric', 'min:0'],
+            'stok'      => ['required', 'integer', 'min:0'],
+            'komposisi' => ['required', 'string', 'max:255'],
+            'indikasi'  => ['required', 'string', 'max:255'],
+            'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+        ]);
+
+        // Gabung komposisi dan indikasi untuk deskripsi
+        $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
+        
+        // Hapus field yang tidak perlu di database
+        unset($validated['komposisi']);
+        unset($validated['indikasi']);
+
+        $validated['is_resep'] = true;
+
+        // Handle upload gambar baru
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama
+            if ($product->gambar) {
+                Storage::delete('public/' . $product->gambar);
+            }
+
+            // Upload gambar baru
+            $image = $request->file('gambar');
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/medicines', $imageName);
+            $validated['gambar'] = 'medicines/' . $imageName;
+        } elseif ($request->boolean('delete_gambar') && $product->gambar) {
+            // Hapus foto tanpa upload baru
+            Storage::delete('public/' . $product->gambar);
+            $validated['gambar'] = null;
+        }
+
+        $product->update($validated);
+
+        return redirect()->route('admin.prescriptions.products.index')
+                       ->with('success', 'Produk resep berhasil diupdate!');
+    }
+
+    // Hapus produk resep
+    public function destroy(Medicine $product)
+    {
+        if (!$product->is_resep) {
+            abort(404);
+        }
+
+        // Hapus gambar
+        if ($product->gambar) {
+            Storage::delete('public/' . $product->gambar);
+        }
+
+        $product->delete();
+
+        return redirect()->route('admin.prescriptions.products.index')
+                       ->with('success', 'Produk resep berhasil dihapus!');
+    }
+
+    // Update stok produk resep
+    public function updateStock(Request $request, Medicine $product)
+    {
+        if (!$product->is_resep) {
+            abort(404);
+        }
+
+        $validated = $request->validate([
+            'stok' => ['required', 'integer', 'min:0'],
+        ]);
+
+        $product->update(['stok' => $validated['stok']]);
+
+        return back()->with('success', 'Stok produk resep berhasil diupdate!');
+    }
+}

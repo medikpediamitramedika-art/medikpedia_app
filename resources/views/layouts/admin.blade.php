@@ -617,13 +617,13 @@
                 <li>
                     <a href="{{ route('admin.medicines.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.medicines')) active @endif">
                         <span>💊</span>
-                        <span>Manajemen Obat</span>
+                        <span>Produk Biasa</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.news.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.news')) active @endif">
-                        <span>🏷️</span>
-                        <span>Produk Promo</span>
+                    <a href="{{ route('admin.prescriptions.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.prescriptions')) active @endif">
+                        <span>📋</span>
+                        <span>Produk Resep</span>
                     </a>
                 </li>
                 <li>
@@ -705,11 +705,11 @@
             </a>
             <a href="{{ route('admin.medicines.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.medicines')) active @endif">
                 <span>💊</span>
-                <span>Obat</span>
+                <span>Biasa</span>
             </a>
-            <a href="{{ route('admin.news.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.news')) active @endif">
-                <span>🏷️</span>
-                <span>Promo</span>
+            <a href="{{ route('admin.prescriptions.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.prescriptions')) active @endif">
+                <span>📋</span>
+                <span>Resep</span>
             </a>
             <a href="{{ route('admin.activities.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.activities')) active @endif">
                 <span>📸</span>

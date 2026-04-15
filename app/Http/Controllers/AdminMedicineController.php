@@ -15,6 +15,7 @@ class AdminMedicineController extends Controller
     {
         $search   = $request->input('search');
         $kategori = $request->input('kategori');
+        $tipe     = $request->input('tipe'); // 'biasa' atau 'resep'
 
         $query = Medicine::latest();
 
@@ -30,10 +31,16 @@ class AdminMedicineController extends Controller
             $query->where('kategori', $kategori);
         }
 
+        if ($tipe === 'resep') {
+            $query->where('is_resep', true);
+        } elseif ($tipe === 'biasa') {
+            $query->where('is_resep', false);
+        }
+
         $medicines  = $query->paginate(10)->withQueryString();
         $categories = Companies::LIST;
 
-        return view('admin.medicines.index', compact('medicines', 'search', 'kategori', 'categories'));
+        return view('admin.medicines.index', compact('medicines', 'search', 'kategori', 'tipe', 'categories'));
     }
 
     // Form tambah obat
@@ -47,16 +54,29 @@ class AdminMedicineController extends Controller
     {
         $validated = $request->validate([
             'nama_obat' => ['required', 'string', 'max:255'],
-            'kategori' => ['required', 'string'],
-            'harga' => ['required', 'numeric', 'min:0'],
-            'stok' => ['required', 'integer', 'min:0'],
-            'deskripsi' => ['required', 'string'],
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'kategori'  => ['required', 'string'],
+            'harga'     => ['required', 'numeric', 'min:0'],
+            'stok'      => ['required', 'integer', 'min:0'],
+            'komposisi' => ['required', 'string', 'max:255'],
+            'indikasi'  => ['required', 'string', 'max:255'],
+            'golongan'  => ['required', 'in:BEBAS,KERAS'],
+            'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
         ]);
+
+        // Tentukan is_resep berdasarkan golongan
+        $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        
+        // Gabung komposisi dan indikasi untuk deskripsi
+        $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
+        
+        // Hapus field yang tidak perlu di database
+        unset($validated['komposisi']);
+        unset($validated['indikasi']);
+        unset($validated['golongan']);
 
         // Handle upload gambar
         if ($request->hasFile('gambar')) {
-            $image = $request->file('gambar');
+            $image     = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
@@ -82,12 +102,25 @@ class AdminMedicineController extends Controller
     {
         $validated = $request->validate([
             'nama_obat' => ['required', 'string', 'max:255'],
-            'kategori' => ['required', 'string'],
-            'harga' => ['required', 'numeric', 'min:0'],
-            'stok' => ['required', 'integer', 'min:0'],
-            'deskripsi' => ['required', 'string'],
-            'gambar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'kategori'  => ['required', 'string'],
+            'harga'     => ['required', 'numeric', 'min:0'],
+            'stok'      => ['required', 'integer', 'min:0'],
+            'komposisi' => ['required', 'string', 'max:255'],
+            'indikasi'  => ['required', 'string', 'max:255'],
+            'golongan'  => ['required', 'in:BEBAS,KERAS'],
+            'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
         ]);
+
+        // Tentukan is_resep berdasarkan golongan
+        $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        
+        // Gabung komposisi dan indikasi untuk deskripsi
+        $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
+        
+        // Hapus field yang tidak perlu di database
+        unset($validated['komposisi']);
+        unset($validated['indikasi']);
+        unset($validated['golongan']);
 
         // Handle upload gambar baru
         if ($request->hasFile('gambar')) {
@@ -101,6 +134,10 @@ class AdminMedicineController extends Controller
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
+        } elseif ($request->boolean('delete_gambar') && $medicine->gambar) {
+            // Hapus foto tanpa upload baru
+            Storage::delete('public/' . $medicine->gambar);
+            $validated['gambar'] = null;
         }
 
         $medicine->update($validated);

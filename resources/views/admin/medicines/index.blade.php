@@ -359,6 +359,7 @@
                     <th>Perusahaan</th>
                     <th>Harga</th>
                     <th>Stok</th>
+                    <th>Tipe</th>
                     <th>Ditambahkan</th>
                     <th style="width:140px;">Aksi</th>
                 </tr>
@@ -390,6 +391,17 @@
                             <span class="stock-badge stock-low">{{ $medicine->stok }}</span>
                         @else
                             <span class="stock-badge stock-empty">Habis</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($medicine->is_resep)
+                            <span style="display:inline-block;background:#fef3c7;color:#92400e;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;font-weight:700;">
+                                <i class="fa-solid fa-file-prescription"></i> Resep
+                            </span>
+                        @else
+                            <span style="display:inline-block;background:#e3f2fd;color:#1565C0;padding:0.2rem 0.6rem;border-radius:20px;font-size:0.7rem;font-weight:700;">
+                                <i class="fa-solid fa-pills"></i> Biasa
+                            </span>
                         @endif
                     </td>
                     <td style="font-size:0.82rem;color:#9ca3af;">

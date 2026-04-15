@@ -21,12 +21,12 @@ class AdminMedicineImportController extends Controller
             'Cache-Control'       => 'max-age=0',
         ];
 
-        $columns = ['nama_obat', 'perusahaan', 'harga', 'stok', 'deskripsi'];
+        $columns = ['PABRIK', 'NAMA PRODUK', 'RETAIL', 'STOK', 'KOMPOSISI', 'INDIKASI', 'GOLONGAN'];
 
         $contohData = [
-            ['Paracetamol 500mg',  'KIMIA FARMA',  5000,  100, 'Obat pereda nyeri dan demam'],
-            ['Amoxicillin 500mg',  'KALBE',        15000,  50, 'Antibiotik untuk infeksi bakteri'],
-            ['Vitamin C 1000mg',   'SANBE',         8000, 200, 'Suplemen vitamin C untuk daya tahan tubuh'],
+            ['KIMIA FARMA',  'Paracetamol 500mg',  5000,  100, 'Paracetamol 500 mg', 'Demam & nyeri', 'BEBAS'],
+            ['KALBE',        'Amoxicillin 500mg',  15000,  50, 'Amoxicillin 500 mg', 'Infeksi bakteri', 'KERAS'],
+            ['SANBE',        'Vitamin C 1000mg',   8000,  200, 'Vitamin C 1000 mg', 'Suplemen vitamin C', 'BEBAS'],
         ];
 
         $xml = $this->buildExcelXml($columns, $contohData);
@@ -68,7 +68,7 @@ class AdminMedicineImportController extends Controller
         $xml .= '<Table ss:DefaultRowHeight="20">';
 
         // Lebar kolom
-        $widths = [180, 120, 80, 60, 300];
+        $widths = [120, 180, 80, 60, 150, 200, 80];
         foreach ($widths as $w) {
             $xml .= '<Column ss:Width="' . $w . '"/>';
         }
@@ -84,7 +84,7 @@ class AdminMedicineImportController extends Controller
         foreach ($rows as $row) {
             $xml .= '<Row ss:Height="20">';
             foreach ($row as $i => $val) {
-                // kolom harga (index 2) dan stok (index 3) sebagai Number
+                // kolom RETAIL (index 2) dan STOK (index 3) sebagai Number
                 if ($i === 2 || $i === 3) {
                     $xml .= '<Cell ss:StyleID="number"><Data ss:Type="Number">' . (int)$val . '</Data></Cell>';
                 } else {
@@ -97,7 +97,7 @@ class AdminMedicineImportController extends Controller
         $xml .= '</Table>';
 
         // Auto-filter pada header
-        $xml .= '<AutoFilter x:Range="R1C1:R1C5" xmlns="urn:schemas-microsoft-com:office:excel"/>';
+        $xml .= '<AutoFilter x:Range="R1C1:R1C7" xmlns="urn:schemas-microsoft-com:office:excel"/>';
 
         $xml .= '</Worksheet>';
 
@@ -110,22 +110,13 @@ class AdminMedicineImportController extends Controller
             [''],
             ['1. Isi data di sheet "Data Obat"'],
             ['2. Jangan ubah nama kolom di baris pertama'],
-            ['3. Kolom nama_obat  : Nama lengkap obat (wajib)'],
-            ['4. Kolom perusahaan : Nama perusahaan farmasi (wajib), pilih salah satu:'],
-            ['   ACTAVIS, ALTAMED, BALATIF, BERLICO, BERNOFARM, BUFA, CAPLANG,'],
-            ['   CASPER, CIUBROS CITO, COMBIPHAR, CORONET, CORSA, DARYA VARIA,'],
-            ['   DEXA, DIPA, ERELA, ERLIMPEX, ERRITA, ESCOLAB, FAHRENHEIT,'],
-            ['   FUTAMED, GALENIUM, GMP, GRAHA, GSK, HARSEN, HEXPARM JAYA,'],
-            ['   HISAMITSU, HOLI, HUFA, IFARS, IFI, INDOFARMA, INTERBAT,'],
-            ['   ITRASAL, KALBE, KIMIA FARMA, KONIMEX, LANDSON, LAPI, MAHAKAM,'],
-            ['   MEDIKA, MEDIKON, MEF, MEGA, MEIJI, MEPRO, MERCK, MERSI,'],
-            ['   META RATNA, MOLEX AYUS, MULIA, MUTIFA, NICHOLAST, NOVAPHARIN,'],
-            ['   NOVEL, NUFARINDO, PHAROS, PIM, PYRIDAM, RAMA, SAMCO,'],
-            ['   SAMPHARINDO, SANBE, SELES, SINDE, STERLING, SYNERGY, TAISHO,'],
-            ['   TAKEDA, TEMPO SCAN, TIA, TRIFA, TRIMAN, TROPICA, WIDATRA, ZENITH'],
-            ['5. Kolom harga      : Angka saja, tanpa Rp atau titik (contoh: 5000)'],
-            ['6. Kolom stok       : Angka saja (contoh: 100)'],
-            ['7. Kolom deskripsi  : Deskripsi singkat obat (wajib)'],
+            ['3. Kolom PABRIK      : Nama perusahaan farmasi (wajib)'],
+            ['4. Kolom NAMA PRODUK : Nama lengkap obat (wajib)'],
+            ['5. Kolom RETAIL      : Harga retail (angka saja, tanpa Rp)'],
+            ['6. Kolom STOK        : Jumlah stok awal (angka, boleh 0)'],
+            ['7. Kolom KOMPOSISI   : Komposisi/kandungan obat (wajib)'],
+            ['8. Kolom INDIKASI    : Kegunaan/indikasi obat (wajib)'],
+            ['9. Kolom GOLONGAN    : BEBAS atau KERAS (wajib)'],
             [''],
             ['Setelah diisi, simpan sebagai CSV lalu upload di halaman Import.'],
         ];
@@ -184,31 +175,34 @@ class AdminMedicineImportController extends Controller
 
         // Hapus BOM jika ada
         $content = preg_replace('/^\xEF\xBB\xBF/', '', $content);
+        $content = str_replace("\r\n", "\n", $content);
+        $content = str_replace("\r", "\n", $content);
 
-        $lines = array_filter(explode("\n", $content), fn($l) => trim($l) !== '');
-        $lines = array_values($lines);
-
-        if (count($lines) < 2) {
-            return back()->withErrors(['file' => 'File CSV kosong atau hanya berisi header.']);
+        // Parse header dari baris pertama
+        $firstNewline = strpos($content, "\n");
+        if ($firstNewline === false) {
+            return back()->withErrors(['file' => 'File CSV tidak valid.']);
         }
 
-        $header = $this->parseCsvLine($lines[0]);
-        $header = array_map('trim', $header);
+        $headerLine = substr($content, 0, $firstNewline);
+        $rest       = substr($content, $firstNewline + 1);
 
-        $required = ['nama_obat', 'harga', 'stok', 'deskripsi'];
-        // Support kolom 'perusahaan' (baru) atau 'kategori' (lama)
+        $header = array_map('trim', str_getcsv($headerLine, ',', '"'));
+
+        $required = ['NAMA PRODUK', 'RETAIL'];
         $missing  = array_diff($required, $header);
-        $hasKategori   = in_array('kategori', $header);
-        $hasPerusahaan = in_array('perusahaan', $header);
+        $hasPabrik = in_array('PABRIK', $header);
 
-        if (!empty($missing) || (!$hasKategori && !$hasPerusahaan)) {
-            $allRequired = array_merge($required, ['perusahaan (atau kategori)']);
+        if (!empty($missing) || !$hasPabrik) {
+            $allRequired = array_merge($required, ['PABRIK']);
             return back()->withErrors([
                 'file' => 'Kolom tidak lengkap. Kolom yang kurang: ' . implode(', ', array_diff($allRequired, $header)),
             ]);
         }
 
-        return $this->processRows($header, array_slice($lines, 1));
+        $dataLines = array_filter(explode("\n", $rest), fn($l) => trim($l) !== '');
+
+        return $this->processRows($header, array_values($dataLines));
     }
 
     /**
@@ -299,14 +293,16 @@ class AdminMedicineImportController extends Controller
 
         // Baris pertama = header
         $header   = array_map('trim', $rows[0]);
-        $required = ['nama_obat', 'harga', 'stok', 'deskripsi'];
-        $hasKategori   = in_array('kategori', $header);
-        $hasPerusahaan = in_array('perusahaan', $header);
+        $required = ['NAMA PRODUK', 'RETAIL'];
+        $hasPabrik   = in_array('PABRIK', $header);
+        $hasKomposisi = in_array('KOMPOSISI', $header);
+        $hasIndikasi = in_array('INDIKASI', $header);
+        $hasGolongan = in_array('GOLONGAN', $header);
         $missing  = array_diff($required, $header);
 
-        if (!empty($missing) || (!$hasKategori && !$hasPerusahaan)) {
+        if (!empty($missing) || !$hasPabrik) {
             return back()->withErrors([
-                'file' => 'Kolom tidak lengkap. Kolom yang kurang: ' . implode(', ', array_merge($missing, (!$hasKategori && !$hasPerusahaan) ? ['perusahaan'] : [])),
+                'file' => 'Kolom tidak lengkap. Kolom yang kurang: ' . implode(', ', array_merge($missing, !$hasPabrik ? ['PABRIK'] : [])),
             ]);
         }
 
@@ -336,12 +332,17 @@ class AdminMedicineImportController extends Controller
                 continue;
             }
 
+            // Tentukan is_resep berdasarkan golongan
+            $golongan = strtoupper($data['golongan'] ?? 'BEBAS');
+            $isResep = ($golongan === 'KERAS');
+
             Medicine::create([
                 'nama_obat' => $data['nama_obat'],
-                'kategori'  => $data['perusahaan'] ?? $data['kategori'] ?? '',
-                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['harga']),
+                'kategori'  => $data['pabrik'] ?? $data['kategori'] ?? '',
+                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['retail']),
                 'stok'      => (int) preg_replace('/[^0-9]/', '', $data['stok']),
-                'deskripsi' => $data['deskripsi'],
+                'deskripsi' => $data['komposisi'] ?? '',
+                'is_resep'  => $isResep,
             ]);
 
             $imported++;
@@ -364,22 +365,49 @@ class AdminMedicineImportController extends Controller
      */
     private function processRows(array $header, array $dataLines)
     {
-        $imported = 0;
-        $skipped  = 0;
-        $errors   = [];
+        $imported    = 0;
+        $skipped     = 0;
+        $errors      = [];
+        $headerCount = count($header);
 
-        foreach ($dataLines as $lineNum => $line) {
-            $row = $this->parseCsvLine($line);
+        // Re-join and re-parse to handle multiline quoted fields
+        $fullContent = implode("\n", $dataLines);
+        $rows = [];
+        $current = '';
+        $inQuote = false;
 
-            if (count($row) < count($header)) {
-                $row = array_pad($row, count($header), '');
+        for ($i = 0; $i < strlen($fullContent); $i++) {
+            $char = $fullContent[$i];
+            if ($char === '"') {
+                $inQuote = !$inQuote;
+                $current .= $char;
+            } elseif ($char === "\n" && !$inQuote) {
+                if (trim($current) !== '') {
+                    $rows[] = $current;
+                }
+                $current = '';
+            } else {
+                $current .= $char;
+            }
+        }
+        if (trim($current) !== '') {
+            $rows[] = $current;
+        }
+
+        foreach ($rows as $lineNum => $line) {
+            $row = str_getcsv(rtrim($line, "\r\n"), ',', '"');
+
+            // Pad or trim to match header count
+            if (count($row) < $headerCount) {
+                $row = array_pad($row, $headerCount, '');
+            } elseif (count($row) > $headerCount) {
+                $row = array_slice($row, 0, $headerCount);
             }
 
-            $data = array_combine($header, $row);
-            $data = array_map('trim', $data);
+            $data = array_map('trim', array_combine($header, $row));
 
             // Skip baris kosong
-            if (empty($data['nama_obat'])) {
+            if (empty($data['NAMA PRODUK'])) {
                 $skipped++;
                 continue;
             }
@@ -392,12 +420,24 @@ class AdminMedicineImportController extends Controller
                 continue;
             }
 
+            // Tentukan is_resep berdasarkan golongan
+            $golongan = strtoupper($data['GOLONGAN'] ?? 'BEBAS');
+            $isResep  = ($golongan === 'KERAS');
+
+            $komposisi = $data['KOMPOSISI'] ?? '';
+            $indikasi  = $data['INDIKASI'] ?? '';
+            $deskripsi = $komposisi;
+            if ($indikasi) {
+                $deskripsi .= ' | ' . $indikasi;
+            }
+
             Medicine::create([
-                'nama_obat' => $data['nama_obat'],
-                'kategori'  => $data['perusahaan'] ?? $data['kategori'] ?? '',
-                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['harga']),
-                'stok'      => (int) preg_replace('/[^0-9]/', '', $data['stok']),
-                'deskripsi' => $data['deskripsi'],
+                'nama_obat' => $data['NAMA PRODUK'],
+                'kategori'  => $data['PABRIK'] ?? '',
+                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['RETAIL']),
+                'stok'      => (int) preg_replace('/[^0-9]/', '', $data['STOK'] ?? '0'),
+                'deskripsi' => $deskripsi,
+                'is_resep'  => $isResep,
             ]);
 
             $imported++;
@@ -422,21 +462,25 @@ class AdminMedicineImportController extends Controller
     {
         $errors = [];
 
-        $perusahaan = $data['perusahaan'] ?? $data['kategori'] ?? '';
-        if (empty($perusahaan)) {
-            $errors[] = "Baris {$lineNum}: perusahaan kosong.";
+        if (empty($data['PABRIK'])) {
+            $errors[] = "Baris {$lineNum}: PABRIK kosong.";
         }
 
-        if (!is_numeric(preg_replace('/[^0-9.]/', '', $data['harga'] ?? ''))) {
-            $errors[] = "Baris {$lineNum}: harga tidak valid ({$data['harga']}).";
+        if (empty($data['KOMPOSISI'])) {
+            $errors[] = "Baris {$lineNum}: KOMPOSISI kosong.";
         }
 
-        if (!is_numeric(preg_replace('/[^0-9]/', '', $data['stok'] ?? ''))) {
-            $errors[] = "Baris {$lineNum}: stok tidak valid ({$data['stok']}).";
+        if (empty($data['INDIKASI'])) {
+            $errors[] = "Baris {$lineNum}: INDIKASI kosong.";
         }
 
-        if (empty($data['deskripsi'])) {
-            $errors[] = "Baris {$lineNum}: deskripsi kosong.";
+        $golongan = strtoupper($data['GOLONGAN'] ?? '');
+        if (!in_array($golongan, ['BEBAS', 'KERAS'])) {
+            $errors[] = "Baris {$lineNum}: GOLONGAN harus BEBAS atau KERAS (ditemukan: {$data['GOLONGAN']}).";
+        }
+
+        if (!is_numeric(preg_replace('/[^0-9.]/', '', $data['RETAIL'] ?? ''))) {
+            $errors[] = "Baris {$lineNum}: RETAIL tidak valid ({$data['RETAIL']}).";
         }
 
         return $errors;

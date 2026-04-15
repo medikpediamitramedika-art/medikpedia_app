@@ -346,6 +346,106 @@
         z-index: 10;
     }
 
+    /* ===== FOTO MOBILE HERO - landscape di atas, teks menindih ===== */
+    .hero-mobile-image {
+        display: none;
+    }
+
+    @media (max-width: 991px) {
+        /* Kolom teks: padding atas besar agar teks mulai di bawah foto */
+        .col-lg-6.hero-content {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            padding-top: 130px; /* dikurangi agar teks naik lebih ke atas */
+        }
+
+        /* Foto landscape: absolute di bagian atas kolom */
+        .hero-mobile-image {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 210px;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .hero-mobile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+        }
+
+        /* Gradient fade bawah foto → menyatu ke background biru */
+        .hero-mobile-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(13, 71, 161, 0.10) 0%,
+                rgba(13, 71, 161, 0.25) 50%,
+                rgba(13, 71, 161, 0.85) 80%,
+                rgba(13, 71, 161, 1.00) 100%
+            );
+        }
+
+        /* Semua konten teks di atas foto */
+        .hero-content > *:not(.hero-mobile-image) {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Kontras teks */
+        .hero-title {
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .hero-title .selamat-datang {
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+        }
+        .hero-desc {
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+        }
+        .hero-desc-sub {
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.12);
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 0.85rem;
+            border-left-color: #7CB342;
+        }
+        .hero-badge {
+            background: rgba(124,179,66,0.28);
+            border-color: rgba(124,179,66,0.6);
+            backdrop-filter: blur(4px);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .col-lg-6.hero-content {
+            border-radius: 16px;
+            padding-top: 110px;
+        }
+
+        .hero-mobile-image {
+            height: 180px;
+        }
+
+        .hero-mobile-image::after {
+            background: linear-gradient(
+                to bottom,
+                rgba(13, 71, 161, 0.08) 0%,
+                rgba(13, 71, 161, 0.20) 45%,
+                rgba(13, 71, 161, 0.88) 78%,
+                rgba(13, 71, 161, 1.00) 100%
+            );
+        }
+    }
+
     /* Small photos di kiri */
     .small-photos {
         position: absolute;
@@ -908,8 +1008,33 @@
         .hero-decoration { display: none; }
         .hero-dot-grid { display: none; }
         .hero-line-accent { display: none; }
-        .hero-title { font-size: clamp(1.8rem, 6vw, 2.5rem); }
-        .hero-desc { font-size: 0.95rem; }
+
+        /* Kontras teks di atas foto background */
+        .hero-title {
+            font-size: clamp(1.8rem, 6vw, 2.5rem);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+        }
+        .hero-title .selamat-datang {
+            text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+        }
+        .hero-desc {
+            font-size: 0.95rem;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+            color: rgba(255,255,255,0.95);
+        }
+        .hero-desc-sub {
+            text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.15);
+            border-left-color: #7CB342;
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 0.85rem;
+        }
+        .hero-badge {
+            background: rgba(124,179,66,0.3);
+            border-color: rgba(124,179,66,0.6);
+            backdrop-filter: blur(4px);
+        }
+
         .search-form { flex-direction: column; }
         .medicines-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
     }
@@ -950,7 +1075,10 @@
         .medicine-icon-5 { display: none; }
         .medicine-icon-6 { display: none; }
 
-        .hero-title { font-size: clamp(1.5rem, 7vw, 1.9rem); }
+        .hero-title {
+            font-size: clamp(1.5rem, 7vw, 1.9rem);
+            text-shadow: 0 2px 14px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.5);
+        }
         .hero-desc { font-size: 0.88rem; max-width: 100%; }
         .hero-buttons { flex-direction: column; gap: 0.75rem; }
         .btn-hero-primary, .btn-hero-outline { text-align: center; justify-content: center; padding: 0.75rem 1.5rem; }
@@ -1152,6 +1280,11 @@
     <div class="container">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 hero-content">
+                {{-- Foto background khusus mobile - di belakang teks --}}
+                <div class="hero-mobile-image">
+                    <img src="{{ asset('baru.jpeg') }}" alt="Medikpedia Background">
+                </div>
+
                 <div class="hero-badge">
                     <i class="fa-solid fa-shield-halved"></i> Apotik Online Terpercaya
                 </div>

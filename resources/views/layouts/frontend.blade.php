@@ -731,22 +731,47 @@
             <ul class="navbar-menu" id="navbarMenu">
                 <li><a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
                 <li><a href="{{ route('products') }}"><i class="fa-solid fa-pills"></i> Produk</a></li>
-                <li><a href="{{ route('news.index') }}"><i class="fa-solid fa-tag"></i> Produk Promo</a></li>
+                <li>
+                    @auth
+                        @if(auth()->user()->isUser())
+                            <a href="{{ route('prescriptions') }}" style="color:#7CB342;font-weight:700;">
+                                <i class="fa-solid fa-file-prescription"></i> Produk Resep
+                            </a>
+                        @else
+                            <a href="{{ route('customer.login') }}">
+                                <i class="fa-solid fa-file-prescription"></i> Produk Resep
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('customer.login') }}">
+                            <i class="fa-solid fa-file-prescription"></i> Produk Resep
+                        </a>
+                    @endauth
+                </li>
                 <li><a href="{{ route('activities.index') }}"><i class="fa-solid fa-camera"></i> Aktivitas</a></li>
                 <li><a href="{{ route('farmakologi') }}"><i class="fa-solid fa-book-medical"></i> Farmakologi</a></li>
                 <li><a href="{{ route('about') }}"><i class="fa-solid fa-circle-info"></i> Tentang Kami</a></li>
                 <li><a href="{{ route('contact') }}"><i class="fa-solid fa-headset"></i> Hubungi Kami</a></li>
-                
+
                 @auth
                     @if(auth()->user()->isAdmin())
                         <li><a href="{{ route('admin.dashboard') }}" class="admin-link"><i class="fa-solid fa-gauge"></i> Admin Panel</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                            </form>
+                        </li>
+                    @elseif(auth()->user()->isUser())
+                        <li>
+                            <form action="{{ route('customer.logout') }}" method="POST" style="margin: 0;">
+                                @csrf
+                                <button type="submit" class="logout-btn">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Logout ({{ auth()->user()->name }})
+                                </button>
+                            </form>
+                        </li>
                     @endif
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
-                            @csrf
-                            <button type="submit" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
-                        </form>
-                    </li>
                 @else
                     <li class="admin-login-item">
                         <a href="{{ route('login') }}" title="Admin Login"><i class="fa-solid fa-user-shield"></i></a>
