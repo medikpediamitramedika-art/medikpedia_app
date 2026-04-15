@@ -940,6 +940,25 @@
                     <img src="{{ asset('logodermilosofi.site.jpeg') }}" alt="Dermilosofi" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
                 </a>
             </div>
+            <!-- Tokopedia -->
+            <div class="float-item">
+                <span class="float-tooltip">Tokopedia</span>
+                <span class="float-label-mobile">Tokopedia</span>
+                <a href="https://tk.tokopedia.com/ZSHt4vosN/" target="_blank" class="float-btn"
+                   style="background:#42b549;box-shadow:0 4px 16px rgba(66,181,73,0.45);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="28" height="28" fill="white">
+                        <!-- Logo burung Tokopedia -->
+                        <path d="M16 4c-1.5 0-2.8.5-3.8 1.3-.5.4-.9.9-1.2 1.5-.3-.2-.6-.3-1-.3-1.1 0-2 .9-2 2 0 .4.1.7.3 1-.6.3-1.1.7-1.5 1.2C6 11.7 5.5 13 5.5 14.5c0 2.5 1.5 4.6 3.6 5.5v6c0 .6.4 1 1 1h12c.6 0 1-.4 1-1v-6c2.1-.9 3.6-3 3.6-5.5 0-1.5-.5-2.8-1.3-3.8-.4-.5-.9-.9-1.5-1.2.2-.3.3-.6.3-1 0-1.1-.9-2-2-2-.4 0-.7.1-1 .3-.3-.6-.7-1.1-1.2-1.5C18.8 4.5 17.5 4 16 4zm0 2c1 0 1.9.4 2.6 1 .7.7 1.1 1.6 1.1 2.6v.9l.8-.4c.2-.1.4-.1.5-.1.6 0 1 .4 1 1s-.4 1-1 1h-.5l.4.3c.5.4.9.9 1.2 1.5.5.9.8 1.9.8 3 0 2.2-1.4 4.1-3.4 4.8l-.5.2v6.2h-10v-6.2l-.5-.2c-2-.7-3.4-2.6-3.4-4.8 0-1.1.3-2.1.8-3 .3-.6.7-1.1 1.2-1.5l.4-.3H7c-.6 0-1-.4-1-1s.4-1 1-1c.2 0 .4 0 .5.1l.8.4v-.9c0-1 .4-1.9 1.1-2.6C10.1 6.4 11 6 12 6h.5c.5-.8 1.3-1.4 2.2-1.8.4-.2.8-.2 1.3-.2z"/>
+                        <!-- Sayap kiri -->
+                        <path d="M9 12c-.6 0-1 .4-1 1v2c0 .6.4 1 1 1s1-.4 1-1v-2c0-.6-.4-1-1-1z"/>
+                        <!-- Sayap kanan -->
+                        <path d="M23 12c-.6 0-1 .4-1 1v2c0 .6.4 1 1 1s1-.4 1-1v-2c0-.6-.4-1-1-1z"/>
+                        <!-- Mata -->
+                        <circle cx="13.5" cy="13" r="1"/>
+                        <circle cx="18.5" cy="13" r="1"/>
+                    </svg>
+                </a>
+            </div>
             <!-- Shopee -->
             <div class="float-item">
                 <span class="float-tooltip">Shopee</span>

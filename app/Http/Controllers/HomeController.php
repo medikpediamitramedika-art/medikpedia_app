@@ -19,6 +19,8 @@ class HomeController extends Controller
     public function show($id)
     {
         $medicine = Medicine::findOrFail($id);
+        
+        // Related products dari kategori yang sama
         $relatedMedicines = Medicine::where('kategori', $medicine->kategori)
                                     ->where('id', '!=', $medicine->id)
                                     ->limit(4)
@@ -33,8 +35,13 @@ class HomeController extends Controller
     // Kategori
     public function byCategory($kategori)
     {
-        $medicines = Medicine::byCategory($kategori)->paginate(12);
-        $allCategories = Medicine::distinct()->pluck('kategori');
+        // Hanya tampilkan produk OTC di halaman kategori publik
+        $medicines = Medicine::where('kategori', $kategori)
+                            ->where('is_resep', false)
+                            ->paginate(12);
+        $allCategories = Medicine::where('is_resep', false)
+                                ->distinct()
+                                ->pluck('kategori');
 
         return view('medicines.category', [
             'medicines' => $medicines,
