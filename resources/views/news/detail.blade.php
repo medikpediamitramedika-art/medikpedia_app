@@ -266,21 +266,21 @@
                         <video
                             controls
                             preload="metadata"
-                            @if($news->thumbnail) poster="{{ asset('storage/' . $news->thumbnail) }}" @endif
+                            @if($news->thumbnail) poster="{{ asset('public/storage/' . $news->thumbnail) }}" @endif
                             style="width:100%; max-height:480px; display:block; background:#000;"
                         >
-                            <source src="{{ asset('storage/' . $news->file) }}" type="{{ $mimeType }}">
+                            <source src="{{ asset('public/storage/' . $news->file) }}" type="{{ $mimeType }}">
                             <p style="color:#fff; padding:1rem;">
                                 Browser Anda tidak mendukung pemutar video.
-                                <a href="{{ asset('storage/' . $news->file) }}" style="color:#90caf9;">Download video</a>
+                                <a href="{{ asset('public/storage/' . $news->file) }}" style="color:#90caf9;">Download video</a>
                             </p>
                         </video>
                     </div>
                 @else
-                    <img src="{{ asset('storage/' . $news->file) }}" alt="{{ $news->judul }}" class="news-image">
+                    <img src="{{ asset('public/storage/' . $news->file) }}" alt="{{ $news->judul }}" class="news-image">
                 @endif
             @elseif($news->thumbnail)
-                <img src="{{ asset('storage/' . $news->thumbnail) }}" alt="{{ $news->judul }}" class="news-image">
+                <img src="{{ asset('public/storage/' . $news->thumbnail) }}" alt="{{ $news->judul }}" class="news-image">
             @else
                 <div class="news-highlight">
                     <div style="font-size: 4rem; text-align: center;">

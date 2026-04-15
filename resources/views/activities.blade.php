@@ -177,9 +177,9 @@
         @if($activities->count() > 0)
             <div class="photo-grid">
                 @foreach($activities as $act)
-                    <div class="photo-card" onclick="openLightbox('{{ asset('storage/' . $act->foto) }}', '{{ addslashes($act->judul) }}', '{{ $act->tanggal->format('d M Y') }}')">
+                    <div class="photo-card" onclick="openLightbox('{{ asset('public/storage/' . $act->foto) }}', '{{ addslashes($act->judul) }}', '{{ $act->tanggal->format('d M Y') }}')">
                         <div class="photo-wrap">
-                            <img src="{{ asset('storage/' . $act->foto) }}" alt="{{ $act->judul }}" loading="lazy">
+                            <img src="{{ asset('public/storage/' . $act->foto) }}" alt="{{ $act->judul }}" loading="lazy">
                             <div class="photo-overlay">
                                 <i class="fa-solid fa-magnifying-glass-plus"></i>
                             </div>

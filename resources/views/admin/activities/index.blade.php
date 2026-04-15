@@ -33,7 +33,7 @@
         @foreach($activities as $activity)
             <div style="background:white;border-radius:0.75rem;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.1);border:1px solid #e5e7eb;">
                 <div style="position:relative;height:180px;overflow:hidden;">
-                    <img src="{{ asset('storage/' . $activity->foto) }}"
+                    <img src="{{ asset('public/storage/' . $activity->foto) }}"
                          alt="{{ $activity->judul }}"
                          style="width:100%;height:100%;object-fit:cover;">
                     <div style="position:absolute;top:0.5rem;right:0.5rem;">

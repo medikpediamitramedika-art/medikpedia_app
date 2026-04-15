@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminMedicineController extends Controller
 {
+    
     private array $companies = Companies::LIST;
     // List obat
     public function index(Request $request)

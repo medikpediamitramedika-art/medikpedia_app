@@ -330,7 +330,7 @@
             <div class="detail-image-col">
                 <div class="detail-image">
                     @if($medicine->gambar)
-                        <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                        <img src="{{ asset('public/storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                     @else
                         <i class="fa-solid fa-pills" style="color:#90caf9;font-size:4rem;"></i>
                     @endif

@@ -8,6 +8,27 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function update(Request $request, $id)
+{
+    $medicine = Medicine::findOrFail($id);
+
+    if ($request->hasFile('gambar')) {
+        // Hapus foto lama jika ada
+        if ($medicine->gambar && file_exists(storage_path('app/public/' . $medicine->gambar))) {
+            unlink(storage_path('app/public/' . $medicine->gambar));
+        }
+
+        // Upload foto baru ke folder 'medicines' di disk 'public'
+        // Ini akan otomatis masuk ke storage/app/public/medicines
+        $path = $request->file('gambar')->store('medicines', 'public');
+        
+        $medicine->update([
+            'gambar' => $path
+        ]);
+    }
+
+    return back()->with('success', 'Foto berhasil diperbarui!');
+}
     public function index(Request $request)
     {
         $search     = $request->get('search', '');

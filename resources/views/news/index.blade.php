@@ -480,15 +480,15 @@
                             @if($item->tipe === 'video' && $item->file)
                                 {{-- Preview frame dari video --}}
                                 <video muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;">
-                                    <source src="{{ asset('storage/' . $item->file) }}#t=0.5" type="video/mp4">
+                                    <source src="{{ asset('public/storage/' . $item->file) }}#t=0.5" type="video/mp4">
                                 </video>
                                 <div class="video-overlay">
                                     <div class="play-btn">▶</div>
                                 </div>
                             @elseif($item->thumbnail)
-                                <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
+                                <img src="{{ asset('public/storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
                             @elseif($item->file && $item->tipe !== 'video')
-                                <img src="{{ asset('storage/' . $item->file) }}" alt="{{ $item->judul }}">
+                                <img src="{{ asset('public/storage/' . $item->file) }}" alt="{{ $item->judul }}">
                             @else
                                 <div style="font-size:3.5rem; opacity:0.7;">
                                     @switch($item->tipe)

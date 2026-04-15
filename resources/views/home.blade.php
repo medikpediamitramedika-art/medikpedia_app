@@ -1,4 +1,4 @@
-﻿@extends('layouts.frontend')
+@extends('layouts.frontend')
 
 @section('title', 'Beranda - Medikpedia')
 
@@ -39,7 +39,7 @@
         pointer-events: none;
     }
 
-    .hero-content { position: relative; z-index: 2; }
+    .hero-content { position: relative; z-index: 2;left: -400px; }
 
     .hero-badge {
         display: inline-flex;
@@ -151,7 +151,7 @@
     /* Main image di pojok kanan */
     .main-hero-image {
         position: absolute;
-        right: -60px;
+        right: -460px;
         top: -350px;
         bottom: -60px;
         width: 480px;
@@ -976,6 +976,7 @@
     }
 
     @media (max-width: 768px) {
+        .hero-content {left:5px;}
         .hero-section { min-height: 100vh; padding: 7rem 0 3rem; }
         .hero-visual { height: 100%; min-height: 300px; }
         .main-hero-image {
