@@ -14,7 +14,8 @@ class ProductController extends Controller
         $perusahaan = $request->get('perusahaan', '');
         $sort       = $request->get('sort', 'terbaru');
 
-        $query = Medicine::query();
+        // Filter hanya produk OTC (bukan resep)
+        $query = Medicine::where('is_resep', false);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -37,7 +38,7 @@ class ProductController extends Controller
 
         $medicines   = $query->paginate(12)->withQueryString();
         $perusahaans = Companies::LIST;
-        $total       = Medicine::count();
+        $total       = Medicine::where('is_resep', false)->count();
 
         return view('products', compact('medicines', 'search', 'perusahaan', 'sort', 'perusahaans', 'total'));
     }
