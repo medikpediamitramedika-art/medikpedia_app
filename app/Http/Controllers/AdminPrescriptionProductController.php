@@ -53,17 +53,20 @@ class AdminPrescriptionProductController extends Controller
             'stok'      => ['required', 'integer', 'min:0'],
             'komposisi' => ['required', 'string', 'max:255'],
             'indikasi'  => ['required', 'string', 'max:255'],
+            'golongan'  => ['required', 'in:BEBAS,KERAS'],
             'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
         ]);
 
+        // Tentukan is_resep berdasarkan golongan
+        $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        
         // Gabung komposisi dan indikasi untuk deskripsi
         $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
         
         // Hapus field yang tidak perlu di database
         unset($validated['komposisi']);
         unset($validated['indikasi']);
-
-        $validated['is_resep'] = true;
+        unset($validated['golongan']);
 
         // Handle upload gambar
         if ($request->hasFile('gambar')) {
@@ -106,17 +109,22 @@ class AdminPrescriptionProductController extends Controller
             'stok'      => ['required', 'integer', 'min:0'],
             'komposisi' => ['required', 'string', 'max:255'],
             'indikasi'  => ['required', 'string', 'max:255'],
+            'golongan'  => ['required', 'in:BEBAS,KERAS'],
             'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'delete_gambar' => ['nullable', 'boolean'],
         ]);
 
+        // Tentukan is_resep berdasarkan golongan
+        $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        
         // Gabung komposisi dan indikasi untuk deskripsi
         $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
         
         // Hapus field yang tidak perlu di database
         unset($validated['komposisi']);
         unset($validated['indikasi']);
-
-        $validated['is_resep'] = true;
+        unset($validated['golongan']);
+        unset($validated['delete_gambar']);
 
         // Handle upload gambar baru
         if ($request->hasFile('gambar')) {
@@ -130,7 +138,7 @@ class AdminPrescriptionProductController extends Controller
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
-        } elseif ($request->boolean('delete_gambar') && $product->gambar) {
+        } elseif ($request->input('delete_gambar') == '1' && $product->gambar) {
             // Hapus foto tanpa upload baru
             Storage::delete('public/' . $product->gambar);
             $validated['gambar'] = null;

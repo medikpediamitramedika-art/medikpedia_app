@@ -110,6 +110,7 @@ class AdminMedicineController extends Controller
             'indikasi'  => ['required', 'string', 'max:255'],
             'golongan'  => ['required', 'in:BEBAS,KERAS'],
             'gambar'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:10240'],
+            'delete_gambar' => ['nullable', 'boolean'],
         ]);
 
         // Tentukan is_resep berdasarkan golongan
@@ -122,6 +123,7 @@ class AdminMedicineController extends Controller
         unset($validated['komposisi']);
         unset($validated['indikasi']);
         unset($validated['golongan']);
+        unset($validated['delete_gambar']);
 
         // Handle upload gambar baru
         if ($request->hasFile('gambar')) {
@@ -135,7 +137,7 @@ class AdminMedicineController extends Controller
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('public/medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
-        } elseif ($request->boolean('delete_gambar') && $medicine->gambar) {
+        } elseif ($request->input('delete_gambar') == '1' && $medicine->gambar) {
             // Hapus foto tanpa upload baru
             Storage::delete('public/' . $medicine->gambar);
             $validated['gambar'] = null;
