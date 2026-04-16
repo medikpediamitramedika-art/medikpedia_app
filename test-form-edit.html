@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Form Edit dengan Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1E88E5;
+            margin-bottom: 10px;
+        }
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="file"] {
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .current-image {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .current-image img {
+            max-width: 200px;
+            max-height: 200px;
+            display: block;
+            margin: 10px 0;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #fee;
+            border: 1px solid #fcc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn-primary {
+            background: #1E88E5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1565C0;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid #1E88E5;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #1E88E5;
+        }
+        .code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h1>🧪 Test Form Edit dengan Upload Foto</h1>
+        <p style="color: #666;">Form ini untuk test apakah upload foto berfungsi dengan benar</p>
+
+        <div class="alert">
+            ⚠️ <strong>Penting:</strong> Pastikan form memiliki <code class="code">enctype="multipart/form-data"</code>
+        </div>
+
+        <!-- GANTI URL ACTION SESUAI DENGAN ROUTE ANDA -->
+        <form action="/admin/medicines/1" method="POST" enctype="multipart/form-data" id="testForm">
+            <!-- CSRF Token (untuk Laravel) -->
+            <input type="hidden" name="_token" value="YOUR_CSRF_TOKEN_HERE">
+            <input type="hidden" name="_method" value="PUT">
+
+            <div class="form-group">
+                <label>Nama Obat *</label>
+                <input type="text" name="nama_obat" value="Paracetamol 500mg" required>
+            </div>
+
+            <div class="form-group">
+                <label>Pabrik *</label>
+                <select name="kategori" required>
+                    <option value="">— Pilih Pabrik —</option>
+                    <option value="Kimia Farma" selected>Kimia Farma</option>
+                    <option value="Kalbe Farma">Kalbe Farma</option>
+                    <option value="Dexa Medica">Dexa Medica</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Harga (Rp) *</label>
+                <input type="number" name="harga" value="5000" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Stok *</label>
+                <input type="number" name="stok" value="100" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label>Komposisi *</label>
+                <input type="text" name="komposisi" value="Paracetamol 500 mg" required>
+            </div>
+
+            <div class="form-group">
+                <label>Indikasi *</label>
+                <input type="text" name="indikasi" value="Demam & nyeri" required>
+            </div>
+
+            <div class="form-group">
+                <label>Golongan *</label>
+                <select name="golongan" required>
+                    <option value="">— Pilih Golongan —</option>
+                    <option value="BEBAS" selected>BEBAS</option>
+                    <option value="KERAS">KERAS</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Foto Obat</label>
+                
+                <!-- Simulasi foto yang sudah ada -->
+                <div class="current-image">
+                    <strong>Foto saat ini:</strong>
+                    <img src="https://via.placeholder.com/200x200?text=Current+Image" alt="Current">
+                    <p style="font-size: 12px; color: #666;">medicines/1234567890_abc123.jpg</p>
+                </div>
+
+                <!-- Checkbox hapus foto -->
+                <div class="checkbox-group">
+                    <input type="checkbox" name="delete_gambar" value="1" id="deleteGambar">
+                    <label for="deleteGambar" style="margin: 0;">🗑️ Hapus Foto (centang untuk menghapus)</label>
+                </div>
+
+                <!-- Upload foto baru -->
+                <input type="file" name="gambar" accept="image/*" id="gambarInput">
+                <p style="font-size: 12px; color: #666; margin-top: 5px;">
+                    JPG, PNG, GIF — Maksimal 10MB
+                </p>
+
+                <!-- Preview -->
+                <div id="preview" style="display: none; margin-top: 10px;">
+                    <strong>Preview foto baru:</strong><br>
+                    <img id="previewImg" style="max-width: 200px; max-height: 200px; margin-top: 10px;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">💾 Simpan Perubahan</button>
+                <button type="button" class="btn btn-secondary" onclick="window.history.back()">❌ Batal</button>
+            </div>
+        </form>
+
+        <div class="info">
+            <h3>📋 Checklist Sebelum Submit:</h3>
+            <ul>
+                <li>✅ Form memiliki <code class="code">enctype="multipart/form-data"</code></li>
+                <li>✅ Form memiliki <code class="code">@csrf</code> dan <code class="code">@method('PUT')</code></li>
+                <li>✅ Input file memiliki <code class="code">name="gambar"</code></li>
+                <li>✅ Checkbox hapus memiliki <code class="code">name="delete_gambar" value="1"</code></li>
+                <li>✅ Route update sudah benar</li>
+                <li>✅ Controller sudah handle <code class="code">$request->hasFile('gambar')</code></li>
+                <li>✅ Controller sudah handle <code class="code">$request->input('delete_gambar')</code></li>
+            </ul>
+
+            <h3>🔍 Cara Test:</h3>
+            <ol>
+                <li>Ganti <code class="code">action="/admin/medicines/1"</code> dengan route yang benar</li>
+                <li>Ganti <code class="code">YOUR_CSRF_TOKEN_HERE</code> dengan token CSRF yang valid</li>
+                <li>Pilih foto untuk diupload</li>
+                <li>Klik "Simpan Perubahan"</li>
+                <li>Cek apakah foto berhasil diupload ke <code class="code">storage/app/public/medicines/</code></li>
+            </ol>
+
+            <h3>🐛 Jika Gagal:</h3>
+            <ol>
+                <li>Buka Developer Tools (F12)</li>
+                <li>Lihat tab Network</li>
+                <li>Submit form</li>
+                <li>Klik request yang muncul</li>
+                <li>Lihat Response dan Headers</li>
+                <li>Screenshot error dan kirim ke developer</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Preview gambar yang dipilih
+        document.getElementById('gambarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Validasi sebelum submit
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            const hasFile = document.getElementById('gambarInput').files.length > 0;
+            const deleteChecked = document.getElementById('deleteGambar').checked;
+
+            console.log('Form Data:');
+            console.log('- Has new file:', hasFile);
+            console.log('- Delete checked:', deleteChecked);
+            console.log('- Form enctype:', this.enctype);
+
+            if (!this.enctype || this.enctype !== 'multipart/form-data') {
+                alert('❌ ERROR: Form tidak memiliki enctype="multipart/form-data"!');
+                e.preventDefault();
+                return false;
+            }
+
+            if (hasFile) {
+                const file = document.getElementById('gambarInput').files[0];
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                if (file.size > maxSize) {
+                    alert('❌ ERROR: Ukuran file terlalu besar! Maksimal 10MB');
+                    e.preventDefault();
+                    return false;
+                }
+                console.log('- File name:', file.name);
+                console.log('- File size:', (file.size / 1024 / 1024).toFixed(2) + ' MB');
+                console.log('- File type:', file.type);
+            }
+
+            // Konfirmasi
+            if (!confirm('Submit form untuk test upload?')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>

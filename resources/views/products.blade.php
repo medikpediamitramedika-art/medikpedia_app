@@ -369,9 +369,9 @@
                     @endforeach
 
                     @if($medicines->hasMorePages())
-                        <a href="{{ $medicines->nextPageUrl() }}" class="page-btn">›</a>
+                        <a href="{{ $medicines->nextPageUrl() }}" class="page-btn"></a>
                     @else
-                        <span class="page-btn disabled">›</span>
+                        <span class="page-btn disabled"></span>
                     @endif
                 </div>
             </div>
