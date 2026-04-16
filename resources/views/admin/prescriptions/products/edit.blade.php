@@ -331,7 +331,7 @@
                 @if($medicine->gambar)
                     <div style="margin-bottom:0.75rem;border-radius:0.5rem;overflow:hidden;border:1px solid #e5e7eb;" id="currentImageWrap">
                         <div style="font-size:0.875rem;color:#6b7280;padding:0.5rem 0.75rem;background:#f9fafb;border-bottom:1px solid #e5e7eb;">Foto saat ini:</div>
-                        <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}"
+                        <img src="{{ asset('storage/app/public/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}"
                              style="width:100%;max-height:220px;object-fit:contain;display:block;background:#f9fafb;">
                     </div>
 

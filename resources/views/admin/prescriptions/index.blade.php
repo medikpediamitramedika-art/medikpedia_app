@@ -368,7 +368,7 @@
                 <tr>
                     <td>
                         @if($medicine->gambar)
-                            <img src="{{ asset('storage/' . $medicine->gambar) }}"
+                            <img src="{{ asset('storage/app/public/' . $medicine->gambar) }}"
                                  alt="{{ $medicine->nama_obat }}" class="med-img">
                         @else
                             <div class="med-img-placeholder">💊</div>

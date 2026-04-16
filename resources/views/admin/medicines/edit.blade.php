@@ -347,7 +347,7 @@
                 @if($medicine->gambar)
                     <div class="current-image" id="currentImageWrap">
                         <div class="current-image-label">Foto saat ini:</div>
-                        <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                        <img src="{{ asset('storage/app/public/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                     </div>
 
                     {{-- Tombol hapus foto --}}
