@@ -9,10 +9,15 @@ class AppServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        // Override public path agar mengarah ke root project
-        // Di hosting: public_html = root project (bukan subfolder public/)
+        // Di hosting public_html = root project, path.public tetap base_path()
+        // Di lokal, path.public = base_path('public')
         $this->app->bind('path.public', function () {
-            return base_path();
+            // Cek apakah kita di hosting (vendor ada di root yang sama dengan index.php)
+            if (file_exists(base_path('vendor/autoload.php')) &&
+                file_exists(base_path('index.php'))) {
+                return base_path(); // hosting: public_html adalah root
+            }
+            return base_path('public'); // lokal: subfolder public/
         });
     }
 
