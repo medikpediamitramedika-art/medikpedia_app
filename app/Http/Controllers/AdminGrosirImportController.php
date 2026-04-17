@@ -100,17 +100,14 @@ class AdminGrosirImportController extends Controller
                 }
 
                 Medicine::updateOrCreate(
-                    ['nama_obat' => $data['NAMA PRODUK']],
+                    ['nama_obat' => $data['NAMA PRODUK'], 'is_grosir' => true],
                     [
                         'kategori'  => $data['PABRIK'],
                         'harga'     => $this->parseHarga($data['RETAIL']),
-                        'stok'      => 0,
+                        'stok'      => isset($data['STOK']) ? (int) preg_replace('/[^0-9]/', '', $data['STOK']) : 0,
                         'deskripsi' => ($data['KOMPOSISI'] ?? '') . ' | ' . ($data['INDIKASI'] ?? ''),
-
-                        // 🔥 INI KUNCI PENTING
                         'is_grosir' => true,
                         'is_resep'  => false,
-                        'source'    => 'import_grosir',
                     ]
                 );
 

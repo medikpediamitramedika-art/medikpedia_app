@@ -621,7 +621,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.prescriptions.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.prescriptions')) active @endif">
+                    <a href="{{ route('admin.grosir.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.grosir')) active @endif">
                         <span>📋</span>
                         <span>Produk Grosir</span>
                     </a>
@@ -707,7 +707,7 @@
                 <span>💊</span>
                 <span>Biasa</span>
             </a>
-            <a href="{{ route('admin.prescriptions.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.prescriptions')) active @endif">
+            <a href="{{ route('admin.grosir.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.grosir')) active @endif">
                 <span>📋</span>
                 <span>Resep</span>
             </a>

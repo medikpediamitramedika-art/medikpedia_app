@@ -18,7 +18,7 @@ class AdminMedicineController extends Controller
         $kategori = $request->input('kategori');
         $tipe     = $request->input('tipe'); // 'biasa' atau 'resep'
 
-        $query = Medicine::latest();
+        $query = Medicine::where('is_grosir', false)->latest();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -66,6 +66,8 @@ class AdminMedicineController extends Controller
 
         // Tentukan is_resep berdasarkan golongan
         $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        // Produk retail tidak pernah grosir
+        $validated['is_grosir'] = false;
         
         // Gabung komposisi dan indikasi untuk deskripsi
         $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
@@ -115,6 +117,8 @@ class AdminMedicineController extends Controller
 
         // Tentukan is_resep berdasarkan golongan
         $validated['is_resep'] = ($validated['golongan'] === 'KERAS');
+        // Produk retail tidak pernah grosir
+        $validated['is_grosir'] = false;
         
         // Gabung komposisi dan indikasi untuk deskripsi
         $validated['deskripsi'] = $validated['komposisi'] . ' | ' . $validated['indikasi'];
@@ -129,17 +133,16 @@ class AdminMedicineController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
             if ($medicine->gambar) {
-                Storage::delete($medicine->gambar);
+                Storage::disk('public')->delete($medicine->gambar);
             }
 
             // Upload gambar baru
-            $image = $request->file('gambar');
+            $image     = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('medicines', $imageName, 'public');
             $validated['gambar'] = 'medicines/' . $imageName;
         } elseif ($request->input('delete_gambar') == '1' && $medicine->gambar) {
-            // Hapus foto tanpa upload baru
-           Storage::delete($medicine->gambar);
+            Storage::disk('public')->delete($medicine->gambar);
             $validated['gambar'] = null;
         }
 
@@ -152,9 +155,8 @@ class AdminMedicineController extends Controller
     // Hapus obat
     public function destroy(Medicine $medicine)
     {
-        // Hapus gambar
         if ($medicine->gambar) {
-            Storage::delete($medicine->gambar);
+            Storage::disk('public')->delete($medicine->gambar);
         }
 
         $medicine->delete();

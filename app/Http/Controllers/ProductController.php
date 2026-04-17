@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Medicine;
-use App\Models\MedicineGrosir; // 🔥 TAMBAHAN
 use App\Constants\Companies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -14,17 +14,14 @@ class ProductController extends Controller
         $medicine = Medicine::findOrFail($id);
 
         if ($request->hasFile('gambar')) {
-
-            $oldPath = '/home/u656662250/domains/medikpedia.com/public_html/storage/' . $medicine->gambar;
-            if ($medicine->gambar && file_exists($oldPath)) {
-                unlink($oldPath);
+            // Hapus gambar lama dengan benar
+            if ($medicine->gambar) {
+                Storage::disk('public')->delete($medicine->gambar);
             }
 
             $path = $request->file('gambar')->store('medicines', 'public');
 
-            $medicine->update([
-                'gambar' => $path
-            ]);
+            $medicine->update(['gambar' => $path]);
         }
 
         return back()->with('success', 'Foto berhasil diperbarui!');
@@ -41,7 +38,8 @@ class ProductController extends Controller
         $perusahaan = $request->get('perusahaan', '');
         $sort       = $request->get('sort', 'terbaru');
 
-        $query = Medicine::where('is_resep', false);
+        // Retail: is_grosir=false DAN is_resep=false
+        $query = Medicine::where('is_grosir', false)->where('is_resep', false);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -64,7 +62,7 @@ class ProductController extends Controller
 
         $medicines   = $query->paginate(12)->withQueryString();
         $perusahaans = Companies::LIST;
-        $total       = Medicine::where('is_resep', false)->count();
+        $total       = Medicine::where('is_grosir', false)->where('is_resep', false)->count();
 
         return view('products', compact(
             'medicines',

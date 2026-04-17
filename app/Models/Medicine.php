@@ -19,12 +19,14 @@ class Medicine extends Model
         'deskripsi',
         'gambar',
         'is_resep',
+        'is_grosir',
     ];
 
     protected $casts = [
         'harga'    => 'decimal:2',
         'stok'     => 'integer',
         'is_resep' => 'boolean',
+        'is_grosir' => 'boolean',
     ];
 
     // Scope untuk pencarian

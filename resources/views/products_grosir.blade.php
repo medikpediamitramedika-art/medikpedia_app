@@ -1,6 +1,8 @@
-<?php $__env->startSection('title', 'Produk Obat - Medikpedia'); ?>
+@extends('layouts.frontend')
 
-<?php $__env->startSection('styles'); ?>
+@section('title', 'Produk Grosir - Medikpedia')
+
+@section('styles')
 <style>
     .products-header {
         background: linear-gradient(135deg, #0D47A1 0%, #1565C0 50%, #1E88E5 100%);
@@ -246,157 +248,157 @@
         .medicine-btn, .btn-cart { font-size: 0.78rem; padding: 0.5rem; }
     }
 </style>
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('content'); ?>
+@section('content')
 
 <div class="products-header">
     <div class="container">
         <div class="breadcrumb-custom">
-            <a href="<?php echo e(route('home')); ?>"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a>
             <span>/</span>
             <span class="current">Produk</span>
         </div>
-        <h1><i class="fa-solid fa-pills"></i> Katalog Produk</h1>
-        <p><?php echo e($total); ?> produk tersedia dari berbagai perusahaan farmasi terpercaya</p>
+        <h1><i class="fa-solid fa-boxes-stacked"></i> Katalog Produk Grosir</h1>
+        <p>{{ $total }} produk tersedia dari berbagai perusahaan farmasi terpercaya</p>
     </div>
     <i class="fa-solid fa-pills header-deco-icon header-deco-icon-1"></i>
-    <i class="fa-solid fa-capsules header-deco-icon header-deco-icon-2"></i>
-    <i class="fa-solid fa-syringe header-deco-icon header-deco-icon-3"></i>
+    <i class="fa-solid fa-prescription-bottle-medical header-deco-icon header-deco-icon-2"></i>
+    <i class="fa-solid fa-stethoscope header-deco-icon header-deco-icon-3"></i>
 </div>
 
 <div class="products-main">
     <div class="container">
 
-        <form method="GET" action="<?php echo e(route('products')); ?>" class="filter-bar">
+        <form method="GET" action="{{ route('products.grosir') }}" class="filter-bar">
             <div class="filter-group" style="flex: 2; min-width: 200px;">
                 <label class="filter-label"><i class="fa-solid fa-magnifying-glass"></i> Cari Produk</label>
                 <input type="text" name="search" class="filter-input"
                        placeholder="Nama obat atau deskripsi..."
-                       value="<?php echo e($search); ?>">
+                       value="{{ $search }}">
             </div>
             <div class="filter-group">
                 <label class="filter-label"><i class="fa-solid fa-building"></i> Perusahaan</label>
                 <select name="perusahaan" class="filter-select">
                     <option value="">Semua Perusahaan</option>
-                    <?php $__currentLoopData = $perusahaans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option value="<?php echo e($p); ?>" <?php if($perusahaan === $p): echo 'selected'; endif; ?>><?php echo e($p); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    @foreach($perusahaans as $p)
+                        <option value="{{ $p }}" @selected($perusahaan === $p)>{{ $p }}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="filter-group">
                 <label class="filter-label"><i class="fa-solid fa-arrow-up-wide-short"></i> Urutkan</label>
                 <select name="sort" class="filter-select">
-                    <option value="terbaru"    <?php if($sort === 'terbaru'): echo 'selected'; endif; ?>>Terbaru</option>
-                    <option value="harga_asc"  <?php if($sort === 'harga_asc'): echo 'selected'; endif; ?>>Harga Terendah</option>
-                    <option value="harga_desc" <?php if($sort === 'harga_desc'): echo 'selected'; endif; ?>>Harga Tertinggi</option>
-                    <option value="nama"       <?php if($sort === 'nama'): echo 'selected'; endif; ?>>Nama A–Z</option>
+                    <option value="terbaru"    @selected($sort === 'terbaru')>Terbaru</option>
+                    <option value="harga_asc"  @selected($sort === 'harga_asc')>Harga Terendah</option>
+                    <option value="harga_desc" @selected($sort === 'harga_desc')>Harga Tertinggi</option>
+                    <option value="nama"       @selected($sort === 'nama')>Nama A–Z</option>
                 </select>
             </div>
             <div style="display: flex; gap: 0.5rem; align-items: flex-end;">
                 <button type="submit" class="btn-filter">
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
-                <?php if($search || $perusahaan || $sort !== 'terbaru'): ?>
-                    <a href="<?php echo e(route('products')); ?>" class="btn-reset">✕ Reset</a>
-                <?php endif; ?>
+                @if($search || $perusahaan || $sort !== 'terbaru')
+                    <a href="{{ route('products.grosir') }}" class="btn-reset">✕ Reset</a>
+                @endif
             </div>
         </form>
 
         <div class="result-info">
             <p>
-                Menampilkan <strong><?php echo e($medicines->firstItem() ?? 0); ?>–<?php echo e($medicines->lastItem() ?? 0); ?></strong>
-                dari <strong><?php echo e($medicines->total()); ?></strong> produk
-                <?php if($search): ?> · "<strong><?php echo e($search); ?></strong>" <?php endif; ?>
-                <?php if($perusahaan): ?> · <strong><?php echo e($perusahaan); ?></strong> <?php endif; ?>
+                Menampilkan <strong>{{ $medicines->firstItem() ?? 0 }}–{{ $medicines->lastItem() ?? 0 }}</strong>
+                dari <strong>{{ $medicines->total() }}</strong> produk
+                @if($search) · "<strong>{{ $search }}</strong>" @endif
+                @if($perusahaan) · <strong>{{ $perusahaan }}</strong> @endif
             </p>
         </div>
 
-        <?php if($medicines->count() > 0): ?>
+        @if($medicines->count() > 0)
             <div class="medicines-grid">
-                <?php $__currentLoopData = $medicines; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $medicine): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                @foreach($medicines as $medicine)
                     <div class="medicine-card">
                         <div class="medicine-image">
-                            <?php if($medicine->gambar): ?>
-                                <img src="<?php echo e(url('storage/' . $medicine->gambar)); ?>" alt="<?php echo e($medicine->nama_obat); ?>">
-                            <?php else: ?>
+                            @if($medicine->gambar)
+                                <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                            @else
                                 <i class="fa-solid fa-pills" style="color:#90caf9;font-size:3rem;"></i>
-                            <?php endif; ?>
+                            @endif
                         </div>
                         <div class="medicine-body">
-                            <span class="medicine-company"><?php echo e($medicine->kategori); ?></span>
-                            <h3 class="medicine-name"><?php echo e($medicine->nama_obat); ?></h3>
-                            <div class="medicine-price"><?php echo e($medicine->getFormattedPrice()); ?></div>
-                            <?php if($medicine->stok > 10): ?>
-                                <span class="stock-badge stock-available"><i class="fa-solid fa-circle-check"></i> <?php echo e($medicine->stok); ?> tersedia</span>
-                            <?php elseif($medicine->stok > 0): ?>
-                                <span class="stock-badge stock-low"><i class="fa-solid fa-triangle-exclamation"></i> <?php echo e($medicine->stok); ?> tersisa</span>
-                            <?php else: ?>
+                            <span class="medicine-company">{{ $medicine->kategori }}</span>
+                            <h3 class="medicine-name">{{ $medicine->nama_obat }}</h3>
+                            <div class="medicine-price">{{ $medicine->getFormattedPrice() }}</div>
+                            @if($medicine->stok > 10)
+                                <span class="stock-badge stock-available"><i class="fa-solid fa-circle-check"></i> {{ $medicine->stok }} tersedia</span>
+                            @elseif($medicine->stok > 0)
+                                <span class="stock-badge stock-low"><i class="fa-solid fa-triangle-exclamation"></i> {{ $medicine->stok }} tersisa</span>
+                            @else
                                 <span class="stock-badge stock-out"><i class="fa-solid fa-circle-xmark"></i> Habis</span>
-                            <?php endif; ?>
-                            <a href="<?php echo e(route('medicines.show', $medicine->id)); ?>" class="medicine-btn">
+                            @endif
+                            <a href="{{ route('medicines.show', $medicine->id) }}" class="medicine-btn">
                                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                            <?php if($medicine->stok > 0): ?>
-                            <button class="btn-cart" onclick="addToCart(<?php echo e($medicine->id); ?>, '<?php echo e(addslashes($medicine->nama_obat)); ?>', <?php echo e($medicine->harga); ?>, '<?php echo e($medicine->gambar ? url('storage/'.$medicine->gambar) : ''); ?>', this)">
+                            @if($medicine->stok > 0)
+                            <button class="btn-cart" onclick="addToCart({{ $medicine->id }}, '{{ addslashes($medicine->nama_obat) }}', {{ $medicine->harga }}, '{{ $medicine->gambar ? asset('storage/'.$medicine->gambar) : '' }}', this)">
                                 <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
                             </button>
-                            <?php endif; ?>
+                            @endif
                         </div>
                     </div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                @endforeach
             </div>
 
             <div class="pagination-wrap">
-                <p class="info">Halaman <?php echo e($medicines->currentPage()); ?> dari <?php echo e($medicines->lastPage()); ?></p>
+                <p class="info">Halaman {{ $medicines->currentPage() }} dari {{ $medicines->lastPage() }}</p>
                 <div class="pagination-btns">
-                    <?php if($medicines->onFirstPage()): ?>
+                    @if($medicines->onFirstPage())
                         <span class="page-btn disabled">‹</span>
-                    <?php else: ?>
-                        <a href="<?php echo e($medicines->previousPageUrl()); ?>" class="page-btn">‹</a>
-                    <?php endif; ?>
+                    @else
+                        <a href="{{ $medicines->previousPageUrl() }}" class="page-btn">‹</a>
+                    @endif
 
-                    <?php $__currentLoopData = $medicines->getUrlRange(1, $medicines->lastPage()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php if($page == $medicines->currentPage()): ?>
-                            <span class="page-btn active"><?php echo e($page); ?></span>
-                        <?php elseif($page == 1 || $page == $medicines->lastPage() || abs($page - $medicines->currentPage()) <= 2): ?>
-                            <a href="<?php echo e($url); ?>" class="page-btn"><?php echo e($page); ?></a>
-                        <?php elseif(abs($page - $medicines->currentPage()) == 3): ?>
+                    @foreach($medicines->getUrlRange(1, $medicines->lastPage()) as $page => $url)
+                        @if($page == $medicines->currentPage())
+                            <span class="page-btn active">{{ $page }}</span>
+                        @elseif($page == 1 || $page == $medicines->lastPage() || abs($page - $medicines->currentPage()) <= 2)
+                            <a href="{{ $url }}" class="page-btn">{{ $page }}</a>
+                        @elseif(abs($page - $medicines->currentPage()) == 3)
                             <span class="page-btn disabled">…</span>
-                        <?php endif; ?>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        @endif
+                    @endforeach
 
-                    <?php if($medicines->hasMorePages()): ?>
-                        <a href="<?php echo e($medicines->nextPageUrl()); ?>" class="page-btn"></a>
-                    <?php else: ?>
-                        <span class="page-btn disabled"></span>
-                    <?php endif; ?>
+                    @if($medicines->hasMorePages())
+                        <a href="{{ $medicines->nextPageUrl() }}" class="page-btn">›</a>
+                    @else
+                        <span class="page-btn disabled">›</span>
+                    @endif
                 </div>
             </div>
 
-        <?php else: ?>
+        @else
             <div class="empty-state">
                 <i class="fa-solid fa-box-open" style="font-size:3.5rem;color:#d1d5db;"></i>
                 <h3>Produk tidak ditemukan</h3>
                 <p>
-                    <?php if($search || $perusahaan): ?>
+                    @if($search || $perusahaan)
                         Coba ubah kata kunci atau filter pencarian.
-                    <?php else: ?>
+                    @else
                         Belum ada produk tersedia.
-                    <?php endif; ?>
+                    @endif
                 </p>
-                <?php if($search || $perusahaan): ?>
-                    <a href="<?php echo e(route('products')); ?>" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
-                <?php endif; ?>
+                @if($search || $perusahaan)
+                    <a href="{{ route('products.grosir') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
+                @endif
             </div>
-        <?php endif; ?>
+        @endif
 
     </div>
 </div>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('scripts'); ?>
+@section('scripts')
 <!-- Cart Overlay & Drawer -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-drawer" id="cartDrawer">
@@ -415,7 +417,7 @@
             <span>Total Pesanan</span>
             <strong id="cartTotal">Rp 0</strong>
         </div>
-        <button class="btn-wa" onclick="orderViaWhatsApp()">
+        <button class="btn-wa" onclick="openOrderForm()">
             <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i>
             Pesan via WhatsApp
         </button>
@@ -423,12 +425,96 @@
     </div>
 </div>
 
+<!-- Modal Form Pemesanan Grosir -->
+<div id="orderOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:3000;" onclick="closeOrderForm()"></div>
+<div id="orderModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:520px;max-height:90vh;overflow-y:auto;background:white;border-radius:20px;z-index:3001;box-shadow:0 25px 60px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#1565C0,#1E88E5);padding:1.25rem 1.5rem;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1;">
+        <div>
+            <h3 style="color:white;margin:0;font-size:1rem;font-weight:700;"><i class="fa-brands fa-whatsapp"></i> Form Pemesanan</h3>
+            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Grosir</p>
+        </div>
+        <button onclick="closeOrderForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+
+    <!-- Ringkasan pesanan -->
+    <div style="padding:1rem 1.5rem;background:#f8faff;border-bottom:1px solid #e5e7eb;">
+        <p style="font-size:0.78rem;font-weight:700;color:#6b7280;margin:0 0 0.5rem;text-transform:uppercase;">Ringkasan Pesanan</p>
+        <div id="orderSummary" style="font-size:0.85rem;color:#374151;"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid #e5e7eb;">
+            <span style="font-weight:700;color:#374151;">Total</span>
+            <span id="orderTotalDisplay" style="font-weight:800;color:#1E88E5;font-size:1rem;"></span>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div style="padding:1.25rem 1.5rem;">
+        <p style="font-size:0.78rem;font-weight:700;color:#6b7280;margin:0 0 1rem;text-transform:uppercase;">Formulir Pemesanan</p>
+
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Nama Pemesan <span style="color:#ef4444;">*</span></label>
+            <input id="g_nama" type="text" placeholder="Nama lengkap" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+        </div>
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Nama Outlet <span style="color:#ef4444;">*</span></label>
+            <input id="g_outlet" type="text" placeholder="Nama apotek / klinik / toko" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem;">
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">No. SIA <span style="color:#ef4444;">*</span></label>
+                <input id="g_sia" type="text" placeholder="No. SIA" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">No. SIPA <span style="color:#ef4444;">*</span></label>
+                <input id="g_sipa" type="text" placeholder="No. SIPA" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+        </div>
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Alamat <span style="color:#ef4444;">*</span></label>
+            <textarea id="g_alamat" rows="2" placeholder="Jl. nama jalan, no. rumah, RT/RW..." style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;resize:vertical;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem;">
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kelurahan</label>
+                <input id="g_kelurahan" type="text" placeholder="Kelurahan" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kecamatan</label>
+                <input id="g_kecamatan" type="text" placeholder="Kecamatan" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem;">
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kab / Kota</label>
+                <input id="g_kota" type="text" placeholder="Kab / Kota" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kodepos</label>
+                <input id="g_kodepos" type="text" placeholder="Kodepos" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+        </div>
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">No. HP / WA <span style="color:#ef4444;">*</span></label>
+            <input id="g_hp" type="tel" placeholder="08xxxxxxxxxx" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+        </div>
+
+        <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.8rem;color:#92400e;">
+            <i class="fa-solid fa-circle-info"></i> <strong>Mohon disertakan foto lampiran:</strong> KTP, NPWP, SIA, SIPA untuk proses registrasi pelanggan.
+        </div>
+
+        <div id="orderError" style="display:none;background:#fee2e2;color:#7f1d1d;padding:0.6rem 0.85rem;border-radius:8px;font-size:0.82rem;margin-bottom:0.85rem;"></div>
+
+        <button onclick="submitGrosirOrder()" style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#25D366,#1ebe5d);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Kirim Pesanan via WhatsApp
+        </button>
+    </div>
+</div>
+
 <script>
 const WA_NUMBER = '6285890007359';
-let cart = JSON.parse(localStorage.getItem('medikpedia_cart') || '[]');
+let cart = JSON.parse(localStorage.getItem('medikpedia_cart_grosir') || '[]');
 
 function saveCart() {
-    localStorage.setItem('medikpedia_cart', JSON.stringify(cart));
+    localStorage.setItem('medikpedia_cart_grosir', JSON.stringify(cart));
     updateBadge();
 }
 
@@ -438,7 +524,6 @@ function updateBadge() {
         b.textContent = total;
         b.style.display = total > 0 ? 'flex' : 'none';
     });
-    // Tampilkan/sembunyikan tombol cart di navbar
     const navBtn = document.getElementById('cartNavBtn');
     if (navBtn) navBtn.style.display = total > 0 ? 'flex' : 'none';
 }
@@ -469,6 +554,15 @@ function changeQty(id, delta) {
     item.qty += delta;
     if (item.qty <= 0) removeFromCart(id);
     else { saveCart(); renderCart(); }
+}
+
+function setQtyInput(id, val) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    const num = parseInt(val);
+    if (isNaN(num) || num < 1) return;
+    item.qty = num;
+    saveCart(); renderCart();
 }
 
 function clearCart() {
@@ -506,7 +600,10 @@ function renderCart() {
                 <div class="cart-item-price">${formatRp(item.price)}</div>
                 <div class="cart-item-qty">
                     <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
-                    <span class="qty-num">${item.qty}</span>
+                    <input class="qty-num" type="number" min="1" value="${item.qty}"
+                        style="width:44px;text-align:center;border:1.5px solid #e5e7eb;border-radius:6px;font-size:0.85rem;font-weight:700;padding:2px 4px;"
+                        onchange="setQtyInput(${item.id}, this.value)"
+                        oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                     <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
                 </div>
             </div>
@@ -530,8 +627,51 @@ function closeCart() {
     document.body.style.overflow = '';
 }
 
-function orderViaWhatsApp() {
+function openOrderForm() {
     if (cart.length === 0) return;
+    let html = '', total = 0;
+    cart.forEach((item, i) => {
+        const sub = item.price * item.qty;
+        total += sub;
+        html += `<div style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid #f3f4f6;">
+            <span style="flex:1;">${i+1}. ${item.name} <span style="color:#9ca3af;">×${item.qty}</span></span>
+            <span style="font-weight:700;color:#1E88E5;white-space:nowrap;margin-left:0.5rem;">${formatRp(sub)}</span>
+        </div>`;
+    });
+    document.getElementById('orderSummary').innerHTML = html;
+    document.getElementById('orderTotalDisplay').textContent = formatRp(total);
+    document.getElementById('orderOverlay').style.display = 'block';
+    document.getElementById('orderModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeOrderForm() {
+    document.getElementById('orderOverlay').style.display = 'none';
+    document.getElementById('orderModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function submitGrosirOrder() {
+    const nama    = document.getElementById('g_nama').value.trim();
+    const outlet  = document.getElementById('g_outlet').value.trim();
+    const sia     = document.getElementById('g_sia').value.trim();
+    const sipa    = document.getElementById('g_sipa').value.trim();
+    const alamat  = document.getElementById('g_alamat').value.trim();
+    const hp      = document.getElementById('g_hp').value.trim();
+    const errEl   = document.getElementById('orderError');
+
+    if (!nama || !outlet || !sia || !sipa || !alamat || !hp) {
+        errEl.textContent = 'Nama, Outlet, SIA, SIPA, Alamat, dan No. HP wajib diisi.';
+        errEl.style.display = 'block';
+        return;
+    }
+    errEl.style.display = 'none';
+
+    const kelurahan = document.getElementById('g_kelurahan').value.trim();
+    const kecamatan = document.getElementById('g_kecamatan').value.trim();
+    const kota      = document.getElementById('g_kota').value.trim();
+    const kodepos   = document.getElementById('g_kodepos').value.trim();
+
     let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n\n';
     let total = 0;
     cart.forEach((item, i) => {
@@ -541,27 +681,36 @@ function orderViaWhatsApp() {
     });
     msg += `━━━━━━━━━━━━━━━\n💰 *Total: ${formatRp(total)}*\n\n`;
     msg += `📋 *Formulir Pemesanan:*\n`;
-    msg += `- Nama Pemesan : \n`;
-    msg += `- Nama Outlet : \n`;
-    msg += `- No. SIA : \n`;
-    msg += `- No. SIPA : \n`;
-    msg += `- Alamat : \n`;
-    msg += `- Kelurahan : \n`;
-    msg += `- Kecamatan : \n`;
-    msg += `- Kab / Kota : \n`;
-    msg += `- Kodepos : \n`;
-    msg += `- No HP / WA : \n\n`;
+    msg += `- Nama Pemesan : ${nama}\n`;
+    msg += `- Nama Outlet  : ${outlet}\n`;
+    msg += `- No. SIA      : ${sia}\n`;
+    msg += `- No. SIPA     : ${sipa}\n`;
+    msg += `- Alamat       : ${alamat}\n`;
+    if (kelurahan) msg += `- Kelurahan    : ${kelurahan}\n`;
+    if (kecamatan) msg += `- Kecamatan    : ${kecamatan}\n`;
+    if (kota)      msg += `- Kab / Kota   : ${kota}\n`;
+    if (kodepos)   msg += `- Kodepos      : ${kodepos}\n`;
+    msg += `- No HP / WA   : ${hp}\n\n`;
     msg += `📎 *Mohon disertakan Foto Lampiran:*\nKTP, NPWP, SIA, SIPA\nuntuk proses registrasi pelanggan.\n\n`;
     msg += `Terima kasih, Salam, Medikpedia 🙏`;
+
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    closeOrderForm();
+}
+
+function orderViaWhatsApp() {
+    openOrderForm();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     updateBadge();
-    // Buka drawer otomatis jika dari navbar cart
     if (window.location.hash === '#keranjang') openCart();
+
+    // Tombol cart navbar — buka drawer langsung di halaman ini
+    const navBtn = document.getElementById('cartNavBtn');
+    if (navBtn) {
+        navBtn.onclick = function() { openCart(); };
+    }
 });
 </script>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.frontend', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u656662250/domains/medikpedia.com/public_html/resources/views/products.blade.php ENDPATH**/ ?>
+@endsection

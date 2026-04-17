@@ -304,10 +304,10 @@
         </p>
     </div>
     <div class="page-header-actions">
-        <a href="{{ route('admin.prescriptions.import') }}" class="btn-icon btn-icon-outline">
+        <a href="{{ route('admin.grosir.import') }}" class="btn-icon btn-icon-outline">
             <i class="fa-solid fa-file-import"></i> Import Excel
         </a>
-        <a href="{{ route('admin.prescriptions.create') }}" class="btn-icon btn-icon-primary">
+        <a href="{{ route('admin.grosir.create') }}" class="btn-icon btn-icon-primary">
             <i class="fa-solid fa-plus"></i> Tambah Produk
         </a>
     </div>
@@ -315,7 +315,7 @@
 
 {{-- Search & Filter --}}
 <div class="search-card">
-    <form method="GET" action="{{ route('admin.prescriptions.index') }}">
+    <form method="GET" action="{{ route('admin.grosir.index') }}">
         <div class="search-row">
             <div class="search-field">
                 <label>Cari Obat</label>
@@ -340,7 +340,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
                 @if($search || $kategori)
-                    <a href="{{ route('admin.prescriptions.index') }}" class="btn-reset">
+                    <a href="{{ route('admin.grosir.index') }}" class="btn-reset">
                         <i class="fa-solid fa-xmark"></i> Reset
                     </a>
                 @endif
@@ -397,11 +397,11 @@
                     </td>
                     <td>
                         <div class="action-wrap">
-                            <a href="{{ route('admin.prescriptions.edit', $medicine->id) }}" class="btn-edit">
+                            <a href="{{ route('admin.grosir.edit', $medicine->id) }}" class="btn-edit">
                                 <i class="fa-solid fa-pen"></i> Edit
                             </a>
-                            <form action="{{ route('admin.prescriptions.destroy', $medicine->id) }}" method="POST"
-                                  onsubmit="return confirm('Hapus produk resep ini?');">
+                            <form action="{{ route('admin.grosir.destroy', $medicine->id) }}" method="POST"
+                                  onsubmit="return confirm('Hapus produk grosir ini?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-del">
@@ -456,18 +456,18 @@
             <div class="empty-icon">🔍</div>
             <h3>Tidak ada hasil</h3>
             <p>Tidak ada produk yang cocok dengan <strong>"{{ $search ?: $kategori }}"</strong>.</p>
-            <a href="{{ route('admin.prescriptions.index') }}" class="btn-icon btn-icon-outline">
+            <a href="{{ route('admin.grosir.index') }}" class="btn-icon btn-icon-outline">
                 <i class="fa-solid fa-xmark"></i> Hapus Filter
             </a>
         @else
             <div class="empty-icon">💊</div>
-            <h3>Belum ada produk</h3>
-            <p>Mulai tambahkan obat atau import dari file Excel/CSV.</p>
+            <h3>Belum ada produk grosir</h3>
+            <p>Mulai tambahkan produk grosir atau import dari file Excel/CSV.</p>
             <div style="display:flex;gap:0.6rem;justify-content:center;flex-wrap:wrap;">
-                <a href="{{ route('admin.prescriptions.import') }}" class="btn-icon btn-icon-outline">
+                <a href="{{ route('admin.grosir.import') }}" class="btn-icon btn-icon-outline">
                     <i class="fa-solid fa-file-import"></i> Import Excel
                 </a>
-                <a href="{{ route('admin.prescriptions.create') }}" class="btn-icon btn-icon-primary">
+                <a href="{{ route('admin.grosir.create') }}" class="btn-icon btn-icon-primary">
                     <i class="fa-solid fa-plus"></i> Tambah Produk
                 </a>
             </div>

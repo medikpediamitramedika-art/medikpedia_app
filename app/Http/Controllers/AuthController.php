@@ -68,47 +68,5 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Admin berhasil dibuat. Silakan login');
     }
 
-    // ===== CUSTOMER AUTH =====
-     public function customerLoginForm()
-    {
-        if (Auth::check() && Auth::user()->isUser()) {
-            return redirect()->route('prescriptions');
-        }
-        return view('customer.login');
-    }
-
-    public function customerLogin(Request $request)
-    {
-        $request->validate([
-            'username' => ['required', 'string'],
-            'password' => ['required', 'string'],
-        ], [
-            'username.required' => 'Username wajib diisi.',
-            'password.required' => 'Password wajib diisi.',
-        ]);
-
-        // Cari user berdasarkan username
-        $user = User::where('username', $request->username)
-                    ->where('role', 'user')
-                    ->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return back()
-                ->withInput(['username' => $request->username])
-                ->with('error', 'Username atau password salah.');
-        }
-
-        Auth::login($user, $request->boolean('remember'));
-        $request->session()->regenerate();
-
-        return redirect()->route('prescriptions')->with('success', 'Selamat datang, ' . $user->name . '!');
-    }
-
-    public function customerLogout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect()->route('customer.login')->with('success', 'Anda telah logout.');
-    }
+    // ===== END =====
 }

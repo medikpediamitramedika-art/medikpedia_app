@@ -473,6 +473,15 @@ function changeQty(id, delta) {
     else { saveCart(); renderCart(); }
 }
 
+function setQtyInput(id, val) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    const num = parseInt(val);
+    if (isNaN(num) || num < 1) return;
+    item.qty = num;
+    saveCart(); renderCart();
+}
+
 function clearCart() {
     cart = []; saveCart(); renderCart();
 }
@@ -508,7 +517,10 @@ function renderCart() {
                 <div class="cart-item-price">${formatRp(item.price)}</div>
                 <div class="cart-item-qty">
                     <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
-                    <span class="qty-num">${item.qty}</span>
+                    <input class="qty-num" type="number" min="1" value="${item.qty}"
+                        style="width:44px;text-align:center;border:1.5px solid #e5e7eb;border-radius:6px;font-size:0.85rem;font-weight:700;padding:2px 4px;"
+                        onchange="setQtyInput(${item.id}, this.value)"
+                        oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                     <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
                 </div>
             </div>

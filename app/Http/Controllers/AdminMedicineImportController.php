@@ -206,13 +206,14 @@ class AdminMedicineImportController extends Controller
                 );
 
                 Medicine::updateOrCreate(
-                    ['nama_obat' => $data['NAMA PRODUK']],
+                    ['nama_obat' => $data['NAMA PRODUK'], 'is_grosir' => false],
                     [
                         'kategori'  => $data['PABRIK'],
-                        'harga'     => $this->parseHarga($data['RETAIL']), // 🔥 FIX HARGA
+                        'harga'     => $this->parseHarga($data['RETAIL']),
                         'stok'      => (int) preg_replace('/[^0-9]/', '', $data['STOK'] ?? 0),
                         'deskripsi' => $deskripsi,
                         'is_resep'  => $isResep,
+                        'is_grosir' => false,
                     ]
                 );
 

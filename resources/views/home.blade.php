@@ -1301,7 +1301,7 @@
                     Kami menjamin kualitas produk melalui standar pengadaan yang ketat. Sejak 2016, kami mengelola rantai distribusi secara mandiri melalui kerjasama dengan PBF lokal dan Nasional untuk memastikan keamanan dan keaslian produk hingga ke tangan mitra dan masyarakat. Dedikasi ini diperkuat dengan konsistensi dan pelayanan yang telah terjalin dengan Mitra kami di seluruh Indonesia, sebagai bukti komitmen kami dalam menjalankan tata kelola distribusi farmasi yang unggul demi kepercayaan seluruh mitra layanan medis.
                 </p>
                 <div class="hero-buttons">
-                    <a href="{{ route('products') }}" class="btn-hero-primary"><i class="fa-solid fa-pills"></i> Lihat Produk</a>
+                    <a href="{{ route('products.retail') }}" class="btn-hero-primary"><i class="fa-solid fa-pills"></i> Lihat Produk</a>
                     <a href="{{ route('news.index') }}" class="btn-hero-outline"><i class="fa-solid fa-tag"></i> Produk Promo</a>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -336,7 +336,7 @@
             z-index: 2001 !important;
         }
 
-        /* Global card style — semua card di seluruh halaman */
+        /* Global card style � semua card di seluruh halaman */
         .medicine-card, .news-card, .news-preview-card, .feature-card,
         .feature-item, .value-card, .team-card, .related-card,
         .vm-card, .stat-box, .info-card, .form-card,
@@ -730,8 +730,8 @@
 
             <ul class="navbar-menu" id="navbarMenu">
                 <li><a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="{{ route('products') }}"><i class="fa-solid fa-pills"></i> Produk Retail</a></li>
-                <li><a href="{{ route('prescriptions') }}"><i class="fa-solid fa-file-prescription"></i> Produk Grosir</a></li>
+                <li><a href="{{ route('products.retail') }}"><i class="fa-solid fa-pills"></i> Produk Retail</a></li>
+                <li><a href="{{ route('products.grosir') }}"><i class="fa-solid fa-file-prescription"></i> Produk Grosir</a></li>
                 <li><a href="{{ route('activities.index') }}"><i class="fa-solid fa-camera"></i> Aktivitas</a></li>
                 <li><a href="{{ route('farmakologi') }}"><i class="fa-solid fa-book-medical"></i> Farmakologi</a></li>
                 <li><a href="{{ route('about') }}"><i class="fa-solid fa-circle-info"></i> Tentang Kami</a></li>
@@ -764,7 +764,7 @@
             </ul>
 
             {{-- Cart button --}}
-            <button class="cart-nav-btn" id="cartNavBtn" onclick="window.location.href='{{ route('products') }}#keranjang'" title="Keranjang Belanja" style="display:none;">
+            <button class="cart-nav-btn" id="cartNavBtn" onclick="if(typeof openCart==='function'){openCart();}else{window.location.href='{{ route('products.retail') }}#keranjang';}" title="Keranjang Belanja" style="display:none;">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-badge" id="cartBadgeNav">0</span>
             </button>
@@ -998,7 +998,7 @@
             links.classList.toggle('open');
             toggle.classList.toggle('open');
         }
-        // Desktop: selalu tampil — jangan pakai inline style agar tidak override CSS
+        // Desktop: selalu tampil � jangan pakai inline style agar tidak override CSS
         function checkFloatDesktop() {
             const links = document.getElementById('floatLinks');
             if (window.innerWidth > 768) {
@@ -1149,17 +1149,32 @@
     </script>
 
     <script>
+        // Migrasi cart lama ke key baru (sekali saja)
+        (function() {
+            const old = localStorage.getItem('medikpedia_cart');
+            if (old && old !== '[]') {
+                // Cek apakah sudah ada di key baru
+                const retail = localStorage.getItem('medikpedia_cart_retail');
+                if (!retail || retail === '[]') {
+                    localStorage.setItem('medikpedia_cart_retail', old);
+                }
+                localStorage.removeItem('medikpedia_cart');
+            }
+        })();
+
         // Cart badge sync dari localStorage (semua halaman)
         (function() {
-            const cart = JSON.parse(localStorage.getItem('medikpedia_cart') || '[]');
-            const total = cart.reduce((s, i) => s + i.qty, 0);
+            const cartRetail = JSON.parse(localStorage.getItem('medikpedia_cart_retail') || '[]');
+            const cartGrosir = JSON.parse(localStorage.getItem('medikpedia_cart_grosir') || '[]');
+            const totalRetail = cartRetail.reduce((s, i) => s + i.qty, 0);
+            const totalGrosir = cartGrosir.reduce((s, i) => s + i.qty, 0);
+            const total = totalRetail + totalGrosir;
             const badge = document.getElementById('cartBadgeNav');
             const btn   = document.getElementById('cartNavBtn');
             if (badge && total > 0) {
                 badge.textContent = total;
                 badge.style.display = 'flex';
             }
-            // Tampilkan tombol cart di semua halaman jika ada isi keranjang
             if (btn && total > 0) btn.style.display = 'flex';
         })();
 

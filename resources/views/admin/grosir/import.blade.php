@@ -211,8 +211,8 @@
 
 {{-- Breadcrumb --}}
 <div class="breadcrumb-custom">
-    <a href="{{ route('admin.prescriptions.index') }}">
-        <i class="fa-solid fa-pills"></i> Manajemen Produk
+    <a href="{{ route('admin.grosir.index') }}">
+        <i class="fa-solid fa-pills"></i> Manajemen Produk Grosir
     </a>
     <i class="fa-solid fa-chevron-right"></i>
     <span>Import Data Obat</span>
@@ -241,7 +241,7 @@
     </div>
     <div class="form-body">
         <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
-            <a href="{{ route('admin.prescriptions.import.template') }}" class="btn-save" style="background: #10b981; text-decoration: none;">
+            <a href="{{ route('admin.grosir.import.template') }}" class="btn-save" style="background: #10b981; text-decoration: none;">
                 <i class="fa-solid fa-download"></i> Download Template Excel (.xls)
             </a>
             <span style="color: #6b7280; font-size: 0.875rem;">
@@ -333,7 +333,7 @@
         </div>
     </div>
     <div class="form-footer">
-        <form action="{{ route('admin.prescriptions.import.process') }}" method="POST" enctype="multipart/form-data" id="submitForm" style="display: none;">
+        <form action="{{ route('admin.grosir.import.process') }}" method="POST" enctype="multipart/form-data" id="submitForm" style="display: none;">
             @csrf
             <input type="file" id="fileInputHidden" name="file" style="display: none;">
         </form>
@@ -341,7 +341,7 @@
                 style="opacity: 0.5; cursor: not-allowed;">
             <i class="fa-solid fa-cloud-arrow-up"></i> Import Sekarang
         </button>
-        <a href="{{ route('admin.prescriptions.index') }}" class="btn-cancel">
+        <a href="{{ route('admin.grosir.index') }}" class="btn-cancel">
             <i class="fa-solid fa-xmark"></i> Batal
         </a>
     </div>

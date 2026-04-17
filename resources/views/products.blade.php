@@ -270,7 +270,7 @@
 <div class="products-main">
     <div class="container">
 
-        <form method="GET" action="{{ route('products') }}" class="filter-bar">
+        <form method="GET" action="{{ route('products.retail') }}" class="filter-bar">
             <div class="filter-group" style="flex: 2; min-width: 200px;">
                 <label class="filter-label"><i class="fa-solid fa-magnifying-glass"></i> Cari Produk</label>
                 <input type="text" name="search" class="filter-input"
@@ -300,7 +300,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
                 @if($search || $perusahaan || $sort !== 'terbaru')
-                    <a href="{{ route('products') }}" class="btn-reset">✕ Reset</a>
+                    <a href="{{ route('products.retail') }}" class="btn-reset">✕ Reset</a>
                 @endif
             </div>
         </form>
@@ -388,7 +388,7 @@
                     @endif
                 </p>
                 @if($search || $perusahaan)
-                    <a href="{{ route('products') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
+                    <a href="{{ route('products.retail') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
                 @endif
             </div>
         @endif
@@ -417,7 +417,7 @@
             <span>Total Pesanan</span>
             <strong id="cartTotal">Rp 0</strong>
         </div>
-        <button class="btn-wa" onclick="orderViaWhatsApp()">
+        <button class="btn-wa" onclick="openOrderForm()">
             <i class="fa-brands fa-whatsapp" style="font-size:1.3rem;"></i>
             Pesan via WhatsApp
         </button>
@@ -425,12 +425,68 @@
     </div>
 </div>
 
+<!-- Modal Form Pemesanan Retail -->
+<div id="orderOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:3000;" onclick="closeOrderForm()"></div>
+<div id="orderModal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:480px;max-height:90vh;overflow-y:auto;background:white;border-radius:20px;z-index:3001;box-shadow:0 25px 60px rgba(0,0,0,0.25);">
+    <div style="background:linear-gradient(135deg,#1565C0,#1E88E5);padding:1.25rem 1.5rem;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+            <h3 style="color:white;margin:0;font-size:1rem;font-weight:700;"><i class="fa-brands fa-whatsapp"></i> Form Pemesanan</h3>
+            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Retail</p>
+        </div>
+        <button onclick="closeOrderForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+
+    <!-- Ringkasan pesanan -->
+    <div style="padding:1rem 1.5rem;background:#f8faff;border-bottom:1px solid #e5e7eb;">
+        <p style="font-size:0.78rem;font-weight:700;color:#6b7280;margin:0 0 0.5rem;text-transform:uppercase;">Ringkasan Pesanan</p>
+        <div id="orderSummary" style="font-size:0.85rem;color:#374151;"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid #e5e7eb;">
+            <span style="font-weight:700;color:#374151;">Total</span>
+            <span id="orderTotalDisplay" style="font-weight:800;color:#1E88E5;font-size:1rem;"></span>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div style="padding:1.25rem 1.5rem;">
+        <p style="font-size:0.78rem;font-weight:700;color:#6b7280;margin:0 0 1rem;text-transform:uppercase;">Informasi Pengiriman</p>
+
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Nama Pemesan <span style="color:#ef4444;">*</span></label>
+            <input id="r_nama" type="text" placeholder="Nama lengkap" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+        </div>
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">No. HP / WA <span style="color:#ef4444;">*</span></label>
+            <input id="r_hp" type="tel" placeholder="08xxxxxxxxxx" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+        </div>
+        <div style="margin-bottom:0.85rem;">
+            <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Alamat Lengkap <span style="color:#ef4444;">*</span></label>
+            <textarea id="r_alamat" rows="3" placeholder="Jl. nama jalan, no. rumah, RT/RW..." style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;resize:vertical;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.85rem;">
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kecamatan</label>
+                <input id="r_kecamatan" type="text" placeholder="Kecamatan" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+            <div>
+                <label style="display:block;font-size:0.8rem;font-weight:700;color:#374151;margin-bottom:0.35rem;">Kota / Kab</label>
+                <input id="r_kota" type="text" placeholder="Kota / Kabupaten" style="width:100%;padding:0.6rem 0.85rem;border:1.5px solid #e5e7eb;border-radius:10px;font-size:0.9rem;outline:none;" onfocus="this.style.borderColor='#1E88E5'" onblur="this.style.borderColor='#e5e7eb'">
+            </div>
+        </div>
+
+        <div id="orderError" style="display:none;background:#fee2e2;color:#7f1d1d;padding:0.6rem 0.85rem;border-radius:8px;font-size:0.82rem;margin-bottom:0.85rem;"></div>
+
+        <button onclick="submitRetailOrder()" style="width:100%;padding:0.85rem;background:linear-gradient(135deg,#25D366,#1ebe5d);color:white;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;">
+            <i class="fa-brands fa-whatsapp" style="font-size:1.2rem;"></i> Kirim Pesanan via WhatsApp
+        </button>
+    </div>
+</div>
+
 <script>
 const WA_NUMBER = '6285890007359';
-let cart = JSON.parse(localStorage.getItem('medikpedia_cart') || '[]');
+let cart = JSON.parse(localStorage.getItem('medikpedia_cart_retail') || '[]');
 
 function saveCart() {
-    localStorage.setItem('medikpedia_cart', JSON.stringify(cart));
+    localStorage.setItem('medikpedia_cart_retail', JSON.stringify(cart));
     updateBadge();
 }
 
@@ -473,6 +529,15 @@ function changeQty(id, delta) {
     else { saveCart(); renderCart(); }
 }
 
+function setQtyInput(id, val) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    const num = parseInt(val);
+    if (isNaN(num) || num < 1) return;
+    item.qty = num;
+    saveCart(); renderCart();
+}
+
 function clearCart() {
     cart = []; saveCart(); renderCart();
 }
@@ -508,7 +573,10 @@ function renderCart() {
                 <div class="cart-item-price">${formatRp(item.price)}</div>
                 <div class="cart-item-qty">
                     <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
-                    <span class="qty-num">${item.qty}</span>
+                    <input class="qty-num" type="number" min="1" value="${item.qty}"
+                        style="width:44px;text-align:center;border:1.5px solid #e5e7eb;border-radius:6px;font-size:0.85rem;font-weight:700;padding:2px 4px;"
+                        onchange="setQtyInput(${item.id}, this.value)"
+                        oninput="this.value=this.value.replace(/[^0-9]/g,'')">
                     <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
                 </div>
             </div>
@@ -532,8 +600,47 @@ function closeCart() {
     document.body.style.overflow = '';
 }
 
-function orderViaWhatsApp() {
+function openOrderForm() {
     if (cart.length === 0) return;
+    // Isi ringkasan pesanan
+    let html = '', total = 0;
+    cart.forEach((item, i) => {
+        const sub = item.price * item.qty;
+        total += sub;
+        html += `<div style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px solid #f3f4f6;">
+            <span style="flex:1;">${i+1}. ${item.name} <span style="color:#9ca3af;">×${item.qty}</span></span>
+            <span style="font-weight:700;color:#1E88E5;white-space:nowrap;margin-left:0.5rem;">${formatRp(sub)}</span>
+        </div>`;
+    });
+    document.getElementById('orderSummary').innerHTML = html;
+    document.getElementById('orderTotalDisplay').textContent = formatRp(total);
+    document.getElementById('orderOverlay').style.display = 'block';
+    document.getElementById('orderModal').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeOrderForm() {
+    document.getElementById('orderOverlay').style.display = 'none';
+    document.getElementById('orderModal').style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+function submitRetailOrder() {
+    const nama    = document.getElementById('r_nama').value.trim();
+    const hp      = document.getElementById('r_hp').value.trim();
+    const alamat  = document.getElementById('r_alamat').value.trim();
+    const errEl   = document.getElementById('orderError');
+
+    if (!nama || !hp || !alamat) {
+        errEl.textContent = 'Nama, No. HP, dan Alamat wajib diisi.';
+        errEl.style.display = 'block';
+        return;
+    }
+    errEl.style.display = 'none';
+
+    const kecamatan = document.getElementById('r_kecamatan').value.trim();
+    const kota      = document.getElementById('r_kota').value.trim();
+
     let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n\n';
     let total = 0;
     cart.forEach((item, i) => {
@@ -542,26 +649,32 @@ function orderViaWhatsApp() {
         msg += `${i+1}. *${item.name}*\n   Qty: ${item.qty} × ${formatRp(item.price)} = ${formatRp(sub)}\n\n`;
     });
     msg += `━━━━━━━━━━━━━━━\n💰 *Total: ${formatRp(total)}*\n\n`;
-    msg += `📋 *Formulir Pemesanan:*\n`;
-    msg += `- Nama Pemesan : \n`;
-    msg += `- Nama Outlet : \n`;
-    msg += `- No. SIA : \n`;
-    msg += `- No. SIPA : \n`;
-    msg += `- Alamat : \n`;
-    msg += `- Kelurahan : \n`;
-    msg += `- Kecamatan : \n`;
-    msg += `- Kab / Kota : \n`;
-    msg += `- Kodepos : \n`;
-    msg += `- No HP / WA : \n\n`;
-    msg += `📎 *Mohon disertakan Foto Lampiran:*\nKTP, NPWP, SIA, SIPA\nuntuk proses registrasi pelanggan.\n\n`;
-    msg += `Terima kasih, Salam, Medikpedia 🙏`;
+    msg += `📋 *Data Pemesan:*\n`;
+    msg += `- Nama     : ${nama}\n`;
+    msg += `- No HP/WA : ${hp}\n`;
+    msg += `- Alamat   : ${alamat}\n`;
+    if (kecamatan) msg += `- Kecamatan: ${kecamatan}\n`;
+    if (kota)      msg += `- Kota/Kab : ${kota}\n`;
+    msg += `\nTerima kasih, Salam, Medikpedia 🙏`;
+
     window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+    closeOrderForm();
+}
+
+function orderViaWhatsApp() {
+    openOrderForm();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     updateBadge();
-    // Buka drawer otomatis jika dari navbar cart
+    // Buka drawer otomatis jika dari navbar cart atau hash
     if (window.location.hash === '#keranjang') openCart();
+
+    // Tombol cart navbar — buka drawer langsung di halaman ini
+    const navBtn = document.getElementById('cartNavBtn');
+    if (navBtn) {
+        navBtn.onclick = function() { openCart(); };
+    }
 });
 </script>
 @endsection
