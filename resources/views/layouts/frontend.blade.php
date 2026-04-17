@@ -730,24 +730,8 @@
 
             <ul class="navbar-menu" id="navbarMenu">
                 <li><a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="{{ route('products') }}"><i class="fa-solid fa-pills"></i> Produk OTC</a></li>
-                <li>
-                    @auth
-                        @if(auth()->user()->isUser())
-                            <a href="{{ route('prescriptions') }}" style="color:#7CB342;font-weight:700;">
-                                <i class="fa-solid fa-file-prescription"></i> Produk Lengkap
-                            </a>
-                        @else
-                            <a href="{{ route('customer.login') }}">
-                                <i class="fa-solid fa-file-prescription"></i> Produk Lengkap
-                            </a>
-                        @endif
-                    @else
-                        <a href="{{ route('customer.login') }}">
-                            <i class="fa-solid fa-file-prescription"></i> Produk Lengkap
-                        </a>
-                    @endauth
-                </li>
+                <li><a href="{{ route('products') }}"><i class="fa-solid fa-pills"></i> Produk Retail</a></li>
+                <li><a href="{{ route('prescriptions') }}"><i class="fa-solid fa-file-prescription"></i> Produk Grosir</a></li>
                 <li><a href="{{ route('activities.index') }}"><i class="fa-solid fa-camera"></i> Aktivitas</a></li>
                 <li><a href="{{ route('farmakologi') }}"><i class="fa-solid fa-book-medical"></i> Farmakologi</a></li>
                 <li><a href="{{ route('about') }}"><i class="fa-solid fa-circle-info"></i> Tentang Kami</a></li>

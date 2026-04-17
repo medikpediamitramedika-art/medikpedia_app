@@ -72,7 +72,7 @@ class AdminPrescriptionProductController extends Controller
         if ($request->hasFile('gambar')) {
             $image     = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/medicines', $imageName);
+            $image->storeAs('medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
         }
 
@@ -130,17 +130,17 @@ class AdminPrescriptionProductController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
             if ($product->gambar) {
-                Storage::delete('public/' . $product->gambar);
+                Storage::delete($product->gambar);
             }
 
             // Upload gambar baru
             $image = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/medicines', $imageName);
+            $image->storeAs('medicines', $imageName);
             $validated['gambar'] = 'medicines/' . $imageName;
         } elseif ($request->input('delete_gambar') == '1' && $product->gambar) {
             // Hapus foto tanpa upload baru
-            Storage::delete('public/' . $product->gambar);
+            Storage::delete($product->gambar);
             $validated['gambar'] = null;
         }
 
@@ -159,7 +159,7 @@ class AdminPrescriptionProductController extends Controller
 
         // Hapus gambar
         if ($product->gambar) {
-            Storage::delete('public/' . $product->gambar);
+            Storage::delete($product->gambar);
         }
 
         $product->delete();

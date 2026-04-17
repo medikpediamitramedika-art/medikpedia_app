@@ -5,160 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Medicine;
 use App\Constants\Companies;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminMedicineImportController extends Controller
 {
     private array $companies = Companies::LIST;
 
-    /**
-     * Download template dalam format Excel XML (.xls) — langsung rapi di Excel
-     */
-    public function downloadTemplate()
-    {
-        $headers = [
-            'Content-Type'        => 'application/vnd.ms-excel; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="template_import_obat.xls"',
-            'Cache-Control'       => 'max-age=0',
-        ];
-
-        $columns = ['PABRIK', 'NAMA PRODUK', 'RETAIL', 'STOK', 'KOMPOSISI', 'INDIKASI', 'GOLONGAN'];
-
-        $contohData = [
-            ['KIMIA FARMA',  'Paracetamol 500mg',  5000,  100, 'Paracetamol 500 mg', 'Demam & nyeri', 'BEBAS'],
-            ['KALBE',        'Amoxicillin 500mg',  15000,  50, 'Amoxicillin 500 mg', 'Infeksi bakteri', 'KERAS'],
-            ['SANBE',        'Vitamin C 1000mg',   8000,  200, 'Vitamin C 1000 mg', 'Suplemen vitamin C', 'BEBAS'],
-        ];
-
-        $xml = $this->buildExcelXml($columns, $contohData);
-
-        return response($xml, 200, $headers);
-    }
-
-    /**
-     * Build Excel XML (SpreadsheetML) — tidak butuh library eksternal
-     */
-    private function buildExcelXml(array $columns, array $rows): string
-    {
-        $xml  = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $xml .= '<?mso-application progid="Excel.Sheet"?>' . "\n";
-        $xml .= '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"';
-        $xml .= ' xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"';
-        $xml .= ' xmlns:x="urn:schemas-microsoft-com:office:excel">' . "\n";
-
-        // Style
-        $xml .= '<Styles>';
-        $xml .= '<Style ss:ID="header">';
-        $xml .= '<Font ss:Bold="1" ss:Color="#FFFFFF" ss:Size="11"/>';
-        $xml .= '<Interior ss:Color="#1d4ed8" ss:Pattern="Solid"/>';
-        $xml .= '<Alignment ss:Horizontal="Center" ss:Vertical="Center"/>';
-        $xml .= '<Borders><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders>';
-        $xml .= '</Style>';
-        $xml .= '<Style ss:ID="data">';
-        $xml .= '<Font ss:Size="10"/>';
-        $xml .= '<Alignment ss:Vertical="Center"/>';
-        $xml .= '</Style>';
-        $xml .= '<Style ss:ID="number">';
-        $xml .= '<Font ss:Size="10"/>';
-        $xml .= '<Alignment ss:Horizontal="Right" ss:Vertical="Center"/>';
-        $xml .= '<NumberFormat ss:Format="0"/>';
-        $xml .= '</Style>';
-        $xml .= '</Styles>';
-
-        $xml .= '<Worksheet ss:Name="Data Obat">';
-        $xml .= '<Table ss:DefaultRowHeight="20">';
-
-        // Lebar kolom
-        $widths = [120, 180, 80, 60, 150, 200, 80];
-        foreach ($widths as $w) {
-            $xml .= '<Column ss:Width="' . $w . '"/>';
-        }
-
-        // Baris header
-        $xml .= '<Row ss:Height="24">';
-        foreach ($columns as $col) {
-            $xml .= '<Cell ss:StyleID="header"><Data ss:Type="String">' . htmlspecialchars($col) . '</Data></Cell>';
-        }
-        $xml .= '</Row>';
-
-        // Baris data contoh
-        foreach ($rows as $row) {
-            $xml .= '<Row ss:Height="20">';
-            foreach ($row as $i => $val) {
-                // kolom RETAIL (index 2) dan STOK (index 3) sebagai Number
-                if ($i === 2 || $i === 3) {
-                    $xml .= '<Cell ss:StyleID="number"><Data ss:Type="Number">' . (int)$val . '</Data></Cell>';
-                } else {
-                    $xml .= '<Cell ss:StyleID="data"><Data ss:Type="String">' . htmlspecialchars((string)$val) . '</Data></Cell>';
-                }
-            }
-            $xml .= '</Row>';
-        }
-
-        $xml .= '</Table>';
-
-        // Auto-filter pada header
-        $xml .= '<AutoFilter x:Range="R1C1:R1C7" xmlns="urn:schemas-microsoft-com:office:excel"/>';
-
-        $xml .= '</Worksheet>';
-
-        // Sheet petunjuk
-        $xml .= '<Worksheet ss:Name="Petunjuk">';
-        $xml .= '<Table>';
-        $xml .= '<Column ss:Width="500"/>';
-        $petunjuk = [
-            ['PETUNJUK PENGISIAN'],
-            [''],
-            ['1. Isi data di sheet "Data Obat"'],
-            ['2. Jangan ubah nama kolom di baris pertama'],
-            ['3. Kolom PABRIK      : Nama perusahaan farmasi (wajib)'],
-            ['4. Kolom NAMA PRODUK : Nama lengkap obat (wajib)'],
-            ['5. Kolom RETAIL      : Harga retail (angka saja, tanpa Rp)'],
-            ['6. Kolom STOK        : Jumlah stok awal (angka, boleh 0)'],
-            ['7. Kolom KOMPOSISI   : Komposisi/kandungan obat (wajib)'],
-            ['8. Kolom INDIKASI    : Kegunaan/indikasi obat (wajib)'],
-            ['9. Kolom GOLONGAN    : BEBAS atau KERAS (wajib)'],
-            [''],
-            ['Setelah diisi, simpan sebagai CSV lalu upload di halaman Import.'],
-        ];
-        foreach ($petunjuk as $p) {
-            $xml .= '<Row><Cell><Data ss:Type="String">' . htmlspecialchars($p[0]) . '</Data></Cell></Row>';
-        }
-        $xml .= '</Table></Worksheet>';
-
-        $xml .= '</Workbook>';
-
-        return $xml;
-    }
-
-    /**
-     * Tampilkan form import
-     */
     public function showImportForm()
     {
-        return view('admin.medicines.import', ['categories' => $this->companies]);
+        return view('admin.medicines.import', [
+            'categories' => $this->companies
+        ]);
     }
 
-    /**
-     * Proses import file CSV/Excel
-     */
     public function import(Request $request)
     {
         $request->validate([
             'file' => ['required', 'file', 'max:2048'],
-        ], [
-            'file.required' => 'File wajib dipilih.',
-            'file.max'      => 'Ukuran file maksimal 2MB.',
         ]);
 
-        $file      = $request->file('file');
-        $extension = strtolower($file->getClientOriginalExtension());
+        $file = $request->file('file');
+        $ext  = strtolower($file->getClientOriginalExtension());
 
-        // Validasi ekstensi manual (lebih reliable dari MIME check)
-        if (! in_array($extension, ['csv', 'xls', 'xlsx', 'txt'])) {
-            return back()->withErrors(['file' => 'Format file harus CSV atau Excel (.xls/.xlsx). File yang diupload: .' . $extension]);
+        if (!in_array($ext, ['csv', 'xls', 'xlsx'])) {
+            return back()->withErrors(['file' => 'Format harus CSV / XLS / XLSX']);
         }
 
-        if (in_array($extension, ['xlsx', 'xls'])) {
+        if (in_array($ext, ['xls', 'xlsx'])) {
             return $this->importExcel($file);
         }
 
@@ -166,333 +39,251 @@ class AdminMedicineImportController extends Controller
     }
 
     /**
-     * Import dari file CSV
+     * =========================
+     * CSV IMPORT
+     * =========================
      */
     private function importCsv($file)
     {
-        $path    = $file->getRealPath();
-        $content = file_get_contents($path);
+        $content = file_get_contents($file->getRealPath());
 
-        // Hapus BOM jika ada
         $content = preg_replace('/^\xEF\xBB\xBF/', '', $content);
-        $content = str_replace("\r\n", "\n", $content);
-        $content = str_replace("\r", "\n", $content);
+        $lines   = array_values(array_filter(explode("\n", $content)));
 
-        // Parse header dari baris pertama
-        $firstNewline = strpos($content, "\n");
-        if ($firstNewline === false) {
-            return back()->withErrors(['file' => 'File CSV tidak valid.']);
+        if (count($lines) < 2) {
+            return back()->withErrors(['file' => 'File kosong']);
         }
 
-        $headerLine = substr($content, 0, $firstNewline);
-        $rest       = substr($content, $firstNewline + 1);
+        // AUTO DETECT DELIMITER
+        $delimiter = str_contains($lines[0], ';') ? ';' : ',';
 
-        $header = array_map('trim', str_getcsv($headerLine, ',', '"'));
+        $header = array_map(
+            fn($h) => strtoupper(trim($h)),
+            str_getcsv($lines[0], $delimiter)
+        );
 
-        $required = ['NAMA PRODUK', 'RETAIL'];
-        $missing  = array_diff($required, $header);
-        $hasPabrik = in_array('PABRIK', $header);
+        $required = ['PABRIK','NAMA PRODUK','RETAIL','KOMPOSISI','INDIKASI','GOLONGAN'];
 
-        if (!empty($missing) || !$hasPabrik) {
-            $allRequired = array_merge($required, ['PABRIK']);
+        $missing = array_diff($required, $header);
+
+        if (!empty($missing)) {
             return back()->withErrors([
-                'file' => 'Kolom tidak lengkap. Kolom yang kurang: ' . implode(', ', array_diff($allRequired, $header)),
+                'file' => 'Header kurang: ' . implode(', ', $missing)
             ]);
         }
 
-        $dataLines = array_filter(explode("\n", $rest), fn($l) => trim($l) !== '');
-
-        return $this->processRows($header, array_values($dataLines));
+        return $this->processRows($header, array_slice($lines, 1), $delimiter);
     }
 
     /**
-     * Import dari file Excel (.xls XML SpreadsheetML atau .xlsx yang disimpan sebagai CSV)
+     * =========================
+     * EXCEL IMPORT
+     * =========================
      */
     private function importExcel($file)
     {
         $content = file_get_contents($file->getRealPath());
 
-        // Kasus 1: File adalah Excel XML (SpreadsheetML) — format yang kita generate
-        if (strpos($content, 'urn:schemas-microsoft-com:office:spreadsheet') !== false
-            || strpos($content, '<Workbook') !== false) {
+        if (strpos($content, '<Workbook') !== false) {
             return $this->importExcelXml($content);
         }
 
-        // Kasus 2: File .xlsx (ZIP-based) — tidak bisa diparse tanpa ext-zip
-        // Tapi coba dulu baca sebagai teks biasa/CSV (kadang user save-as CSV dengan ekstensi xls)
         if (strpos($content, 'PK') === 0) {
             return back()->withErrors([
-                'file' => 'Format .xlsx tidak didukung langsung. Silakan buka file di Excel → Save As → pilih "CSV (Comma delimited)" → upload file CSV tersebut.',
+                'file' => 'File XLSX tidak didukung. Save as CSV.'
             ]);
         }
 
-        // Kasus 3: File .xls yang sebenarnya berisi teks/CSV
-        $content = preg_replace('/^\xEF\xBB\xBF/', '', $content);
-        $lines   = array_filter(explode("\n", $content), fn($l) => trim($l) !== '');
-        $lines   = array_values($lines);
-
-        if (count($lines) >= 2) {
-            $header = $this->parseCsvLine($lines[0]);
-            $header = array_map('trim', $header);
-            $required = ['nama_obat', 'kategori', 'harga', 'stok', 'deskripsi'];
-            if (empty(array_diff($required, $header))) {
-                return $this->processRows($header, array_slice($lines, 1));
-            }
-        }
-
         return back()->withErrors([
-            'file' => 'Format file tidak dikenali. Gunakan template yang sudah disediakan dan simpan sebagai CSV sebelum upload.',
+            'file' => 'Format Excel tidak dikenali'
         ]);
     }
 
     /**
-     * Parse Excel XML (SpreadsheetML) — format yang dihasilkan downloadTemplate()
+     * =========================
+     * EXCEL XML PARSER
+     * =========================
      */
-    private function importExcelXml(string $content): mixed
+    private function importExcelXml($content)
     {
-        // Suppress XML errors, parse dengan libxml
         libxml_use_internal_errors(true);
 
-        // Hapus namespace agar SimpleXML mudah parse
         $content = preg_replace('/xmlns[^=]*="[^"]*"/i', '', $content);
-        $content = preg_replace('/<\?mso-application[^?]*\?>/i', '', $content);
 
         $xml = simplexml_load_string($content);
 
-        if ($xml === false) {
-            return back()->withErrors(['file' => 'File Excel tidak bisa dibaca. Pastikan file tidak rusak.']);
-        }
-
-        // Cari worksheet pertama (sheet "Data Obat")
-        $worksheet = null;
-        foreach ($xml->Worksheet as $ws) {
-            $name = (string) $ws->attributes()['Name'] ?? '';
-            // Ambil sheet pertama yang bukan "Petunjuk"
-            if (strtolower($name) !== 'petunjuk') {
-                $worksheet = $ws;
-                break;
-            }
-        }
-
-        if (!$worksheet || !isset($worksheet->Table)) {
-            return back()->withErrors(['file' => 'Sheet "Data Obat" tidak ditemukan di file Excel.']);
+        if (!$xml) {
+            return back()->withErrors(['file' => 'File rusak']);
         }
 
         $rows = [];
-        foreach ($worksheet->Table->Row as $row) {
-            $rowData = [];
+
+        foreach ($xml->Worksheet[0]->Table->Row as $row) {
+            $r = [];
             foreach ($row->Cell as $cell) {
-                $rowData[] = trim((string) $cell->Data);
+                $r[] = trim((string)$cell->Data);
             }
-            $rows[] = $rowData;
+            $rows[] = $r;
         }
 
         if (count($rows) < 2) {
-            return back()->withErrors(['file' => 'File Excel kosong atau hanya berisi header.']);
+            return back()->withErrors(['file' => 'Data kosong']);
         }
 
-        // Baris pertama = header
-        $header   = array_map('trim', $rows[0]);
-        $required = ['NAMA PRODUK', 'RETAIL'];
-        $hasPabrik   = in_array('PABRIK', $header);
-        $hasKomposisi = in_array('KOMPOSISI', $header);
-        $hasIndikasi = in_array('INDIKASI', $header);
-        $hasGolongan = in_array('GOLONGAN', $header);
-        $missing  = array_diff($required, $header);
+        $header = array_map(fn($h) => strtoupper(trim($h)), $rows[0]);
 
-        if (!empty($missing) || !$hasPabrik) {
-            return back()->withErrors([
-                'file' => 'Kolom tidak lengkap. Kolom yang kurang: ' . implode(', ', array_merge($missing, !$hasPabrik ? ['PABRIK'] : [])),
-            ]);
+        return $this->processArrayRows($header, array_slice($rows, 1));
+    }
+
+    /**
+     * =========================
+     * PROCESS CSV ROW
+     * =========================
+     */
+    private function processRows($header, $lines, $delimiter)
+    {
+        $rows = [];
+
+        foreach ($lines as $line) {
+            $rows[] = str_getcsv($line, $delimiter);
         }
 
-        // Konversi array rows ke format string lines untuk processRows
-        $dataRows = array_slice($rows, 1);
+        return $this->processArrayRows($header, $rows);
+    }
+
+    /**
+     * =========================
+     * CORE IMPORT
+     * =========================
+     */
+    private function processArrayRows($header, $rows)
+    {
         $imported = 0;
         $skipped  = 0;
         $errors   = [];
 
-        foreach ($dataRows as $lineNum => $row) {
-            if (count($row) < count($header)) {
-                $row = array_pad($row, count($header), '');
-            }
-
-            $data = array_combine($header, $row);
-            $data = array_map('trim', $data);
-
-            if (empty($data['nama_obat'])) {
-                $skipped++;
-                continue;
-            }
-
-            $rowErrors = $this->validateRow($data, $lineNum + 2);
-            if (!empty($rowErrors)) {
-                $errors  = array_merge($errors, $rowErrors);
-                $skipped++;
-                continue;
-            }
-
-            // Tentukan is_resep berdasarkan golongan
-            $golongan = strtoupper($data['golongan'] ?? 'BEBAS');
-            $isResep = ($golongan === 'KERAS');
-
-            Medicine::create([
-                'nama_obat' => $data['nama_obat'],
-                'kategori'  => $data['pabrik'] ?? $data['kategori'] ?? '',
-                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['retail']),
-                'stok'      => (int) preg_replace('/[^0-9]/', '', $data['stok']),
-                'deskripsi' => $data['komposisi'] ?? '',
-                'is_resep'  => $isResep,
+        if (count($rows) > 2000) {
+            return back()->withErrors([
+                'file' => 'Maksimal 2000 baris'
             ]);
-
-            $imported++;
         }
 
-        if ($imported === 0 && !empty($errors)) {
-            return back()->withErrors(['file' => implode(' | ', array_slice($errors, 0, 5))]);
-        }
+        DB::beginTransaction();
 
-        $message = "Berhasil mengimpor {$imported} obat.";
-        if ($skipped > 0) {
-            $message .= " {$skipped} baris dilewati.";
-        }
+        try {
 
-        return redirect()->route('admin.medicines.index')->with('success', $message);
-    }
+            foreach ($rows as $i => $row) {
 
-    /**
-     * Proses baris data dan simpan ke database
-     */
-    private function processRows(array $header, array $dataLines)
-    {
-        $imported    = 0;
-        $skipped     = 0;
-        $errors      = [];
-        $headerCount = count($header);
-
-        // Re-join and re-parse to handle multiline quoted fields
-        $fullContent = implode("\n", $dataLines);
-        $rows = [];
-        $current = '';
-        $inQuote = false;
-
-        for ($i = 0; $i < strlen($fullContent); $i++) {
-            $char = $fullContent[$i];
-            if ($char === '"') {
-                $inQuote = !$inQuote;
-                $current .= $char;
-            } elseif ($char === "\n" && !$inQuote) {
-                if (trim($current) !== '') {
-                    $rows[] = $current;
+                if (count($row) !== count($header)) {
+                    $skipped++;
+                    $errors[] = "Baris " . ($i+2) . ": jumlah kolom tidak sesuai";
+                    continue;
                 }
-                $current = '';
-            } else {
-                $current .= $char;
-            }
-        }
-        if (trim($current) !== '') {
-            $rows[] = $current;
-        }
 
-        foreach ($rows as $lineNum => $line) {
-            $row = str_getcsv(rtrim($line, "\r\n"), ',', '"');
+                $data = array_combine($header, $row);
+                $data = array_map('trim', $data);
 
-            // Pad or trim to match header count
-            if (count($row) < $headerCount) {
-                $row = array_pad($row, $headerCount, '');
-            } elseif (count($row) > $headerCount) {
-                $row = array_slice($row, 0, $headerCount);
-            }
+                if (empty($data['NAMA PRODUK'])) {
+                    $skipped++;
+                    continue;
+                }
 
-            $data = array_map('trim', array_combine($header, $row));
+                $rowErrors = $this->validateRow($data, $i + 2);
 
-            // Skip baris kosong
-            if (empty($data['NAMA PRODUK'])) {
-                $skipped++;
-                continue;
-            }
+                if ($rowErrors) {
+                    $errors = array_merge($errors, $rowErrors);
+                    $skipped++;
+                    continue;
+                }
 
-            // Validasi per baris
-            $rowErrors = $this->validateRow($data, $lineNum + 2);
-            if (!empty($rowErrors)) {
-                $errors = array_merge($errors, $rowErrors);
-                $skipped++;
-                continue;
-            }
+                $golongan = strtoupper($data['GOLONGAN']);
+                $isResep  = $golongan === 'KERAS';
 
-            // Tentukan is_resep berdasarkan golongan
-            $golongan = strtoupper($data['GOLONGAN'] ?? 'BEBAS');
-            $isResep  = ($golongan === 'KERAS');
+                $deskripsi = trim(
+                    ($data['KOMPOSISI'] ?? '') .
+                    ' | ' .
+                    ($data['INDIKASI'] ?? '')
+                );
 
-            $komposisi = $data['KOMPOSISI'] ?? '';
-            $indikasi  = $data['INDIKASI'] ?? '';
-            $deskripsi = $komposisi;
-            if ($indikasi) {
-                $deskripsi .= ' | ' . $indikasi;
+                Medicine::updateOrCreate(
+                    ['nama_obat' => $data['NAMA PRODUK']],
+                    [
+                        'kategori'  => $data['PABRIK'],
+                        'harga'     => $this->parseHarga($data['RETAIL']), // 🔥 FIX HARGA
+                        'stok'      => (int) preg_replace('/[^0-9]/', '', $data['STOK'] ?? 0),
+                        'deskripsi' => $deskripsi,
+                        'is_resep'  => $isResep,
+                    ]
+                );
+
+                $imported++;
             }
 
-            Medicine::create([
-                'nama_obat' => $data['NAMA PRODUK'],
-                'kategori'  => $data['PABRIK'] ?? '',
-                'harga'     => (float) preg_replace('/[^0-9.]/', '', $data['RETAIL']),
-                'stok'      => (int) preg_replace('/[^0-9]/', '', $data['STOK'] ?? '0'),
-                'deskripsi' => $deskripsi,
-                'is_resep'  => $isResep,
+            DB::commit();
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors([
+                'file' => 'Error: ' . $e->getMessage()
             ]);
-
-            $imported++;
         }
 
-        if ($imported === 0 && !empty($errors)) {
-            return back()->withErrors(['file' => implode(' | ', array_slice($errors, 0, 5))]);
-        }
+        $msg = "Import berhasil: {$imported}";
+        if ($skipped) $msg .= " | Skip: {$skipped}";
 
-        $message = "Berhasil mengimpor {$imported} obat.";
-        if ($skipped > 0) {
-            $message .= " {$skipped} baris dilewati.";
-        }
-
-        return redirect()->route('admin.medicines.index')->with('success', $message);
+        return redirect()->route('admin.medicines.index')
+            ->with('success', $msg);
     }
 
     /**
-     * Validasi satu baris data
+     * =========================
+     * PARSE HARGA (INDONESIA FORMAT)
+     * =========================
      */
-    private function validateRow(array $data, int $lineNum): array
+    private function parseHarga($value)
     {
-        $errors = [];
+        if (!$value) return 0;
 
-        if (empty($data['PABRIK'])) {
-            $errors[] = "Baris {$lineNum}: PABRIK kosong.";
+        $value = str_replace(['Rp', 'rp', ' '], '', $value);
+
+        if (str_contains($value, ',')) {
+            $value = str_replace('.', '', $value);
+            $value = str_replace(',', '.', $value);
+        } else {
+            $value = str_replace('.', '', $value);
         }
 
-        if (empty($data['KOMPOSISI'])) {
-            $errors[] = "Baris {$lineNum}: KOMPOSISI kosong.";
-        }
-
-        if (empty($data['INDIKASI'])) {
-            $errors[] = "Baris {$lineNum}: INDIKASI kosong.";
-        }
-
-        $golongan = strtoupper($data['GOLONGAN'] ?? '');
-        if (!in_array($golongan, ['BEBAS', 'KERAS'])) {
-            $errors[] = "Baris {$lineNum}: GOLONGAN harus BEBAS atau KERAS (ditemukan: {$data['GOLONGAN']}).";
-        }
-
-        if (!is_numeric(preg_replace('/[^0-9.]/', '', $data['RETAIL'] ?? ''))) {
-            $errors[] = "Baris {$lineNum}: RETAIL tidak valid ({$data['RETAIL']}).";
-        }
-
-        return $errors;
+        return (float) $value;
     }
 
     /**
-     * Parse satu baris CSV dengan benar (handle quoted fields)
+     * =========================
+     * VALIDATION
+     * =========================
      */
-    private function parseCsvLine(string $line): array
+    private function validateRow($data, $line)
     {
-        $line = rtrim($line, "\r\n");
-        $result = str_getcsv($line, ',', '"');
-        return $result;
+        $err = [];
+
+        if (empty($data['PABRIK']))
+            $err[] = "Baris {$line}: PABRIK kosong";
+
+        if (empty($data['KOMPOSISI']))
+            $err[] = "Baris {$line}: KOMPOSISI kosong";
+
+        if (empty($data['INDIKASI']))
+            $err[] = "Baris {$line}: INDIKASI kosong";
+
+        if (!in_array(strtoupper($data['GOLONGAN']), ['BEBAS','KERAS']))
+            $err[] = "Baris {$line}: GOLONGAN salah";
+
+        if (!is_numeric($this->parseHarga($data['RETAIL'])))
+            $err[] = "Baris {$line}: RETAIL tidak valid";
+
+        if (!is_numeric($data['STOK'] ?? 0))
+            $err[] = "Baris {$line}: STOK tidak valid";
+
+        return $err;
     }
 }

@@ -239,10 +239,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Perusahaan <span class="req">*</span></label>
+                    <label class="form-label">Pabrik <span class="req">*</span></label>
                     <select name="kategori"
                             class="form-input {{ $errors->has('kategori') ? 'is-invalid' : '' }}" required>
-                        <option value="">— Pilih Perusahaan —</option>
+                        <option value="">— Pilih Pabrik —</option>
                         @foreach($categories as $category)
                             <option value="{{ $category }}" {{ old('kategori') == $category ? 'selected' : '' }}>
                                 {{ $category }}
@@ -256,17 +256,12 @@
 
                 <div class="form-grid">
                     <div class="form-group">
-    <label class="form-label">Harga (Rp) <span class="req">*</span></label>
-    <input type="number" name="harga"
-           class="form-input {{ $errors->has('harga') ? 'is-invalid' : '' }}"
-           placeholder="50000" 
-           step="1" 
-           min="0"
-           value="{{ old('harga') }}" required>
-    @error('harga')
-        <div class="form-error"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</div>
-    @enderror
-</div>
+                        <label class="form-label">Retail (Rp) <span class="req">*</span></label>
+                        <input type="number" name="harga" class="form-input {{ $errors->has('harga') ? 'is-invalid' : '' }}" placeholder="5000" step="1" min="0" value="{{ old('harga') }}" required>
+                        @error('harga')
+                            <div class="form-error"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</div>
+                        @enderror
+                    </div>
                     <div class="form-group">
                         <label class="form-label">Stok <span class="req">*</span></label>
                         <input type="number" name="stok"
@@ -280,15 +275,41 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Deskripsi <span class="req">*</span></label>
-                    <textarea name="deskripsi"
-                              class="form-input {{ $errors->has('deskripsi') ? 'is-invalid' : '' }}"
-                              placeholder="Deskripsikan kegunaan, kandungan, dan informasi penting lainnya..."
-                              required>{{ old('deskripsi') }}</textarea>
-                    @error('deskripsi')
+                    <label class="form-label">Komposisi <span class="req">*</span></label>
+                    <input type="text" name="komposisi"
+                           class="form-input {{ $errors->has('komposisi') ? 'is-invalid' : '' }}"
+                           placeholder="Contoh: Paracetamol 500 mg"
+                           value="{{ old('komposisi') }}" required>
+                    @error('komposisi')
                         <div class="form-error"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                    <label class="form-label">Indikasi <span class="req">*</span></label>
+                    <input type="text" name="indikasi"
+                           class="form-input {{ $errors->has('indikasi') ? 'is-invalid' : '' }}"
+                           placeholder="Contoh: Demam & nyeri"
+                           value="{{ old('indikasi') }}" required>
+                    @error('indikasi')
+                        <div class="form-error"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Golongan <span class="req">*</span></label>
+                    <select name="golongan"
+                            class="form-input {{ $errors->has('golongan') ? 'is-invalid' : '' }}" required>
+                        <option value="">— Pilih Golongan —</option>
+                        <option value="BEBAS" {{ old('golongan') == 'BEBAS' ? 'selected' : '' }}>BEBAS</option>
+                        <option value="KERAS" {{ old('golongan') == 'KERAS' ? 'selected' : '' }}>KERAS</option>
+                    </select>
+                    @error('golongan')
+                        <div class="form-error"><i class="fa-solid fa-circle-exclamation"></i> {{ $message }}</div>
+                    @enderror
+                </div>
+
+
 
             </div>
             <div class="form-footer">

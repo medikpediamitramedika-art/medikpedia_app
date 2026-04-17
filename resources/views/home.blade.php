@@ -39,7 +39,7 @@
         pointer-events: none;
     }
 
-    .hero-content { position: relative; z-index: 2;left: -400px; }
+    .hero-content { position: relative; z-index: 2;left: -75px; }
 
     .hero-badge {
         display: inline-flex;
@@ -151,15 +151,15 @@
     /* Main image di pojok kanan */
     .main-hero-image {
         position: absolute;
-        right: -460px;
-        top: -350px;
+        right: -100px;
+        top: -400px;
         bottom: -60px;
-        width: 480px;
+        width: 500px;
         z-index: 5;
         overflow: hidden;
-        border-radius: 28px 0 0 28px;
+        border-radius: 28px 28px 28px 28px;
         box-shadow: -30px 0 80px rgba(0,0,0,0.35), -5px 0 20px rgba(0,0,0,0.15);
-        border-left: 1px solid rgba(255,255,255,0.25);
+        border-left: 2px solid rgba(255,255,255,0.25);
         transition: all 0.4s ease;
     }
 

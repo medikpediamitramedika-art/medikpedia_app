@@ -79,7 +79,7 @@ class AdminMedicineController extends Controller
         if ($request->hasFile('gambar')) {
             $image     = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/medicines', $imageName);
+            $image->storeAs('medicines', $imageName, 'public');
             $validated['gambar'] = 'medicines/' . $imageName;
         }
 
@@ -129,17 +129,17 @@ class AdminMedicineController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
             if ($medicine->gambar) {
-                Storage::delete('public/' . $medicine->gambar);
+                Storage::delete($medicine->gambar);
             }
 
             // Upload gambar baru
             $image = $request->file('gambar');
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/medicines', $imageName);
+            $image->storeAs('medicines', $imageName, 'public');
             $validated['gambar'] = 'medicines/' . $imageName;
         } elseif ($request->input('delete_gambar') == '1' && $medicine->gambar) {
             // Hapus foto tanpa upload baru
-            Storage::delete('public/' . $medicine->gambar);
+           Storage::delete($medicine->gambar);
             $validated['gambar'] = null;
         }
 
@@ -154,7 +154,7 @@ class AdminMedicineController extends Controller
     {
         // Hapus gambar
         if ($medicine->gambar) {
-            Storage::delete('public/' . $medicine->gambar);
+            Storage::delete($medicine->gambar);
         }
 
         $medicine->delete();

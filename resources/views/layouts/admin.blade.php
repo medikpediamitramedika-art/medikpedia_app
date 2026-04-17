@@ -617,13 +617,13 @@
                 <li>
                     <a href="{{ route('admin.medicines.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.medicines')) active @endif">
                         <span>💊</span>
-                        <span>Produk Biasa</span>
+                        <span>Produk Retail</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.prescriptions.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.prescriptions')) active @endif">
                         <span>📋</span>
-                        <span>Produk Resep</span>
+                        <span>Produk Grosir</span>
                     </a>
                 </li>
                 <li>

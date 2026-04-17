@@ -6,6 +6,8 @@ Options +FollowSymLinks -Indexes
     </IfModule>
 
     RewriteEngine On
+    # Paksa server mencari ke folder fisik storage
+RewriteRule ^storage/medicines/(.*)$ storage/medicines/$1 [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

@@ -69,8 +69,7 @@ class AuthController extends Controller
     }
 
     // ===== CUSTOMER AUTH =====
-
-    public function customerLoginForm()
+     public function customerLoginForm()
     {
         if (Auth::check() && Auth::user()->isUser()) {
             return redirect()->route('prescriptions');
