@@ -7,10 +7,12 @@ use Illuminate\Http\UploadedFile;
 class ImageHelper
 {
     /**
-     * Simpan gambar produk langsung ke public/storage/medicines/
-     * Tidak pakai symlink karena LiteSpeed server tidak support symlink.
+     * Simpan gambar produk langsung ke public_path/storage/medicines/
      * 
-     * File tersimpan di: public/storage/medicines/namafile.jpg
+     * Karena document root di public_html/ (bukan public_html/public/),
+     * maka public_path() = /home/user/public_html/
+     * 
+     * File tersimpan di: public_html/storage/medicines/namafile.jpg
      * URL akses: https://domain.com/storage/medicines/namafile.jpg
      * Nilai di DB: "medicines/namafile.jpg"
      */
@@ -25,7 +27,7 @@ class ImageHelper
             mkdir($targetDir, 0755, true);
         }
 
-        // Simpan langsung ke public/storage/medicines/
+        // Simpan langsung
         $file->move($targetDir, $imageName);
 
         return 'medicines/' . $imageName;
