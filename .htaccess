@@ -6,8 +6,6 @@ Options +FollowSymLinks -Indexes
     </IfModule>
 
     RewriteEngine On
-    # Paksa server mencari ke folder fisik storage
-RewriteRule ^storage/medicines/(.*)$ storage/medicines/$1 [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
@@ -18,8 +16,14 @@ RewriteRule ^storage/medicines/(.*)$ storage/medicines/$1 [L]
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
+    # Jika file/folder fisik ada (termasuk storage/medicines/), layani langsung
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Fallback: storage/* → storage/app/public/* (untuk lokal dengan symlink)
+    RewriteRule ^storage/(.*)$ storage/app/public/$1 [L]
+
     # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>

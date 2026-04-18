@@ -614,7 +614,7 @@
                     Medikpedia adalah distributor resmi obat-obatan dan suplemen kesehatan dari 76+ perusahaan farmasi terkemuka. Melayani apotek, klinik, dan rumah sakit di seluruh Indonesia dengan jaminan kualitas dan harga kompetitif.
                 </p>
                 <div class="hero-buttons">
-                    <a href="{{ route('products.retail') }}" class="btn-hero-primary">📋 Katalog Produk</a>
+                    <a href="{{ route('products.index') }}" class="btn-hero-primary">📋 Katalog Produk</a>
                     <a href="{{ route('contact') }}" class="btn-hero-outline"><i class="fa-solid fa-handshake"></i> Jadi Mitra</a>
                 </div>
             </div>
@@ -757,49 +757,12 @@
     </div>
 </section>
 
-<!-- ===== NEWS PREVIEW ===== -->
-@if(isset($latestNews) && $latestNews->count() > 0)
-<section class="news-preview-section">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-end mb-4">
-            <div>
-                <span class="section-label">Terbaru</span>
-                <h2 class="section-heading mb-0">Produk Promo</h2>
-            </div>
-            <a href="{{ route('news.index') }}" style="color:#1E88E5; font-weight:600; text-decoration:none;">
-                Lihat Semua →
-            </a>
-        </div>
-        <div class="row g-4">
-            @foreach($latestNews->take(3) as $item)
-            <div class="col-md-4">
-                <a href="{{ route('news.show', $item->id) }}" class="news-preview-card">
-                    <div class="news-thumb">
-                        @if($item->thumbnail)
-                            <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->judul }}">
-                        @else
-                            📰
-                        @endif
-                    </div>
-                    <div class="news-preview-body">
-                        <div class="news-preview-date">{{ $item->created_at->format('d M Y') }}</div>
-                        <h3 class="news-preview-title">{{ $item->judul }}</h3>
-                        <p class="news-preview-excerpt">{{ $item->deskripsi }}</p>
-                    </div>
-                </a>
-            </div>
-            @endforeach
-        </div>
-    </div>
-</section>
-@endif
-
 <!-- ===== CTA ===== -->
 <section class="cta-section">
     <div class="container">
         <h2>Dapatkan Penawaran Spesial Hari Ini</h2>
         <p>Daftar sekarang dan dapatkan diskon 10% untuk pembelian pertama Anda</p>
-        <a href="{{ route('products.retail') }}" class="btn-cta">🛒 Mulai Belanja</a>
+        <a href="{{ route('products.index') }}" class="btn-cta">🛒 Mulai Belanja</a>
     </div>
 </section>
 

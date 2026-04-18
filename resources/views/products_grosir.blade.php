@@ -1,6 +1,6 @@
 @extends('layouts.frontend')
 
-@section('title', 'Produk Grosir - Medikpedia')
+@section('title', 'Produk Kami - Medikpedia')
 
 @section('styles')
 <style>
@@ -259,7 +259,7 @@
             <span>/</span>
             <span class="current">Produk</span>
         </div>
-        <h1><i class="fa-solid fa-boxes-stacked"></i> Katalog Produk Grosir</h1>
+        <h1><i class="fa-solid fa-boxes-stacked"></i> Katalog Produk Kami</h1>
         <p>{{ $total }} produk tersedia dari berbagai perusahaan farmasi terpercaya</p>
     </div>
     <i class="fa-solid fa-pills header-deco-icon header-deco-icon-1"></i>
@@ -270,7 +270,7 @@
 <div class="products-main">
     <div class="container">
 
-        <form method="GET" action="{{ route('products.grosir') }}" class="filter-bar">
+        <form method="GET" action="{{ route('products.index') }}" class="filter-bar">
             <div class="filter-group" style="flex: 2; min-width: 200px;">
                 <label class="filter-label"><i class="fa-solid fa-magnifying-glass"></i> Cari Produk</label>
                 <input type="text" name="search" class="filter-input"
@@ -300,7 +300,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
                 @if($search || $perusahaan || $sort !== 'terbaru')
-                    <a href="{{ route('products.grosir') }}" class="btn-reset">✕ Reset</a>
+                    <a href="{{ route('products.index') }}" class="btn-reset">✕ Reset</a>
                 @endif
             </div>
         </form>
@@ -388,7 +388,7 @@
                     @endif
                 </p>
                 @if($search || $perusahaan)
-                    <a href="{{ route('products.grosir') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
+                    <a href="{{ route('products.index') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
                 @endif
             </div>
         @endif
@@ -431,7 +431,7 @@
     <div style="background:linear-gradient(135deg,#1565C0,#1E88E5);padding:1.25rem 1.5rem;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1;">
         <div>
             <h3 style="color:white;margin:0;font-size:1rem;font-weight:700;"><i class="fa-brands fa-whatsapp"></i> Form Pemesanan</h3>
-            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Grosir</p>
+            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Kami</p>
         </div>
         <button onclick="closeOrderForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
     </div>
@@ -672,12 +672,12 @@ function submitGrosirOrder() {
     const kota      = document.getElementById('g_kota').value.trim();
     const kodepos   = document.getElementById('g_kodepos').value.trim();
 
-    let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n\n';
+    let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n';
     let total = 0;
     cart.forEach((item, i) => {
         const sub = item.price * item.qty;
         total += sub;
-        msg += `${i+1}. *${item.name}*\n   Qty: ${item.qty} × ${formatRp(item.price)} = ${formatRp(sub)}\n\n`;
+        msg += `${i+1}. *${item.name} -*\nQty: ${item.qty} × ${formatRp(item.price)} = ${formatRp(sub)}\n`;
     });
     msg += `━━━━━━━━━━━━━━━\n💰 *Total: ${formatRp(total)}*\n\n`;
     msg += `📋 *Formulir Pemesanan:*\n`;

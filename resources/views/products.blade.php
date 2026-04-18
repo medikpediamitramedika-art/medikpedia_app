@@ -270,18 +270,28 @@
 <div class="products-main">
     <div class="container">
 
-        <form method="GET" action="{{ route('products.retail') }}" class="filter-bar">
+        <form method="GET" action="{{ route('products.index') }}" class="filter-bar">
             <div class="filter-group" style="flex: 2; min-width: 200px;">
                 <label class="filter-label"><i class="fa-solid fa-magnifying-glass"></i> Cari Produk</label>
                 <input type="text" name="search" class="filter-input"
-                       placeholder="Nama obat atau deskripsi..."
+                       placeholder="Nama produk atau deskripsi..."
                        value="{{ $search }}">
+            </div>
+            <div class="filter-group">
+                <label class="filter-label"><i class="fa-solid fa-tag"></i> Kategori</label>
+                <select name="kategori_produk" class="filter-select">
+                    <option value="">Semua Kategori</option>
+                    @foreach($kategoriOptions as $k)
+                        @php $icon = match($k) { 'PRODUK LENGKAP' => '💊', 'SKINCARE & KOSMETIK' => '✨', 'ALAT KESEHATAN' => '🩺', default => '📦' }; @endphp
+                        <option value="{{ $k }}" @selected(($kategori_produk ?? '') === $k)>{{ $icon }} {{ $k }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="filter-group">
                 <label class="filter-label"><i class="fa-solid fa-building"></i> Perusahaan</label>
                 <select name="perusahaan" class="filter-select">
                     <option value="">Semua Perusahaan</option>
-                    @foreach($perusahaans as $p)
+                    @foreach($perusahaanList as $p)
                         <option value="{{ $p }}" @selected($perusahaan === $p)>{{ $p }}</option>
                     @endforeach
                 </select>
@@ -299,8 +309,8 @@
                 <button type="submit" class="btn-filter">
                     <i class="fa-solid fa-magnifying-glass"></i> Cari
                 </button>
-                @if($search || $perusahaan || $sort !== 'terbaru')
-                    <a href="{{ route('products.retail') }}" class="btn-reset">✕ Reset</a>
+                @if($search || ($kategori_produk ?? '') || $perusahaan || $sort !== 'terbaru')
+                    <a href="{{ route('products.index') }}" class="btn-reset">✕ Reset</a>
                 @endif
             </div>
         </form>
@@ -310,6 +320,7 @@
                 Menampilkan <strong>{{ $medicines->firstItem() ?? 0 }}–{{ $medicines->lastItem() ?? 0 }}</strong>
                 dari <strong>{{ $medicines->total() }}</strong> produk
                 @if($search) · "<strong>{{ $search }}</strong>" @endif
+                @if($kategori_produk ?? '') · <strong>{{ $kategori_produk }}</strong> @endif
                 @if($perusahaan) · <strong>{{ $perusahaan }}</strong> @endif
             </p>
         </div>
@@ -320,7 +331,7 @@
                     <div class="medicine-card">
                         <div class="medicine-image">
                             @if($medicine->gambar)
-                                <img src="{{ url('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                                <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                             @else
                                 <i class="fa-solid fa-pills" style="color:#90caf9;font-size:3rem;"></i>
                             @endif
@@ -340,7 +351,7 @@
                                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
                             </a>
                             @if($medicine->stok > 0)
-                            <button class="btn-cart" onclick="addToCart({{ $medicine->id }}, '{{ addslashes($medicine->nama_obat) }}', {{ $medicine->harga }}, '{{ $medicine->gambar ? url('storage/'.$medicine->gambar) : '' }}', this)">
+                            <button class="btn-cart" onclick="addToCart({{ $medicine->id }}, '{{ addslashes($medicine->nama_obat) }}', {{ $medicine->harga }}, '{{ $medicine->gambar ? asset('storage/'.$medicine->gambar) : '' }}', this)">
                                 <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
                             </button>
                             @endif
@@ -381,14 +392,14 @@
                 <i class="fa-solid fa-box-open" style="font-size:3.5rem;color:#d1d5db;"></i>
                 <h3>Produk tidak ditemukan</h3>
                 <p>
-                    @if($search || $perusahaan)
+                    @if($search || ($kategori_produk ?? ''))
                         Coba ubah kata kunci atau filter pencarian.
                     @else
                         Belum ada produk tersedia.
                     @endif
                 </p>
-                @if($search || $perusahaan)
-                    <a href="{{ route('products.retail') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
+                @if($search || ($kategori_produk ?? '') || $perusahaan)
+                    <a href="{{ route('products.index') }}" class="btn-reset" style="display:inline-block;margin-top:1rem;">✕ Hapus Filter</a>
                 @endif
             </div>
         @endif
@@ -431,7 +442,7 @@
     <div style="background:linear-gradient(135deg,#1565C0,#1E88E5);padding:1.25rem 1.5rem;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center;">
         <div>
             <h3 style="color:white;margin:0;font-size:1rem;font-weight:700;"><i class="fa-brands fa-whatsapp"></i> Form Pemesanan</h3>
-            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Retail</p>
+            <p style="color:rgba(255,255,255,0.8);margin:0;font-size:0.78rem;">Produk Kami</p>
         </div>
         <button onclick="closeOrderForm()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
     </div>
@@ -641,12 +652,12 @@ function submitRetailOrder() {
     const kecamatan = document.getElementById('r_kecamatan').value.trim();
     const kota      = document.getElementById('r_kota').value.trim();
 
-    let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n\n';
+    let msg = '🛒 *Halo Medikpedia, saya ingin memesan:*\n';
     let total = 0;
     cart.forEach((item, i) => {
         const sub = item.price * item.qty;
         total += sub;
-        msg += `${i+1}. *${item.name}*\n   Qty: ${item.qty} × ${formatRp(item.price)} = ${formatRp(sub)}\n\n`;
+        msg += `${i+1}. *${item.name} -*\nQty: ${item.qty} × ${formatRp(item.price)} = ${formatRp(sub)}\n`;
     });
     msg += `━━━━━━━━━━━━━━━\n💰 *Total: ${formatRp(total)}*\n\n`;
     msg += `📋 *Data Pemesan:*\n`;

@@ -382,6 +382,21 @@
             padding-top: var(--navbar-height, 65px);
         }
 
+        /*
+         * Global fix: semua page header (bukan section tengah halaman)
+         * otomatis dapat padding-top yang cukup agar tidak tertutup navbar.
+         * Berlaku untuk: produk, contact, medicines detail, dll.
+         */
+        .products-header,
+        .contact-header,
+        .farma-header,
+        .act-header,
+        .news-page-header,
+        .medicines-detail-header {
+            padding-top: calc(var(--navbar-height, 65px) + 2.5rem) !important;
+            padding-bottom: 2.5rem;
+        }
+
         .navbar-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -730,11 +745,7 @@
 
             <ul class="navbar-menu" id="navbarMenu">
                 <li><a href="{{ route('home') }}"><i class="fa-solid fa-house"></i> Home</a></li>
-                <li><a href="{{ route('products.retail') }}"><i class="fa-solid fa-pills"></i> Produk Retail</a></li>
-                <li><a href="{{ route('products.grosir') }}"><i class="fa-solid fa-file-prescription"></i> Produk Grosir</a></li>
-                <li><a href="{{ route('activities.index') }}"><i class="fa-solid fa-camera"></i> Aktivitas</a></li>
-                <li><a href="{{ route('farmakologi') }}"><i class="fa-solid fa-book-medical"></i> Farmakologi</a></li>
-                <li><a href="{{ route('about') }}"><i class="fa-solid fa-circle-info"></i> Tentang Kami</a></li>
+                <li><a href="{{ route('products.index') }}"><i class="fa-solid fa-pills"></i> Produk Kami</a></li>
                 <li><a href="{{ route('contact') }}"><i class="fa-solid fa-headset"></i> Hubungi Kami</a></li>
 
                 @auth
@@ -764,7 +775,7 @@
             </ul>
 
             {{-- Cart button --}}
-            <button class="cart-nav-btn" id="cartNavBtn" onclick="if(typeof openCart==='function'){openCart();}else{window.location.href='{{ route('products.retail') }}#keranjang';}" title="Keranjang Belanja" style="display:none;">
+            <button class="cart-nav-btn" id="cartNavBtn" onclick="if(typeof openCart==='function'){openCart();}else{window.location.href='{{ route('products.index') }}#keranjang';}" title="Keranjang Belanja" style="display:none;">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-badge" id="cartBadgeNav">0</span>
             </button>
@@ -817,8 +828,7 @@
                 <div>
                     <h3>Informasi</h3>
                     <ul>
-                        <li><a href="{{ route('about') }}"><i class="fa-solid fa-building fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Tentang Kami</a></li>
-                        <li><a href="#"><i class="fa-solid fa-headset fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Hubungi Kami</a></li>
+                        <li><a href="{{ route('contact') }}"><i class="fa-solid fa-headset fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Hubungi Kami</a></li>
                         <li><a href="#"><i class="fa-solid fa-shield-halved fa-fw" style="margin-right:0.5rem;color:#7CB342;"></i>Kebijakan Privasi</a></li>
                     </ul>
                 </div>

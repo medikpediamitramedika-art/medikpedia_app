@@ -132,6 +132,56 @@
     }
     .btn-send:hover { background: linear-gradient(135deg, #1ebe5d, #17a34a); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,0.35); }
 
+    /* Dokumen Card */
+    .doc-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.75rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e5e7eb;
+        margin-bottom: 1.25rem;
+    }
+    .doc-card-title {
+        font-size: 1rem; font-weight: 700; color: #1f2937;
+        margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .doc-type {
+        border-radius: 12px;
+        padding: 1rem 1.1rem;
+        margin-bottom: 0.75rem;
+        border: 1px solid transparent;
+    }
+    .doc-type:last-child { margin-bottom: 0; }
+    .doc-type-blue   { background: #eff6ff; border-color: #bfdbfe; }
+    .doc-type-green  { background: #f0fdf4; border-color: #bbf7d0; }
+    .doc-type-orange { background: #fff7ed; border-color: #fed7aa; }
+    .doc-type-header {
+        display: flex; align-items: center; gap: 0.5rem;
+        font-size: 0.875rem; font-weight: 700; margin-bottom: 0.55rem;
+    }
+    .doc-type-blue   .doc-type-header { color: #1d4ed8; }
+    .doc-type-green  .doc-type-header { color: #15803d; }
+    .doc-type-orange .doc-type-header { color: #b45309; }
+    .doc-type-icon {
+        width: 28px; height: 28px; border-radius: 7px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 0.8rem; flex-shrink: 0;
+    }
+    .doc-type-blue   .doc-type-icon { background: #dbeafe; color: #1d4ed8; }
+    .doc-type-green  .doc-type-icon { background: #dcfce7; color: #15803d; }
+    .doc-type-orange .doc-type-icon { background: #ffedd5; color: #b45309; }
+    .doc-list {
+        list-style: none; padding: 0; margin: 0;
+        display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+    .doc-list li {
+        font-size: 0.78rem; font-weight: 600; padding: 0.25rem 0.65rem;
+        border-radius: 20px;
+    }
+    .doc-type-blue   .doc-list li { background: #dbeafe; color: #1e40af; }
+    .doc-type-green  .doc-list li { background: #dcfce7; color: #166534; }
+    .doc-type-orange .doc-list li { background: #ffedd5; color: #92400e; }
+
     /* Map */
     .map-section { margin-top: 2.5rem; }
     .map-section h3 { font-size: 1.1rem; font-weight: 700; color: #1f2937; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -174,8 +224,60 @@
     <div class="container">
         <div class="contact-grid">
 
-            {{-- INFO --}}
+            {{-- KOLOM KIRI: Dokumen + Info Kontak --}}
             <div>
+
+                {{-- Card Persyaratan Dokumen --}}
+                <div class="doc-card">
+                    <div class="doc-card-title">
+                        <i class="fa-solid fa-file-shield" style="color:#1E88E5;"></i>
+                        Persyaratan Dokumen Pemesanan
+                    </div>
+
+                    {{-- RS / Klinik --}}
+                    <div class="doc-type doc-type-blue">
+                        <div class="doc-type-header">
+                            <div class="doc-type-icon"><i class="fa-solid fa-hospital"></i></div>
+                            RS / Klinik
+                        </div>
+                        <ul class="doc-list">
+                            <li>Surat Pemesanan</li>
+                            <li>SP Khusus</li>
+                            <li>Surat Izin RS / Klinik</li>
+                            <li>Dokumen Pendukung Lainnya</li>
+                        </ul>
+                    </div>
+
+                    {{-- Apotek --}}
+                    <div class="doc-type doc-type-green">
+                        <div class="doc-type-header">
+                            <div class="doc-type-icon"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+                            Apotek
+                        </div>
+                        <ul class="doc-list">
+                            <li>SP</li>
+                            <li>SP Khusus</li>
+                            <li>SIA</li>
+                            <li>SIPA</li>
+                            <li>KTP</li>
+                            <li>NPWP</li>
+                        </ul>
+                    </div>
+
+                    {{-- Toko Obat --}}
+                    <div class="doc-type doc-type-orange">
+                        <div class="doc-type-header">
+                            <div class="doc-type-icon"><i class="fa-solid fa-store"></i></div>
+                            Toko Obat
+                        </div>
+                        <ul class="doc-list">
+                            <li>SP Asli + Stempel</li>
+                            <li>KTP Pemilik</li>
+                        </ul>
+                    </div>
+                </div>
+
+                {{-- Card Info Kontak --}}
                 <div class="info-card">
                     <div class="info-item">
                         <div class="info-icon icon-blue"><i class="fa-solid fa-location-dot"></i></div>
@@ -218,6 +320,7 @@
                         <a href="https://wa.me/6285890007359" target="_blank" class="social-btn" style="background:#25D366;" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                     </div>
                 </div>
+
             </div>
 
             {{-- FORM --}}

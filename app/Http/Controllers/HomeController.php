@@ -10,9 +10,7 @@ class HomeController extends Controller
     // Halaman utama
     public function index(Request $request)
     {
-        $latestNews = \App\Models\News::where('is_published', true)->latest()->limit(3)->get();
-
-        return view('home', compact('latestNews'));
+        return view('home');
     }
 
     // Detail obat

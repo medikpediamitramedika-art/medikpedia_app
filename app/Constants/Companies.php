@@ -4,18 +4,12 @@ namespace App\Constants;
 
 class Companies
 {
+    /**
+     * Kategori produk yang tersedia di toko.
+     */
     public const LIST = [
-        'ACTAVIS', 'ALTAMED', 'BALATIF', 'BERLICO', 'BERNOFARM', 'BUFA',
-        'CAPLANG', 'CASPER', 'CIUBROS CITO', 'COMBIPHAR', 'CORONET', 'CORSA',
-        'DARYA VARIA', 'DEXA', 'DIPA', 'ERELA', 'ERLIMPEX', 'ERRITA', 'ESCOLAB',
-        'FAHRENHEIT', 'FUTAMED', 'GALENIUM', 'GMP', 'GRAHA', 'GSK', 'HARSEN',
-        'HEXPARM JAYA', 'HISAMITSU', 'HOLI', 'HUFA', 'IFARS', 'IFI', 'INDOFARMA',
-        'INTERBAT', 'ITRASAL', 'KALBE', 'KIMIA FARMA', 'KONIMEX', 'LANDSON',
-        'LAPI', 'MAHAKAM', 'MEDIKA', 'MEDIKON', 'MEF', 'MEGA', 'MEIJI', 'MEPRO',
-        'MERCK', 'MERSI', 'META RATNA', 'MOLEX AYUS', 'MULIA', 'MUTIFA',
-        'NICHOLAST', 'NOVAPHARIN', 'NOVEL', 'NUFARINDO', 'PHAROS', 'PIM',
-        'PYRIDAM', 'RAMA', 'SAMCO', 'SAMPHARINDO', 'SANBE', 'SELES', 'SINDE',
-        'STERLING', 'SYNERGY', 'TAISHO', 'TAKEDA', 'TEMPO SCAN', 'TIA', 'TRIFA',
-        'TRIMAN', 'TROPICA', 'WIDATRA', 'ZENITH',
+        'PRODUK LENGKAP',
+        'SKINCARE & KOSMETIK',
+        'ALAT KESEHATAN',
     ];
 }

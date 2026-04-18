@@ -14,22 +14,20 @@ class Medicine extends Model
     protected $fillable = [
         'nama_obat',
         'kategori',
+        'kategori_produk',
         'harga',
         'stok',
         'deskripsi',
+        'komposisi',
+        'indikasi',
         'gambar',
-        'is_resep',
-        'is_grosir',
     ];
 
     protected $casts = [
-        'harga'    => 'decimal:2',
-        'stok'     => 'integer',
-        'is_resep' => 'boolean',
-        'is_grosir' => 'boolean',
+        'harga' => 'decimal:2',
+        'stok'  => 'integer',
     ];
 
-    // Scope untuk pencarian
     public function scopeSearch($query, $search)
     {
         return $query->where('nama_obat', 'like', "%{$search}%")
@@ -37,20 +35,17 @@ class Medicine extends Model
                      ->orWhere('deskripsi', 'like', "%{$search}%");
     }
 
-    // Scope untuk kategori
     public function scopeByCategory($query, $kategori)
     {
         return $query->where('kategori', $kategori);
     }
 
-    // Cek stok
-    public function isAvailable()
+    public function isAvailable(): bool
     {
         return $this->stok > 0;
     }
 
-    // Format harga
-    public function getFormattedPrice()
+    public function getFormattedPrice(): string
     {
         return 'Rp ' . number_format($this->harga, 0, ',', '.');
     }

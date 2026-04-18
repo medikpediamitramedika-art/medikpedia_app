@@ -615,21 +615,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.medicines.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.medicines')) active @endif">
-                        <span>💊</span>
-                        <span>Produk Retail</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('admin.grosir.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.grosir')) active @endif">
-                        <span>📋</span>
-                        <span>Produk Grosir</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('admin.activities.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.activities')) active @endif">
-                        <span>📸</span>
-                        <span>Aktivitas</span>
+                    <a href="{{ route('admin.produk.index') }}" class="@if(str_contains(Route::current()->getName() ?? '', 'admin.produk')) active @endif">
+                        <span>🛒</span>
+                        <span>Produk Kami</span>
                     </a>
                 </li>
                 <li>
@@ -703,17 +691,9 @@
                 <span>📊</span>
                 <span>Dashboard</span>
             </a>
-            <a href="{{ route('admin.medicines.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.medicines')) active @endif">
-                <span>💊</span>
-                <span>Biasa</span>
-            </a>
-            <a href="{{ route('admin.grosir.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.grosir')) active @endif">
-                <span>📋</span>
-                <span>Resep</span>
-            </a>
-            <a href="{{ route('admin.activities.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.activities')) active @endif">
-                <span>📸</span>
-                <span>Aktivitas</span>
+            <a href="{{ route('admin.produk.index') }}" class="bottom-nav-item @if(str_contains(Route::current()->getName() ?? '', 'admin.produk')) active @endif">
+                <span>🛒</span>
+                <span>Produk</span>
             </a>
             <a href="{{ route('home') }}" class="bottom-nav-item">
                 <span>🏠</span>

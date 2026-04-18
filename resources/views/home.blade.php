@@ -1271,6 +1271,15 @@
         .feature-item { flex-direction: column; text-align: center; }
         .feature-icon { margin: 0 auto; }
     }
+
+    @media (max-width: 640px) {
+        /* Visi Misi grid */
+        .vm-responsive { grid-template-columns: 1fr !important; }
+        /* Keunggulan grid */
+        .keunggulan-responsive { grid-template-columns: 1fr !important; }
+        /* Nilai grid */
+        .nilai-responsive { grid-template-columns: 1fr 1fr !important; }
+    }
 </style>
 @endsection
 
@@ -1301,8 +1310,8 @@
                     Kami menjamin kualitas produk melalui standar pengadaan yang ketat. Sejak 2016, kami mengelola rantai distribusi secara mandiri melalui kerjasama dengan PBF lokal dan Nasional untuk memastikan keamanan dan keaslian produk hingga ke tangan mitra dan masyarakat. Dedikasi ini diperkuat dengan konsistensi dan pelayanan yang telah terjalin dengan Mitra kami di seluruh Indonesia, sebagai bukti komitmen kami dalam menjalankan tata kelola distribusi farmasi yang unggul demi kepercayaan seluruh mitra layanan medis.
                 </p>
                 <div class="hero-buttons">
-                    <a href="{{ route('products.retail') }}" class="btn-hero-primary"><i class="fa-solid fa-pills"></i> Lihat Produk</a>
-                    <a href="{{ route('news.index') }}" class="btn-hero-outline"><i class="fa-solid fa-tag"></i> Produk Promo</a>
+                    <a href="{{ route('products.index') }}" class="btn-hero-primary"><i class="fa-solid fa-pills"></i> Lihat Produk</a>
+                    <a href="{{ route('contact') }}" class="btn-hero-outline"><i class="fa-solid fa-headset"></i> Hubungi Kami</a>
                 </div>
             </div>
 
@@ -1577,6 +1586,86 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- ===== VISI MISI & NILAI ===== -->
+<section style="padding:3rem 0;background:#f8faff;">
+    <div class="container" style="max-width:960px;">
+
+        {{-- Visi & Misi --}}
+        <div style="text-align:center;margin-bottom:2rem;">
+            <span class="section-label"><i class="fa-solid fa-bullseye"></i> Arah & Tujuan</span>
+            <h2 class="section-heading" style="margin-top:0.5rem;">Visi & Misi Kami</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2.5rem;" class="vm-responsive">
+            <div style="background:linear-gradient(135deg,#e3f2fd,#bbdefb);border:1px solid #90caf9;border-radius:16px;padding:1.75rem;">
+                <h3 style="color:#1565C0;font-size:1rem;font-weight:700;margin-bottom:0.75rem;"><i class="fa-solid fa-eye"></i> Visi</h3>
+                <p style="color:#374151;font-size:0.92rem;line-height:1.75;margin:0;">Menjadi distributor farmasi dan apotik online terpercaya yang terdepan dalam memberikan solusi kesehatan berkualitas, terjangkau, dan mudah diakses untuk seluruh masyarakat Indonesia.</p>
+            </div>
+            <div style="background:linear-gradient(135deg,#f1f8e9,#dcedc8);border:1px solid #aed581;border-radius:16px;padding:1.75rem;">
+                <h3 style="color:#558B2F;font-size:1rem;font-weight:700;margin-bottom:0.75rem;"><i class="fa-solid fa-rocket"></i> Misi</h3>
+                <p style="color:#374151;font-size:0.92rem;line-height:1.75;margin:0;">Mendistribusikan produk farmasi berkualitas tinggi melalui jaringan yang luas, menyediakan layanan apotik online 24/7 dengan konsultasi profesional, dan memastikan akses kesehatan yang merata di seluruh Indonesia.</p>
+            </div>
+        </div>
+
+        {{-- Keunggulan --}}
+        <div style="background:white;border-radius:16px;padding:2rem 2.5rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
+            <h3 style="font-size:1.1rem;font-weight:700;color:#1f2937;margin-bottom:1.25rem;"><i class="fa-solid fa-star" style="color:#1E88E5;margin-right:0.5rem;"></i>Mengapa Memilih Kami?</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem 1.5rem;" class="keunggulan-responsive">
+                @foreach([
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Distributor Resmi:</strong> Izin lengkap BPOM & Kementerian Kesehatan'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Produk Original:</strong> Semua produk tersertifikasi dan berstandar GMP'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Jaringan Luas:</strong> Distribusi ke 50+ kota di seluruh Indonesia'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Harga Kompetitif:</strong> Langsung dari distributor tanpa markup berlebih'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Apotik Online 24/7:</strong> Layanan konsultasi dan pemesanan sepanjang waktu'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Pengiriman Cepat:</strong> Sistem logistik handal dengan cold chain untuk produk khusus'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Konsultasi Profesional:</strong> Tim apoteker berpengalaman siap membantu'],
+                    ['icon'=>'fa-circle-check','text'=>'<strong>Partnership Kuat:</strong> Bermitra dengan 100+ brand farmasi terpercaya'],
+                ] as $item)
+                <div style="display:flex;align-items:flex-start;gap:0.5rem;font-size:0.88rem;color:#374151;line-height:1.6;">
+                    <i class="fa-solid {{ $item['icon'] }}" style="color:#7CB342;margin-top:3px;flex-shrink:0;"></i>
+                    <span>{!! $item['text'] !!}</span>
+                </div>
+                @endforeach
+            </div>
+            <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #f3f4f6;font-size:0.88rem;color:#374151;display:flex;align-items:center;gap:0.5rem;">
+                <i class="fa-solid fa-envelope" style="color:#1E88E5;"></i>
+                Email: <a href="mailto:medikpedia.mitramedika@gmail.com" style="color:#1E88E5;text-decoration:none;font-weight:600;">medikpedia.mitramedika@gmail.com</a>
+            </div>
+        </div>
+
+        {{-- Nilai-Nilai --}}
+        <div style="background:white;border-radius:16px;padding:2rem 2.5rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid #e5e7eb;">
+            <h3 style="font-size:1.1rem;font-weight:700;color:#1f2937;margin-bottom:1.25rem;"><i class="fa-solid fa-gem" style="color:#1E88E5;margin-right:0.5rem;"></i>Nilai-Nilai Kami</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;" class="nilai-responsive">
+                <div style="text-align:center;padding:1.25rem;background:#f8faff;border-radius:12px;border:1px solid #e5e7eb;">
+                    <i class="fa-solid fa-heart" style="color:#ef4444;font-size:1.75rem;display:block;margin-bottom:0.6rem;"></i>
+                    <h4 style="font-size:0.9rem;font-weight:700;color:#1f2937;margin-bottom:0.4rem;">Kepercayaan</h4>
+                    <p style="font-size:0.8rem;color:#6b7280;margin:0;line-height:1.6;">Produk asli dan layanan yang jujur selalu menjadi prioritas kami.</p>
+                </div>
+                <div style="text-align:center;padding:1.25rem;background:#f8faff;border-radius:12px;border:1px solid #e5e7eb;">
+                    <i class="fa-solid fa-shield-halved" style="color:#1E88E5;font-size:1.75rem;display:block;margin-bottom:0.6rem;"></i>
+                    <h4 style="font-size:0.9rem;font-weight:700;color:#1f2937;margin-bottom:0.4rem;">Kualitas</h4>
+                    <p style="font-size:0.8rem;color:#6b7280;margin:0;line-height:1.6;">Seleksi ketat dan sertifikasi farmasi lengkap untuk setiap produk.</p>
+                </div>
+                <div style="text-align:center;padding:1.25rem;background:#f8faff;border-radius:12px;border:1px solid #e5e7eb;">
+                    <i class="fa-solid fa-handshake" style="color:#7CB342;font-size:1.75rem;display:block;margin-bottom:0.6rem;"></i>
+                    <h4 style="font-size:0.9rem;font-weight:700;color:#1f2937;margin-bottom:0.4rem;">Kemanusiaan</h4>
+                    <p style="font-size:0.8rem;color:#6b7280;margin:0;line-height:1.6;">Kesehatan adalah hak semua orang — kami hadir untuk semua kalangan.</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- CTA --}}
+        <div style="background:linear-gradient(135deg,#0D47A1,#1E88E5);border-radius:16px;padding:2rem 2.5rem;text-align:center;color:white;">
+            <h3 style="font-size:1.3rem;font-weight:700;margin-bottom:0.5rem;">Ada pertanyaan? Hubungi kami sekarang</h3>
+            <p style="color:rgba(255,255,255,0.85);font-size:0.95rem;margin-bottom:1.25rem;">Tim kami siap membantu Anda melalui WhatsApp kapan saja</p>
+            <a href="{{ route('contact') }}" style="display:inline-flex;align-items:center;gap:0.5rem;background:#25D366;color:white;padding:0.75rem 1.75rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:0.95rem;transition:all 0.3s;">
+                <i class="fa-solid fa-headset"></i> Hubungi Kami
+            </a>
+        </div>
+
     </div>
 </section>
 
