@@ -1292,7 +1292,7 @@
             <div class="col-lg-6 hero-content">
                 {{-- Foto background khusus mobile - di belakang teks --}}
                 <div class="hero-mobile-image">
-                    <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia Background">
+                    <img src="{{ asset('baru.jpeg') }}" alt="Medikpedia Background">
                 </div>
 
                 <div class="hero-badge">
