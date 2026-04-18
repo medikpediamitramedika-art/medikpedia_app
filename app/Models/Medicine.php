@@ -49,4 +49,31 @@ class Medicine extends Model
     {
         return 'Rp ' . number_format($this->harga, 0, ',', '.');
     }
+
+    /**
+     * Get full URL gambar produk
+     * Gunakan: $medicine->image_url di blade
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->gambar) {
+            return null;
+        }
+        
+        // Coba beberapa kemungkinan path
+        $paths = [
+            'storage/' . $this->gambar,           // public/storage/medicines/xxx.jpg
+            $this->gambar,                         // langsung medicines/xxx.jpg
+            'public/storage/' . $this->gambar,    // public/public/storage/medicines/xxx.jpg (hosting aneh)
+        ];
+        
+        foreach ($paths as $path) {
+            if (file_exists(public_path($path))) {
+                return url($path);
+            }
+        }
+        
+        // Fallback: return URL tanpa cek file
+        return url('storage/' . $this->gambar);
+    }
 }
