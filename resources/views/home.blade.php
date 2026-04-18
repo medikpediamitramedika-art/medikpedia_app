@@ -1292,7 +1292,7 @@
             <div class="col-lg-6 hero-content">
                 {{-- Foto background khusus mobile - di belakang teks --}}
                 <div class="hero-mobile-image">
-                    <img src="{{ asset('baru.jpeg') }}" alt="Medikpedia Background">
+                    <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia Background">
                 </div>
 
                 <div class="hero-badge">
@@ -1319,7 +1319,7 @@
                 <div class="hero-visual">
                     <!-- Main image besar di pojok kanan (slideshow) -->
                     <div class="main-hero-image" id="main-hero-bg">
-                        <img id="heroMainImg" src="{{ asset('page1.jpeg') }}" alt="Medikpedia">
+                        <img id="heroMainImg" src="{{ asset('page3.jpeg') }}" alt="Medikpedia">
                         <div class="photo-caption">
                             <span class="caption-badge"><i class="fa-solid fa-circle-check"></i> Terpercaya</span>
                             <span class="caption-text">Apotik & Distributor Resmi Farmasi</span>
@@ -1338,15 +1338,15 @@
                     <!-- Thumbnail strip di kiri -->
                     <div class="small-photos">
                         <div class="small-photo small-photo-1 thumb-active" onclick="goToSlide(0)">
-                            <img src="{{ asset('page1.jpeg') }}" alt="Page 1">
+                            <img src="{{ asset('page3.jpeg') }}" alt="Page 3">
                             <div class="thumb-overlay"></div>
                         </div>
                         <div class="small-photo small-photo-2" onclick="goToSlide(1)">
-                            <img src="{{ asset('page2.jpeg') }}" alt="Page 2">
+                            <img src="{{ asset('page4.jpeg') }}" alt="Page 4">
                             <div class="thumb-overlay"></div>
                         </div>
                         <div class="small-photo small-photo-3" onclick="goToSlide(2)">
-                            <img src="{{ asset('page3.jpeg') }}" alt="Page 3">
+                            <img src="{{ asset('page5.jpeg') }}" alt="Page 5">
                             <div class="thumb-overlay"></div>
                         </div>
                     </div>
@@ -1397,21 +1397,21 @@
 
 <script>
 const heroImages = [
-    '{{ asset("page1.jpeg") }}',
-    '{{ asset("page2.jpeg") }}',
     '{{ asset("page3.jpeg") }}',
     '{{ asset("page4.jpeg") }}',
     '{{ asset("page5.jpeg") }}',
     '{{ asset("page6.jpeg") }}',
+    '{{ asset("page7.jpeg") }}',
+    '{{ asset("page7.jpeg") }}',
 ];
 
 const thumbImages = [
-    '{{ asset("page1.jpeg") }}',
-    '{{ asset("page2.jpeg") }}',
     '{{ asset("page3.jpeg") }}',
     '{{ asset("page4.jpeg") }}',
     '{{ asset("page5.jpeg") }}',
     '{{ asset("page6.jpeg") }}',
+    '{{ asset("page7.jpeg") }}',
+    '{{ asset("page7.jpeg") }}',
 ];
 
 // Mapping: thumb index 0,1,2 → slide index 0,1,2 (thumb hanya tampil 3)

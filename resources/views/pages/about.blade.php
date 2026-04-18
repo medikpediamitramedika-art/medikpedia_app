@@ -397,10 +397,10 @@
             <div class="col-lg-5">
                 <div class="about-image-stack">
                     <div class="about-img-back">
-                        <img src="{{ asset('background1.jpeg') }}" alt="Medikpedia">
+                        <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia">
                     </div>
                     <div class="about-img-front">
-                        <img src="{{ asset('background1.jpeg') }}" alt="Medikpedia">
+                        <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia">
                     </div>
                     <div class="about-img-badge">
                         <span class="badge-icon">🏆</span>

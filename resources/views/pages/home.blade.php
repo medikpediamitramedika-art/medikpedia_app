@@ -623,7 +623,7 @@
                 <div class="distributor-gallery">
                     <!-- Foto utama besar di kanan -->
                     <div class="main-photo">
-                        <img src="{{ asset('background1.jpeg') }}" alt="Medikpedia - Distributor Obat Terpercaya">
+                        <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia - Distributor Obat Terpercaya">
                         <div class="photo-overlay">
                             <div class="overlay-content">
                                 <h3><i class="fas fa-pills"></i> Distributor Obat Terpercaya</h3>
@@ -635,25 +635,25 @@
                     <!-- Foto-foto kecil di sebelah kiri -->
                     <div class="small-photos">
                         <div class="small-photo">
-                            <img src="{{ asset('background1.jpeg') }}" alt="Gudang Obat">
+                            <img src="{{ asset('page3.jpeg') }}" alt="Gudang Obat">
                             <div class="small-overlay">
                                 <span><i class="fas fa-warehouse"></i> Gudang</span>
                             </div>
                         </div>
                         <div class="small-photo">
-                            <img src="{{ asset('background1.jpeg') }}" alt="Tim Farmasi">
+                            <img src="{{ asset('page3.jpeg') }}" alt="Tim Farmasi">
                             <div class="small-overlay">
                                 <span><i class="fas fa-user-md"></i> Tim Ahli</span>
                             </div>
                         </div>
                         <div class="small-photo">
-                            <img src="{{ asset('background1.jpeg') }}" alt="Pengiriman">
+                            <img src="{{ asset('page3.jpeg') }}" alt="Pengiriman">
                             <div class="small-overlay">
                                 <span><i class="fas fa-truck"></i> Distribusi</span>
                             </div>
                         </div>
                         <div class="small-photo">
-                            <img src="{{ asset('background1.jpeg') }}" alt="Kualitas Terjamin">
+                            <img src="{{ asset('page3.jpeg') }}" alt="Kualitas Terjamin">
                             <div class="small-overlay">
                                 <span><i class="fas fa-certificate"></i> Sertifikat</span>
                             </div>
