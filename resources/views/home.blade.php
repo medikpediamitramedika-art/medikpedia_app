@@ -1551,7 +1551,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="col-lg-6">
                 <div class="about-visual">
                     <div class="about-image-main">
-                        <img src="{{ asset('logo1.png') }}" alt="Medikpedia Distributor">
+                        <img src="{{ asset('page3.jpeg') }}" alt="Medikpedia Distributor">
                         <div class="about-badge">
                             <i class="fa-solid fa-certificate"></i>
                             <div>
