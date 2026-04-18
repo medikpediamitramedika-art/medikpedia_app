@@ -8,28 +8,26 @@ use Illuminate\Support\Facades\Storage;
 class ImageHelper
 {
     /**
-     * Simpan gambar produk langsung ke public/storage/medicines/
-     *
-     * Di server hosting: public_path() = public_html/public/
-     * Jadi file tersimpan di: public_html/public/storage/medicines/namafile.jpg
-     * URL akses: https://domain.com/storage/medicines/namafile.jpg
-     *
-     * Nilai yang disimpan di DB: "medicines/namafile.jpg"
-     * URL di blade: asset('storage/medicines/namafile.jpg')
+     * Simpan gambar produk.
+     * 
+     * Strategi: Simpan via Storage::disk('public') agar kompatibel dengan
+     * symlink di server maupun lokal development.
+     * 
+     * File tersimpan di: storage/app/public/medicines/namafile.jpg
+     * Akses via symlink: public/storage/medicines/namafile.jpg
+     * URL: https://domain.com/storage/medicines/namafile.jpg
+     * 
+     * Nilai di DB: "medicines/namafile.jpg"
      */
     public static function storeProductImage(UploadedFile $file): string
     {
         $ext       = strtolower($file->getClientOriginalExtension());
         $imageName = time() . '_' . uniqid() . '.' . $ext;
-        $targetDir = public_path('storage/medicines');
-
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0775, true);
-        }
-
-        $file->move($targetDir, $imageName);
-
-        return 'medicines/' . $imageName;
+        
+        // Simpan via Storage disk 'public' (storage/app/public/)
+        $path = $file->storeAs('medicines', $imageName, 'public');
+        
+        return $path; // "medicines/namafile.jpg"
     }
 
     /**
@@ -39,18 +37,15 @@ class ImageHelper
     public static function deleteProductImage(?string $path): void
     {
         if (!$path) return;
-
-        $fullPath = public_path('storage/' . $path);
-        if (file_exists($fullPath)) {
-            @unlink($fullPath);
+        
+        // Hapus via Storage disk
+        if (Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
         }
     }
 
     /**
-     * Kembalikan URL gambar yang benar tanpa bergantung pada APP_URL.
-     * Gunakan ini di blade sebagai pengganti asset('storage/'.$medicine->gambar)
-     * jika APP_URL di server belum dikonfigurasi.
-     *
+     * Kembalikan URL gambar yang benar.
      * $path dari DB: "medicines/namafile.jpg"
      */
     public static function url(?string $path): ?string
