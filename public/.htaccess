@@ -1,3 +1,6 @@
+DirectoryIndex index.php
+Options +FollowSymLinks -Indexes
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -14,13 +17,11 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # PENTING: Jika file atau folder fisik ada, layani langsung (termasuk storage/*)
+    # PENTING: Jika file atau folder fisik ada (termasuk storage/* via symlink), layani langsung
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
     # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
