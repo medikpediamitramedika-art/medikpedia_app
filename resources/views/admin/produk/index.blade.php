@@ -194,7 +194,7 @@
                 <tr>
                     <td>
                         @if($medicine->gambar)
-                            <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}" class="med-img">
+                            <img src="{{ url('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}" class="med-img">
                         @else
                             <div class="med-img-placeholder">
                                 {{ match($medicine->kategori_produk) { 'SKINCARE & KOSMETIK' => '✨', 'ALAT KESEHATAN' => '🩺', default => '💊' } }}

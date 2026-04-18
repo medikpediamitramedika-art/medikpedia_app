@@ -331,7 +331,7 @@
                     <div class="medicine-card">
                         <div class="medicine-image">
                             @if($medicine->gambar)
-                                <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                                <img src="{{ url('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                             @else
                                 <i class="fa-solid fa-pills" style="color:#90caf9;font-size:3rem;"></i>
                             @endif
@@ -351,7 +351,7 @@
                                 Lihat Detail <i class="fa-solid fa-arrow-right"></i>
                             </a>
                             @if($medicine->stok > 0)
-                            <button class="btn-cart" onclick="addToCart({{ $medicine->id }}, '{{ addslashes($medicine->nama_obat) }}', {{ $medicine->harga }}, '{{ $medicine->gambar ? asset('storage/'.$medicine->gambar) : '' }}', this)">
+                            <button class="btn-cart" onclick="addToCart({{ $medicine->id }}, '{{ addslashes($medicine->nama_obat) }}', {{ $medicine->harga }}, '{{ $medicine->gambar ? url('storage/'.$medicine->gambar) : '' }}', this)">
                                 <i class="fa-solid fa-cart-plus"></i> Tambah ke Keranjang
                             </button>
                             @endif

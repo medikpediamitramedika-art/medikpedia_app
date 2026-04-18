@@ -87,7 +87,7 @@
                     <tr>
                         <td style="width: 50px;">
                             @if($item->thumbnail)
-                                <img src="{{ asset('storage/' . $item->thumbnail) }}" 
+                                <img src="{{ url('storage/' . $item->thumbnail) }}" 
                                      alt="{{ $item->judul }}" 
                                      style="width: 40px; height: 40px; object-fit: cover; border-radius: 0.25rem;">
                             @else

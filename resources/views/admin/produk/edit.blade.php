@@ -160,7 +160,7 @@
                 @if($medicine->gambar)
                     <div class="current-image" id="currentImageWrap">
                         <div style="font-size:0.875rem;color:#6b7280;margin-bottom:0.5rem;">Foto saat ini:</div>
-                        <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                        <img src="{{ url('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                     </div>
                     <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:1rem;">
                         <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.45rem 0.85rem;background:#fee2e2;border:1px solid #fca5a5;border-radius:0.4rem;font-size:0.82rem;font-weight:600;color:#b91c1c;">

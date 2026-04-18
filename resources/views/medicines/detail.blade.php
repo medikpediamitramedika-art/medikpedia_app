@@ -330,7 +330,7 @@
             <div class="detail-image-col">
                 <div class="detail-image">
                     @if($medicine->gambar)
-                        <img src="{{ asset('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
+                        <img src="{{ url('storage/' . $medicine->gambar) }}" alt="{{ $medicine->nama_obat }}">
                     @else
                         <i class="fa-solid fa-pills" style="color:#90caf9;font-size:4rem;"></i>
                     @endif
@@ -427,7 +427,7 @@
                 <a href="{{ route('medicines.show', $related->id) }}" class="related-card">
                     <div class="related-image">
                         @if($related->gambar)
-                            <img src="{{ asset('storage/' . $related->gambar) }}" alt="{{ $related->nama_obat }}">
+                            <img src="{{ url('storage/' . $related->gambar) }}" alt="{{ $related->nama_obat }}">
                         @else
                             <i class="fa-solid fa-pills" style="color:#90caf9;font-size:1.75rem;"></i>
                         @endif

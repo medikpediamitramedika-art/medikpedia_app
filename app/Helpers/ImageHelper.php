@@ -8,57 +8,54 @@ use Illuminate\Support\Facades\Storage;
 class ImageHelper
 {
     /**
-     * Simpan gambar produk.
-     * - Di hosting (public_html = root): simpan langsung ke public_html/storage/medicines/
-     * - Di lokal: simpan via Storage::disk('public') ke storage/app/public/medicines/
+     * Simpan gambar produk langsung ke public/storage/medicines/
      *
-     * Nilai yang disimpan di DB selalu: "medicines/namafile.jpg"
-     * URL di blade selalu: asset('storage/medicines/namafile.jpg')
+     * Di server hosting: public_path() = public_html/public/
+     * Jadi file tersimpan di: public_html/public/storage/medicines/namafile.jpg
+     * URL akses: https://domain.com/storage/medicines/namafile.jpg
+     *
+     * Nilai yang disimpan di DB: "medicines/namafile.jpg"
+     * URL di blade: asset('storage/medicines/namafile.jpg')
      */
     public static function storeProductImage(UploadedFile $file): string
     {
-        $imageName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $subPath   = 'medicines/' . $imageName;
+        $ext       = strtolower($file->getClientOriginalExtension());
+        $imageName = time() . '_' . uniqid() . '.' . $ext;
+        $targetDir = public_path('storage/medicines');
 
-        if (self::isHosting()) {
-            // Hosting: simpan langsung ke public_html/storage/medicines/
-            $targetDir = public_path('storage/medicines');
-            if (!is_dir($targetDir)) {
-                mkdir($targetDir, 0775, true);
-            }
-            $file->move($targetDir, $imageName);
-        } else {
-            // Lokal: simpan via Laravel Storage (butuh symlink)
-            $file->storeAs('medicines', $imageName, 'public');
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0775, true);
         }
 
-        return $subPath; // "medicines/namafile.jpg"
+        $file->move($targetDir, $imageName);
+
+        return 'medicines/' . $imageName;
     }
 
     /**
      * Hapus gambar produk.
-     * Nilai $path dari DB: "medicines/namafile.jpg"
+     * $path dari DB: "medicines/namafile.jpg"
      */
     public static function deleteProductImage(?string $path): void
     {
         if (!$path) return;
 
-        if (self::isHosting()) {
-            $fullPath = public_path('storage/' . $path);
-            if (file_exists($fullPath)) {
-                @unlink($fullPath);
-            }
-        } else {
-            Storage::disk('public')->delete($path);
+        $fullPath = public_path('storage/' . $path);
+        if (file_exists($fullPath)) {
+            @unlink($fullPath);
         }
     }
 
     /**
-     * Deteksi apakah berjalan di hosting (vendor ada di root yang sama dengan index.php)
+     * Kembalikan URL gambar yang benar tanpa bergantung pada APP_URL.
+     * Gunakan ini di blade sebagai pengganti asset('storage/'.$medicine->gambar)
+     * jika APP_URL di server belum dikonfigurasi.
+     *
+     * $path dari DB: "medicines/namafile.jpg"
      */
-    private static function isHosting(): bool
+    public static function url(?string $path): ?string
     {
-        return file_exists(base_path('vendor/autoload.php'))
-            && file_exists(base_path('index.php'));
+        if (!$path) return null;
+        return url('storage/' . $path);
     }
 }

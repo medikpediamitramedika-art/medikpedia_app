@@ -109,9 +109,9 @@
                             $ext = pathinfo($news->file, PATHINFO_EXTENSION);
                         @endphp
                         @if(in_array(strtolower($ext), ['mp4', 'webm', 'mov', 'avi', 'mkv']))
-                            <video src="{{ asset('storage/' . $news->file) }}" style="max-height: 150px; max-width: 100%; border-radius: 0.375rem;" controls></video>
+                            <video src="{{ url('storage/' . $news->file) }}" style="max-height: 150px; max-width: 100%; border-radius: 0.375rem;" controls></video>
                         @else
-                            <img src="{{ asset('storage/' . $news->file) }}" style="max-height: 150px; max-width: 100%; object-fit: cover; border-radius: 0.375rem;">
+                            <img src="{{ url('storage/' . $news->file) }}" style="max-height: 150px; max-width: 100%; object-fit: cover; border-radius: 0.375rem;">
                         @endif
                     @endif
                 </div>
@@ -154,7 +154,7 @@
             @if($news->thumbnail)
                 <div style="margin-bottom: 1rem; padding: 1rem; background: #f0fdf4; border-radius: 0.375rem;">
                     <p style="margin: 0 0 0.5rem 0; color: #15803d; font-weight: 600;">🖼️ Thumbnail Saat Ini:</p>
-                    <img src="{{ asset('storage/' . $news->thumbnail) }}" style="max-height: 150px; max-width: 100%; object-fit: cover; border-radius: 0.375rem;">
+                    <img src="{{ url('storage/' . $news->thumbnail) }}" style="max-height: 150px; max-width: 100%; object-fit: cover; border-radius: 0.375rem;">
                 </div>
             @endif
 
